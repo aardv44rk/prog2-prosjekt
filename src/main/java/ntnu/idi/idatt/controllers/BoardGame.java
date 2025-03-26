@@ -15,7 +15,7 @@ public class BoardGame {
   private List<Player> players;
   private Dice dice;
   private final int BOARD_SIZE = 100;
-  private final int WIN_POSITION = 100;
+  private final int WIN_POSITION = 99;
   private boolean gameOver = false;
 
   public BoardGame(Board board, List<Player> players, Dice dice){
