@@ -1,3 +1,10 @@
-target/
-/.vscode/
-*.class
+# Ignore everything by default
+/*
+
+# Allow only these folders
+!/src/
+!/target/
+
+# Inside src and target, track everything
+/src/**
+/target/**
