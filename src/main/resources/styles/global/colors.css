@@ -1,0 +1,9 @@
+/* Global colors */
+
+.root {
+  -fx-background-color-1: #FFFFFF;
+  -fx-background-color-2: #D9D9D9;
+  -fx-drop-shadow-color-1: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 4, 0, 0, 6);
+  -fx-text-color-1: #000000;
+  -fx-icon-color-1: #000000;
+}
