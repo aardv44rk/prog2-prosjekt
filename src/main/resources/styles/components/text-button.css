@@ -1,0 +1,8 @@
+.text-button {
+  -fx-pref-width: 180;
+  -fx-pref-height: 60;
+  -fx-border-color: black;
+  -fx-border-width: 1;
+  -fx-background-color: -fx-background-color-2;
+  -fx-effect: -fx-drop-shadow-color-1;
+}

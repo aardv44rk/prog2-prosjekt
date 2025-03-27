@@ -1,0 +1,9 @@
+.icon-button {
+  -fx-pref-width: 60;
+  -fx-pref-height: 60;
+  -fx-border-color: black;
+  -fx-border-width: 1;
+  -fx-background-color: -fx-background-color-2;
+  -fx-effect: -fx-drop-shadow-color-1;
+  -fx-font-size: 20;
+}

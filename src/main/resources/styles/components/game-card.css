@@ -1,0 +1,17 @@
+.game-card {
+  -fx-spacing: 10;
+  -fx-pref-width: 200;
+}
+
+.game-card Button {
+  -fx-pref-width: 200;
+  -fx-pref-height: 200;
+  -fx-border-color: black;
+  -fx-border-width: 1;
+  -fx-background-color: -fx-background-color-2;
+  -fx-effect: -fx-drop-shadow-color-1;
+}
+
+.game-card Label {
+  -fx-wrap-text: true;
+}

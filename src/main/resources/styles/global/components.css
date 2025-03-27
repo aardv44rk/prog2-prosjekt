@@ -1,0 +1,6 @@
+/* Imports css for components */
+
+@import "../components/game-card.css";
+@import "../components/icon-button.css";
+@import "../components/menu-top-bar.css";
+@import "../components/text-button.css";
