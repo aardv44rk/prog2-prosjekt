@@ -16,11 +16,22 @@ public class Tile {
   }
 
   public void leavePlayer(Player player) {
-    // Implement
+    // Implement for game 2?
   }
 
   public void setNextTile(Tile nextTile) {
     this.nextTile = nextTile;
   }
 
+  public Tile getNextTile() {
+    return nextTile;
+  }
+
+  public int getTileId() {
+    return tileId;
+  }
+
+  public void setLandAction(TileAction landAction) {
+    this.landAction = landAction;
+  }
 }
