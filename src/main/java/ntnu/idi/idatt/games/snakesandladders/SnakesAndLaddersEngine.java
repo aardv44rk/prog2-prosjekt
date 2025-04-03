@@ -9,8 +9,8 @@ import java.util.List;
  */
 public class SnakesAndLaddersEngine extends GameEngine {
 
-  public SnakesAndLaddersEngine(List<Player> players, Board board) {
-    super(players, board);
+  public SnakesAndLaddersEngine(List<Player> players, Board board, int currentPlayerIndex) {
+    super(players, board, currentPlayerIndex);
   }
 
   @Override

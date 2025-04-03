@@ -1,0 +1,6 @@
+/* Import view stylesheets */
+
+@import "../views/game.css";
+@import "../views/game-load.css";
+@import "../views/menu.css";
+@import "../views/start-page.css";

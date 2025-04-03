@@ -19,10 +19,10 @@ public abstract class GameEngine {
    * @param players The list of players.
    * @param board   The board used in the game.
    */
-  public GameEngine(List<Player> players, Board board) {
+  public GameEngine(List<Player> players, Board board, int currentPlayerIndex) {
     this.players = players;
     this.board = board;
-    this.currentPlayerIndex = 0;
+    this.currentPlayerIndex = currentPlayerIndex;
     this.gameOver = false;
   }
 

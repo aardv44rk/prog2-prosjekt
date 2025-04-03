@@ -2,12 +2,10 @@ package ntnu.idi.idatt.UI.components;
 
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
-import javafx.scene.Scene;
-import ntnu.idi.idatt.Router;
 
-public class MenuNavBar extends HBox {
+public class NavBar extends HBox {
 
-  public MenuNavBar(String title, Runnable action, boolean isPause) {
+  public NavBar(String title, Runnable action, boolean isPause) {
     this.getStyleClass().add("menu-nav-bar");
 
     IconButton backButton = new IconButton(isPause ? "x" : "<");

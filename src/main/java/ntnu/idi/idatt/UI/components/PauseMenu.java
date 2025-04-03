@@ -1,13 +1,10 @@
 package ntnu.idi.idatt.UI.components;
 
-import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import ntnu.idi.idatt.Router;
-import ntnu.idi.idatt.UI.scenes.MenuScene;
-import ntnu.idi.idatt.UI.views.GameMenuView;
 
 public class PauseMenu extends StackPane {
 
@@ -35,7 +32,7 @@ public class PauseMenu extends StackPane {
 
     TextButton exitButton = new TextButton("Exit");
     exitButton.setOnMouseClicked(e -> {
-      Router.navigateTo(new MenuScene(new GameMenuView(), "Play"));
+      Router.navigateTo("start");
     });
     pauseDialog.getChildren().addAll(title, resumeButton, settingsButton, exitButton);
 

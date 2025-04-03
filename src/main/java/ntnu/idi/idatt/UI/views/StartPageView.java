@@ -1,16 +1,14 @@
 package ntnu.idi.idatt.UI.views;
 
-import javafx.application.Platform;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import ntnu.idi.idatt.Router;
 import ntnu.idi.idatt.UI.components.TextButton;
-import ntnu.idi.idatt.UI.scenes.MenuScene;
 
 public class StartPageView extends VBox {
 
   public StartPageView() {
-    this.getStyleClass().add("start-page");
+    getStyleClass().add("start-page");
 
     Label titleTop = new Label("Audun & Oscar");
     Label titleBottom = new Label("Games");
@@ -21,12 +19,12 @@ public class StartPageView extends VBox {
 
     TextButton startButton = new TextButton("Start");
     startButton.setOnMouseClicked(e -> {
-      Router.navigateTo(new MenuScene(new GameMenuView(), "Play"));
+      Router.navigateTo("menu");
     });
 
     TextButton settingsButton = new TextButton("Settings");
     settingsButton.setOnMouseClicked(e -> {
-      Router.navigateTo(new MenuScene(new SettingsMenuView(), "Settings"));
+      Router.navigateTo("settings");
     });
 
     TextButton quitButton = new TextButton("Quit");
@@ -34,6 +32,6 @@ public class StartPageView extends VBox {
       System.exit(0);
     });
 
-    this.getChildren().addAll(title, startButton, settingsButton, quitButton);
+    getChildren().addAll(title, startButton, settingsButton, quitButton);
   }
 }
