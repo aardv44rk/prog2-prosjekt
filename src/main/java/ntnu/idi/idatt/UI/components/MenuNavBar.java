@@ -5,14 +5,14 @@ import javafx.scene.layout.HBox;
 import javafx.scene.Scene;
 import ntnu.idi.idatt.Router;
 
-public class MenuTopBar extends HBox {
+public class MenuNavBar extends HBox {
 
-  public MenuTopBar(String title, Scene backDestination) {
-    this.getStyleClass().add("menu-top-bar");
+  public MenuNavBar(String title, Runnable action, boolean isPause) {
+    this.getStyleClass().add("menu-nav-bar");
 
-    IconButton backButton = new IconButton("<");
+    IconButton backButton = new IconButton(isPause ? "x" : "<");
     backButton.setOnMouseClicked(e -> {
-      Router.navigateTo(backDestination);
+      action.run();
     });
 
     Label titleLabel = new Label(title);

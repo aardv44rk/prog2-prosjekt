@@ -14,9 +14,9 @@ public class GameMenuView extends VBox {
 
     // Fetch games list
     List<GameCard> games = new ArrayList<>();
-    games.add(new GameCard("Snakes and ladders"));
-    games.add(new GameCard("Ludo"));
-    games.add(new GameCard("Chess"));
+    games.add(new GameCard(new SnakesAndLaddersView(), "Snakes and ladders"));
+    // games.add(new GameCard(new LudoView(), "Ludo"));
+    // games.add(new GameCard(new ChessView(), "Chess"));
 
     HBox gameCards = new HBox();
     gameCards.getStyleClass().add("game-cards");
