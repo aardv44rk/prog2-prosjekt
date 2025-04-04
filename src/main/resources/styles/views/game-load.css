@@ -1,0 +1,16 @@
+.game-load {
+  -fx-alignment: center;
+  -fx-spacing: 20;
+}
+
+.game-load * {
+  -fx-alignment: center;
+}
+
+.game-load-title-box {
+  -fx-spacing: 5;
+}
+
+.game-load-option-box {
+  -fx-spacing: 20;
+}

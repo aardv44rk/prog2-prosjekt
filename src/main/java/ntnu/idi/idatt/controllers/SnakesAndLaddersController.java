@@ -36,7 +36,7 @@ public class SnakesAndLaddersController {
     }
 
     // Create engine
-    engine = new SnakesAndLaddersEngine(players, board);
+    engine = new SnakesAndLaddersEngine(players, board, 0);
   }
 
   /**
