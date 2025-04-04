@@ -22,7 +22,7 @@ public class PauseMenu extends StackPane {
 
     TextButton resumeButton = new TextButton("Resume");
     resumeButton.setOnMouseClicked(e -> {
-      hidePauseMenu();
+      this.setVisible(false);
     });
 
     TextButton settingsButton = new TextButton("Save");
@@ -32,21 +32,11 @@ public class PauseMenu extends StackPane {
 
     TextButton exitButton = new TextButton("Exit");
     exitButton.setOnMouseClicked(e -> {
+      this.setVisible(false);
       Router.navigateTo("start");
     });
     pauseDialog.getChildren().addAll(title, resumeButton, settingsButton, exitButton);
 
     this.getChildren().addAll(blur, pauseDialog);
   }
-
-  public void showPauseMenu() {
-    this.setVisible(true);
-    System.out.println("Showing PauseMenu");
-  }
-
-  public void hidePauseMenu() {
-    this.setVisible(false);
-    System.out.println("Hiding PauseMenu");
-  }
-
 }

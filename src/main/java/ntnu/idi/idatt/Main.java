@@ -34,7 +34,8 @@ public class Main extends Application {
         () -> new NavBar(AppState.getSelectedGame().getName(), Router::goBack, false),
         GameSetupView::new));
     Router.registerRoute(new Route("game",
-        () -> new NavBar(AppState.getSelectedGame().getName(), Router::goBack, true),
+        () -> new NavBar(AppState.getSelectedGame().getName(), () -> primaryScene.showPauseMenu(),
+            true),
         ViewFactory.getGameViewFactory(AppState.getSelectedGame())));
 
     Router.navigateTo("start");

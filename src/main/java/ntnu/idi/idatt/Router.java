@@ -53,6 +53,8 @@ public class Router {
         primaryScene.setContent(route.getContentSupplier().get());
         if (route.getNavBarSupplier() != null) {
           primaryScene.setNavBar(route.getNavBarSupplier().get());
+        } else {
+          primaryScene.setNavBar(null);
         }
         history.push(route);
       } else {
