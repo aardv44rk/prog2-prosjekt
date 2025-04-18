@@ -25,4 +25,18 @@ public class GameConfig {
   public int getCurrentPlayerIndex() {
     return currentPlayerIndex;
   }
+
+  public void saveConfig(String filePath) {
+  }
+
+  public void savePlayerList(String filePath) {
+  }
+
+  public GameConfig loadConfig(String filePath)  {
+    return null;
+  }
+
+  public List<Player> loadPlayerList(String filePath) {
+    return null;
+  }
 }
