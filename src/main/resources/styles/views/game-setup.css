@@ -1,0 +1,19 @@
+.game-setup-title {
+  -fx-font-size: 20;
+}
+
+.game-setup {
+  -fx-alignment: center;
+}
+
+.game-setup-content {
+  -fx-alignment: center;
+}
+
+.game-setup-left {
+  -fx-alignment: left;
+}
+
+.game-setup-right {
+  -fx-alignment: right;
+}
