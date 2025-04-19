@@ -1,24 +1,39 @@
 package ntnu.idi.idatt.UI.components;
 
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public class NewPlayer extends HBox {
 
+  TextField nameField;
+  Button removeButton;
+
   public NewPlayer(Color color, String player, String name) {
-    this.getStyleClass().add("new-player");
+    getStyleClass().add("new-player");
 
     Rectangle rect = new Rectangle();
-    this.getStyleClass().add("new-player-rect");
+    rect.getStyleClass().add("new-player-rect");
 
     Label playerLabel = new Label(player);
     playerLabel.getStyleClass().add("new-player-label");
 
-    Label nameLabel = new Label(name);
-    nameLabel.getStyleClass().add("new-player-label");
+    nameField = new TextField(name);
+    nameField.getStyleClass().add("new-player-name");
 
-    getChildren().addAll(rect, playerLabel, nameLabel);
+    removeButton = new Button("-");
+
+    getChildren().addAll(rect, playerLabel, nameField, removeButton);
+  }
+
+  public String getName() {
+    return nameField.getText().trim();
+  }
+
+  public void setOnClick(Runnable runnable) {
+    removeButton.setOnAction(e -> runnable.run());
   }
 }
