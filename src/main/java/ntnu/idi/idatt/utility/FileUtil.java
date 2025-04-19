@@ -14,11 +14,17 @@ import java.util.List;
 public class FileUtil {
   public static String readString(String filePath) throws IOException {
     Path path = Paths.get(filePath);
+    if (!Files.exists(path)) {
+      throw new IOException("File not found: " + filePath);
+    }
     return Files.readString(path, StandardCharsets.UTF_8);
   }
 
   public static List<String> readLines(String filePath) throws IOException {
     Path path = Paths.get(filePath);
+    if (!Files.exists(path)) {
+      throw new IOException("File not found: " + filePath);
+    }
     return Files.readAllLines(path, StandardCharsets.UTF_8);
   }
 
