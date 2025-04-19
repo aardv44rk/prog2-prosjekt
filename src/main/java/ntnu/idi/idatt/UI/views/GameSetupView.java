@@ -7,6 +7,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import ntnu.idi.idatt.AppState;
 import ntnu.idi.idatt.AssetRepository;
+import ntnu.idi.idatt.Router;
 import ntnu.idi.idatt.UI.components.AddPlayer;
 import ntnu.idi.idatt.UI.components.NewPlayer;
 import ntnu.idi.idatt.UI.components.TextButton;
@@ -16,8 +17,10 @@ import ntnu.idi.idatt.core.Player;
 
 public class GameSetupView extends VBox {
 
-  List<NewPlayer> playerList;
-  VBox playerBox;
+  private final List<NewPlayer> playerList;
+  private final VBox playerBox;
+  private Board selectedBoard;
+  private TextButton selectedBoardButton;
 
   public GameSetupView() {
 
@@ -56,7 +59,30 @@ public class GameSetupView extends VBox {
 
     List<Board> boards = AppState.getSelectedGame().getBoardOptions();
 
-    right.getChildren().add(boardTitle);
+    List<TextButton> boardList = new ArrayList<>();
+    VBox boardBox = new VBox();
+
+    for (int i = 0; i < boards.size(); i++) {
+      Board board = boards.get(i);
+      TextButton boardButton = new TextButton((i + 1) + ": " + board.getTiles().size());
+
+      boardButton.setOnMouseClicked(e -> {
+        if (selectedBoardButton != null) {
+          selectedBoardButton.getStyleClass().remove("game-setup-selected-board");
+        }
+        selectedBoardButton = boardButton;
+        selectedBoardButton.getStyleClass().add("game-setup-selected-board");
+        selectedBoard = board;
+      });
+
+      boardList.add(boardButton);
+      boardBox.getChildren().add(boardButton);
+    }
+
+    selectedBoardButton = boardList.getFirst();
+    selectedBoardButton.getStyleClass().add("game-setup-selected-board");
+
+    right.getChildren().addAll(boardTitle, boardBox);
 
     HBox content = new HBox(left, right);
     content.getStyleClass().add("game-setup-content");
@@ -68,10 +94,11 @@ public class GameSetupView extends VBox {
           new GameConfig(
               playerList.stream()
                   .map(newPlayer -> new Player(newPlayer.getName(), new ArrayList<>())).toList(),
-              boards.getFirst(),
+              selectedBoard,
               0
           )
       );
+      Router.navigateTo("game");
     });
 
     getChildren().addAll(content, startButton);
