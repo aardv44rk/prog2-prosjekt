@@ -4,11 +4,14 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import ntnu.idi.idatt.games.snakesandladders.LadderAction;
 import ntnu.idi.idatt.games.snakesandladders.LinearMovementStrategy;
 import ntnu.idi.idatt.games.snakesandladders.SnakesAndLaddersBoard;
 import ntnu.idi.idatt.utility.FileUtil;
@@ -41,10 +44,41 @@ public class GameConfig {
   public void saveConfig(String filePath) throws IOException {
     JsonObject config = new JsonObject();
 
+    // Add current player index and board type to the config
     config.addProperty("currentPlayerIndex", currentPlayerIndex);
-
     config.addProperty("boardType", board.getClass().getName());
 
+    // Save detailed board information
+    JsonArray tilesArray = new JsonArray();
+    Map<Integer, Tile> tiles = board.getTiles();
+    for (Map.Entry<Integer, Tile> entry : tiles.entrySet()) {
+      int tileId = entry.getKey();
+      Tile tile = entry.getValue();
+      TileAction action = tile.getTileAction();
+
+      JsonObject tileObj = new JsonObject();
+      tileObj.addProperty("id", tileId);
+
+      if (action != null) {
+        JsonObject actionObj = new JsonObject();
+
+        if (action instanceof LadderAction) {
+          int destinationTileId = getActionDestinationTileId(action);
+          actionObj.addProperty("type", "ladder");
+          actionObj.addProperty("destinationTileId", destinationTileId);
+        } else {
+          actionObj.addProperty("type", "default"); // Default value
+        }
+
+        tileObj.add("action", actionObj);
+      }
+
+      tilesArray.add(tileObj);
+    }
+
+    config.add("tiles", tilesArray);
+
+    // Save player & piece information
     JsonArray playersArray = new JsonArray();
     for (Player player : players) {
       JsonObject playerObj = new JsonObject();
@@ -60,10 +94,10 @@ public class GameConfig {
 
       playersArray.add(playerObj);
     }
-    config.add("players", playersArray);
 
+    // finally write to file
     FileUtil.writeString(filePath, config.toString());
-    System.out.println("Game configuration saved to " + filePath);    
+    System.out.println("Game configuration saved to " + filePath);
   }
 
   public void savePlayerList(String filePath) throws IOException {
@@ -85,20 +119,46 @@ public class GameConfig {
     String boardType = config.get("boardType").getAsString();
     Board board;
 
-    if (boardType.endsWith("SnakesAndLaddersBoard")) {
-      board = new SnakesAndLaddersBoard();
-    } else {
-      // Handle other board types here
-      board = new SnakesAndLaddersBoard(); // Default to SnakesAndLaddersBoard
+    // Attempt to load the board class using reflection
+    // This assumes that the board class has a no-argument constructor IMPORTANT
+    try {
+      Class<?> clazz = Class.forName(boardType);
+      board = (Board) clazz.getDeclaredConstructor().newInstance();
+    } catch (Exception e) {
+      System.err.println("Failed to create board " + boardType + ": " + e.getMessage());
+      board = new SnakesAndLaddersBoard(); // Fallback to default board if loading fails
+    }
+    
+    if (config.has("tiles")) {
+      JsonArray tilesArray = config.getAsJsonArray("tiles");
+
+      for (JsonElement element : tilesArray) {
+        JsonObject tileObj = element.getAsJsonObject();
+        int tileId = tileObj.get("id").getAsInt();
+        Tile tile = board.getTile(tileId);
+
+        if (tile != null && tileObj.has("action")) {
+          JsonObject actionObj = tileObj.getAsJsonObject("action");
+          String actionType = actionObj.get("type").getAsString();
+
+          if ("ladder".equals(actionType)) {
+            int destinationTileId = actionObj.get("destinationTileId").getAsInt();
+            TileAction action = new LadderAction(destinationTileId);
+            tile.setTileAction(action);
+          } else {
+            // Handle other action types if needed
+          }
+        }
+      }
     }
 
+    // Load players & pieces
     List<Player> players = new ArrayList<>();
     JsonArray playersArray = config.getAsJsonArray("players");
 
     for (int i = 0; i < playersArray.size(); i++) {
       JsonObject playerObj = playersArray.get(i).getAsJsonObject();
       String playerName = playerObj.get("name").getAsString();
-
 
       List<Piece> pieces = new ArrayList<>();
       Player player = new Player(playerName, pieces);
@@ -131,5 +191,12 @@ public class GameConfig {
     }
     
     return players;
+  }
+
+  private int getActionDestinationTileId(TileAction action) {
+    if (action instanceof LadderAction) {
+      return ((LadderAction) action).getDestinationTileId();
+    } 
+    return -1; // or handle other action types
   }
 }
