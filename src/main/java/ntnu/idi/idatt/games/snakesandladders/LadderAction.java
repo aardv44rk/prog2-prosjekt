@@ -22,5 +22,9 @@ public class LadderAction implements TileAction {
           piece.getOwner().getName() + " climbs ladder to tile " + destinationTileId);
     }
   }
+
+  public int getDestinationTileId() {
+    return destinationTileId;
+  }
 }
 

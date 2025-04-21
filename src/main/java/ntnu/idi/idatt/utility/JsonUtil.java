@@ -28,6 +28,11 @@ public class JsonUtil {
     return fromJson(json, classOfT);
   }
 
+  public static <T> T readFromFile(String filePath, Type typeOfT) throws IOException {
+    String json = FileUtil.readString(filePath);
+    return fromJson(json, typeOfT);
+  }
+
   public static void writeToFile(String filePath, Object object) throws IOException {
     String json = toJson(object);
     FileUtil.writeString(filePath, json);
