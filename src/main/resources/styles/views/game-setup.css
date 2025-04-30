@@ -1,0 +1,20 @@
+.game-setup-title {
+  -fx-font-size: 20;
+}
+
+.game-setup {
+  -fx-alignment: center;
+}
+
+.game-setup-left {
+  -fx-alignment: center;
+  -fx-spacing: 20;
+}
+
+.game-setup-right {
+  -fx-alignment: center;
+}
+
+.game-setup-start {
+  -fx-alignment: center;
+}

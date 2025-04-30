@@ -1,11 +1,13 @@
 package ntnu.idi.idatt;
 
+import ntnu.idi.idatt.core.GameConfig;
 import ntnu.idi.idatt.core.GameInfo;
 import ntnu.idi.idatt.core.GameRegistry;
 
 public class AppState {
 
-  private static GameInfo selectedGame = GameRegistry.games.get(0);
+  private static GameInfo selectedGame = GameRegistry.games.getFirst();
+  private static GameConfig currentGameConfig;
   private static double volume;
 
   public static GameInfo getSelectedGame() {
@@ -14,6 +16,14 @@ public class AppState {
 
   public static void setSelectedGame(GameInfo selectedGame) {
     AppState.selectedGame = selectedGame;
+  }
+
+  public static GameConfig getCurrentGameConfig() {
+    return currentGameConfig;
+  }
+
+  public static void setCurrentGameConfig(GameConfig currentGameConfig) {
+    AppState.currentGameConfig = currentGameConfig;
   }
 
   public static double getVolume() {
