@@ -3,6 +3,7 @@ package ntnu.idi.idatt.UI.views;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.control.Label;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import ntnu.idi.idatt.AppState;
@@ -15,7 +16,7 @@ import ntnu.idi.idatt.core.Board;
 import ntnu.idi.idatt.core.GameConfig;
 import ntnu.idi.idatt.core.Player;
 
-public class GameSetupView extends VBox {
+public class GameSetupView extends BorderPane {
 
   private final List<NewPlayer> playerList;
   private final VBox playerBox;
@@ -84,8 +85,8 @@ public class GameSetupView extends VBox {
 
     right.getChildren().addAll(boardTitle, boardBox);
 
-    HBox content = new HBox(left, right);
-    content.getStyleClass().add("game-setup-content");
+    HBox startContainer = new HBox();
+    startContainer.getStyleClass().add("game-setup-start");
 
     TextButton startButton = new TextButton("Start");
 
@@ -101,7 +102,12 @@ public class GameSetupView extends VBox {
       Router.navigateTo("game");
     });
 
-    getChildren().addAll(content, startButton);
+    startContainer.getChildren().add(startButton);
+
+    setLeft(left);
+    setRight(right);
+    setBottom(startContainer);
+
   }
 
   public void updatePlayerBox() {
@@ -128,9 +134,12 @@ public class GameSetupView extends VBox {
       throw new IllegalArgumentException("Player name cannot be null or empty");
     }
 
-    playerList.add(
-        new NewPlayer(AssetRepository.PLAYER_COLORS.get(playerList.size()),
-            "P" + (playerList.size() + 1) + ":", name)
-    );
+    NewPlayer newPlayer = new NewPlayer(AssetRepository.PLAYER_COLORS.get(playerList.size()),
+        "P" + (playerList.size() + 1) + ":", name);
+    newPlayer.setOnClick(() -> {
+      playerList.remove(newPlayer);
+      updatePlayerBox();
+    });
+    playerList.add(newPlayer);
   }
 }

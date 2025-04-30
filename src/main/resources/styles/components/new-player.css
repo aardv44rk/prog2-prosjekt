@@ -1,0 +1,10 @@
+.new-player {
+  -fx-spacing: 20;
+}
+
+.new-player-rect {
+  -fx-stroke: black;
+  -fx-stroke-width: 1;
+  -fx-background-color: -fx-background-color-2;
+  -fx-effect: -fx-drop-shadow-color-1;
+}

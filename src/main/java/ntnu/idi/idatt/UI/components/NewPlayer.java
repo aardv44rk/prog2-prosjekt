@@ -15,8 +15,9 @@ public class NewPlayer extends HBox {
   public NewPlayer(Color color, String player, String name) {
     getStyleClass().add("new-player");
 
-    Rectangle rect = new Rectangle();
+    Rectangle rect = new Rectangle(50, 50);
     rect.getStyleClass().add("new-player-rect");
+    rect.setFill(color);
 
     Label playerLabel = new Label(player);
     playerLabel.getStyleClass().add("new-player-label");
