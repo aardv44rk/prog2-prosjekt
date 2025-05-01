@@ -8,13 +8,13 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import ntnu.idi.idatt.AppState;
 import ntnu.idi.idatt.AssetRepository;
-import ntnu.idi.idatt.Router;
+import ntnu.idi.idatt.core.Router;
 import ntnu.idi.idatt.UI.components.AddPlayer;
 import ntnu.idi.idatt.UI.components.NewPlayer;
 import ntnu.idi.idatt.UI.components.TextButton;
-import ntnu.idi.idatt.core.Board;
-import ntnu.idi.idatt.core.GameConfig;
-import ntnu.idi.idatt.core.Player;
+import ntnu.idi.idatt.models.Board;
+import ntnu.idi.idatt.models.GameConfig;
+import ntnu.idi.idatt.models.Player;
 
 public class GameSetupView extends BorderPane {
 

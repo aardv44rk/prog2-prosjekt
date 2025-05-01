@@ -1,4 +1,4 @@
-package ntnu.idi.idatt.core;
+package ntnu.idi.idatt.models;
 
 /**
  * Defines a strategy for moving a piece on the board.

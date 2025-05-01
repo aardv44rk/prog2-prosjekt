@@ -1,4 +1,4 @@
-package ntnu.idi.idatt.core;
+package ntnu.idi.idatt.models;
 
 /**
  * Represents a tile on the board. A tile may have an optional action performed when a piece lands

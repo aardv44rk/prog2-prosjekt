@@ -1,4 +1,4 @@
-package ntnu.idi.idatt.UI.views;
+package ntnu.idi.idatt.games.ludo;
 
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;

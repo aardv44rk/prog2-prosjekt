@@ -1,10 +1,10 @@
-package ntnu.idi.idatt.controller;
-
-import ntnu.idi.idatt.core.*;
-import ntnu.idi.idatt.games.snakesandladders.*;
+package ntnu.idi.idatt.games.snakesandladders;
 
 import java.util.ArrayList;
 import java.util.List;
+import ntnu.idi.idatt.models.Board;
+import ntnu.idi.idatt.models.Piece;
+import ntnu.idi.idatt.models.Player;
 
 /**
  * Controller for Snakes and Ladders game. Manages game setup and turn progression.

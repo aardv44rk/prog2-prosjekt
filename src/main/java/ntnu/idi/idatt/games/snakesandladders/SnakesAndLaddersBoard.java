@@ -1,7 +1,7 @@
 package ntnu.idi.idatt.games.snakesandladders;
 
-import ntnu.idi.idatt.core.Board;
-import ntnu.idi.idatt.core.Tile;
+import ntnu.idi.idatt.models.Board;
+import ntnu.idi.idatt.models.Tile;
 
 import java.util.HashMap;
 

@@ -1,4 +1,4 @@
-package ntnu.idi.idatt.core;
+package ntnu.idi.idatt.models;
 
 /**
  * Represents a movable piece controlled by a player. A piece has a current tile position, an owner,

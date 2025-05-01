@@ -1,8 +1,7 @@
-package ntnu.idi.idatt.UI.scenes;
+package ntnu.idi.idatt.core;
 
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import ntnu.idi.idatt.UI.components.PauseMenu;

@@ -1,9 +1,9 @@
-.game-load {
+.game-load-view {
   -fx-alignment: center;
   -fx-spacing: 20;
 }
 
-.game-load * {
+.game-load-view * {
   -fx-alignment: center;
 }
 

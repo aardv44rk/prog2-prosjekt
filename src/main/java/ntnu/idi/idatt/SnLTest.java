@@ -1,6 +1,6 @@
 package ntnu.idi.idatt;
 
-import ntnu.idi.idatt.controller.SnakesAndLaddersController;
+import ntnu.idi.idatt.games.snakesandladders.SnakesAndLaddersController;
 
 import java.util.List;
 

@@ -1,8 +1,10 @@
 package ntnu.idi.idatt.games.snakesandladders;
 
-import ntnu.idi.idatt.core.*;
-
 import java.util.List;
+import ntnu.idi.idatt.models.Board;
+import ntnu.idi.idatt.models.GameEngine;
+import ntnu.idi.idatt.models.Piece;
+import ntnu.idi.idatt.models.Player;
 
 /**
  * Game engine for Snakes and Ladders. Handles game flow and win condition.

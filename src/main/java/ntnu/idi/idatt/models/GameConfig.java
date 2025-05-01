@@ -1,4 +1,4 @@
-package ntnu.idi.idatt.core;
+package ntnu.idi.idatt.models;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -105,7 +105,7 @@ public class GameConfig {
     for (Player player : players) {
       playerNames.add(player.getName());
     }
-      
+
     JsonUtil.writeToFile(filePath, playerNames);
     System.out.println("Player list saved to: " + filePath);
   }
@@ -128,7 +128,7 @@ public class GameConfig {
       System.err.println("Failed to create board " + boardType + ": " + e.getMessage());
       board = new SnakesAndLaddersBoard(); // Fallback to default board if loading fails
     }
-    
+
     if (config.has("tiles")) {
       JsonArray tilesArray = config.getAsJsonArray("tiles");
 
@@ -176,27 +176,27 @@ public class GameConfig {
         pieces.add(piece);
       }
       players.add(player);
-    }    
+    }
     return new GameConfig(players, board, currentPlayerIndex);
   }
 
   public List<Player> loadPlayerList(String filePath) throws IOException {
     Type listType = JsonUtil.getListType(String.class);
     List<String> playerNames = JsonUtil.readFromFile(filePath, listType);
-    
+
     // Convert names to Player objects with empty piece lists
     List<Player> players = new ArrayList<>();
     for (String name : playerNames) {
       players.add(new Player(name, new ArrayList<>()));
     }
-    
+
     return players;
   }
 
   private int getActionDestinationTileId(TileAction action) {
     if (action instanceof LadderAction) {
       return ((LadderAction) action).getDestinationTileId();
-    } 
+    }
     return -1; // or handle other action types
   }
 }
