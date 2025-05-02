@@ -1,29 +1,30 @@
 package ntnu.idi.idatt.core;
 
 import java.util.function.Supplier;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 
 public class Route {
 
   private final String name;
-  private final Parent navBar;
-  private final Parent content;
+  private final Supplier<Parent> contentSupplier;
+  private final Supplier<Node> navBarSupplier;
 
-  public Route(String name, Parent navBar, Parent content) {
+  public Route(String name, Supplier<Node> navBarSupplier, Supplier<Parent> contentSupplier) {
     this.name = name;
-    this.navBar = navBar;
-    this.content = content;
+    this.navBarSupplier = navBarSupplier;
+    this.contentSupplier = contentSupplier;
   }
 
   public String getName() {
     return name;
   }
 
-  public Parent getNavBar() {
-    return navBar;
+  public Parent getContent() {
+    return contentSupplier.get();
   }
 
-  public Parent getContent() {
-    return content;
+  public Node getNavBar() {
+    return navBarSupplier != null ? navBarSupplier.get() : null;
   }
 }

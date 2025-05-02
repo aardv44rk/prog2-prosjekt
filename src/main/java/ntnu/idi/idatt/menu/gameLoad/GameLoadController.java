@@ -18,6 +18,6 @@ public class GameLoadController {
 
   public void setupEventHandlers() {
     view.newGameButtonSetOnClick(() -> Router.navigateTo("setup"));
-    view.newGameButtonSetOnClick(() -> Router.navigateTo("game"));
+    view.loadGameButtonSetOnClick(() -> Router.navigateTo("game"));
   }
 }

@@ -4,7 +4,7 @@ import javafx.scene.Parent;
 import ntnu.idi.idatt.AppState;
 import ntnu.idi.idatt.core.Router;
 import ntnu.idi.idatt.models.GameInfo;
-import ntnu.idi.idatt.models.GameRegistry;
+import ntnu.idi.idatt.core.GameRegistry;
 
 public class GameMenuController {
 

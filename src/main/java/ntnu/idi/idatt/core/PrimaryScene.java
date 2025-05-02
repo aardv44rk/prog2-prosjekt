@@ -1,5 +1,6 @@
 package ntnu.idi.idatt.core;
 
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -23,7 +24,7 @@ public class PrimaryScene extends Scene {
     ((StackPane) getRoot()).getChildren().addAll(borderPane, pauseMenu);
   }
 
-  public void setNavBar(Parent navBar) {
+  public void setNavBar(Node navBar) {
     borderPane.setTop(navBar);
   }
 

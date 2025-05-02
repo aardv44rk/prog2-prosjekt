@@ -2,7 +2,7 @@ package ntnu.idi.idatt;
 
 import ntnu.idi.idatt.models.GameConfig;
 import ntnu.idi.idatt.models.GameInfo;
-import ntnu.idi.idatt.models.GameRegistry;
+import ntnu.idi.idatt.core.GameRegistry;
 
 public class AppState {
 

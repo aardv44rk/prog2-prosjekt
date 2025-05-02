@@ -13,6 +13,6 @@ public class SnakesAndLaddersBoardFactory {
   }
 
   public static List<Board> getBoards() {
-    return List.of(createStandardBoard());
+    return List.of(createStandardBoard(), createStandardBoard(), createStandardBoard());
   }
 }

@@ -6,7 +6,7 @@ import javafx.scene.Parent;
 import ntnu.idi.idatt.games.ludo.LudoView;
 import ntnu.idi.idatt.games.snakesandladders.SnakesAndLaddersView;
 import ntnu.idi.idatt.models.GameInfo;
-import ntnu.idi.idatt.models.GameRegistry;
+import ntnu.idi.idatt.core.GameRegistry;
 
 public class ViewFactory {
 

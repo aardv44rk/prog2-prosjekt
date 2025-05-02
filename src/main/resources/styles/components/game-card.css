@@ -7,7 +7,7 @@
   -fx-pref-width: 200;
   -fx-pref-height: 200;
   -fx-border-color: black;
-  -fx-border-width: 1;
+  -fx-border-width: 2;
   -fx-background-color: -fx-background-color-2;
   -fx-effect: -fx-drop-shadow-color-1;
 }

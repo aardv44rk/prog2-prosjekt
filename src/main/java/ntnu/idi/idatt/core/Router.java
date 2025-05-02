@@ -30,11 +30,7 @@ public class Router {
       history.pop();
       Route previous = history.peek();
       primaryScene.setContent(previous.getContent());
-      if (previous.getNavBar() == null) {
-        primaryScene.setNavBar(null);
-      } else {
-        primaryScene.setNavBar(previous.getNavBar());
-      }
+      primaryScene.setNavBar(previous.getNavBar());
     } else {
       navigateTo("home");
     }
@@ -55,11 +51,7 @@ public class Router {
     }
 
     primaryScene.setContent(route.getContent());
-    if (route.getNavBar() == null) {
-      primaryScene.setNavBar(null);
-    } else {
-      primaryScene.setNavBar(route.getNavBar());
-    }
+    primaryScene.setNavBar(route.getNavBar());
     history.push(route);
   }
 }

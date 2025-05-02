@@ -1,9 +1,10 @@
-package ntnu.idi.idatt.models;
+package ntnu.idi.idatt.core;
 
 import java.util.ArrayList;
 import java.util.List;
 import ntnu.idi.idatt.games.snakesandladders.SnakesAndLaddersBoardFactory;
 import ntnu.idi.idatt.games.snakesandladders.SnakesAndLaddersEngine;
+import ntnu.idi.idatt.models.GameInfo;
 
 public class GameRegistry {
 
