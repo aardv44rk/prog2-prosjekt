@@ -1,10 +1,35 @@
 .new-player {
-  -fx-spacing: 20;
+  -fx-spacing: 10;
+  -fx-alignment: center-left;
+  -fx-max-height: 50;
+}
+
+.new-player * {
+  -fx-font-size: 20;
 }
 
 .new-player-rect {
   -fx-stroke: black;
-  -fx-stroke-width: 1;
+  -fx-stroke-width: 2;
+  -fx-background-color: -fx-background-color-2;
+  -fx-effect: -fx-drop-shadow-color-1;
+}
+
+.new-player-number-label {
+  -fx-pref-width: 80;
+}
+
+.new-player-input {
+  -fx-background-color: transparent;
+  -fx-border-color: black;
+  -fx-border-width: 0 0 2 0;
+}
+
+.new-player-remove-button {
+  -fx-pref-width: 50;
+  -fx-pref-height: 50;
+  -fx-border-color: black;
+  -fx-border-width: 2;
   -fx-background-color: -fx-background-color-2;
   -fx-effect: -fx-drop-shadow-color-1;
 }

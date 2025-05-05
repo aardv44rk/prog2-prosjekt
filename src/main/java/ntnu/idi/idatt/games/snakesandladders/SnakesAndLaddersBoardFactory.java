@@ -1,7 +1,7 @@
 package ntnu.idi.idatt.games.snakesandladders;
 
 import java.util.List;
-import ntnu.idi.idatt.core.Board;
+import ntnu.idi.idatt.models.Board;
 
 /**
  * Factory class to create a Snakes and Ladders board.
@@ -13,6 +13,6 @@ public class SnakesAndLaddersBoardFactory {
   }
 
   public static List<Board> getBoards() {
-    return List.of(createStandardBoard());
+    return List.of(createStandardBoard(), createStandardBoard(), createStandardBoard());
   }
 }

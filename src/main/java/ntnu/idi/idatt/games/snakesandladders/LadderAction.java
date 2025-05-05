@@ -1,6 +1,9 @@
 package ntnu.idi.idatt.games.snakesandladders;
 
-import ntnu.idi.idatt.core.*;
+import ntnu.idi.idatt.models.Board;
+import ntnu.idi.idatt.models.Piece;
+import ntnu.idi.idatt.models.Tile;
+import ntnu.idi.idatt.models.TileAction;
 
 /**
  * TileAction that moves a piece to a specific tile (ladder).

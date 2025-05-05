@@ -1,4 +1,4 @@
-package ntnu.idi.idatt.core;
+package ntnu.idi.idatt.models;
 
 /**
  * Represents an action performed when a piece lands on a tile.

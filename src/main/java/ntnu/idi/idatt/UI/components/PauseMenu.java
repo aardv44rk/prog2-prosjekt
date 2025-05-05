@@ -4,7 +4,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
-import ntnu.idi.idatt.Router;
+import ntnu.idi.idatt.core.Router;
 
 public class PauseMenu extends StackPane {
 
@@ -33,7 +33,7 @@ public class PauseMenu extends StackPane {
     TextButton exitButton = new TextButton("Exit");
     exitButton.setOnMouseClicked(e -> {
       this.setVisible(false);
-      Router.navigateTo("start");
+      Router.navigateTo("home");
     });
     pauseDialog.getChildren().addAll(title, resumeButton, settingsButton, exitButton);
 

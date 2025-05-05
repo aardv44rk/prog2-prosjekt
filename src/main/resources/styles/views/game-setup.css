@@ -7,14 +7,28 @@
 }
 
 .game-setup-left {
-  -fx-alignment: center;
+  -fx-spacing: 40;
+  -fx-padding: 50 0 0 120;
+}
+
+.game-setup-player-box {
   -fx-spacing: 20;
 }
 
 .game-setup-right {
-  -fx-alignment: center;
+  -fx-spacing: 40;
+  -fx-padding: 50 355 0 0;
+}
+
+.game-setup-board-box {
+  -fx-spacing: 20;
+}
+
+.game-setup-selected-board {
+  -fx-border-width: 4;
 }
 
 .game-setup-start {
   -fx-alignment: center;
+  -fx-padding: 0 0 85 0;
 }

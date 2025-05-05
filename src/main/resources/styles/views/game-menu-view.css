@@ -1,7 +1,7 @@
-.game-menu {
+.game-menu-view {
   -fx-padding: 0 20;
 }
 
-.game-cards {
+.game-card-container {
   -fx-spacing: 20;
 }

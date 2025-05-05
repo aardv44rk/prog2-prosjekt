@@ -9,29 +9,48 @@ import javafx.scene.shape.Rectangle;
 
 public class NewPlayer extends HBox {
 
-  TextField nameField;
-  Button removeButton;
+  private final Rectangle rect;
+  private final Label playerLabel;
+  private final TextField playerName;
+  private final Button removeButton;
 
-  public NewPlayer(Color color, String player, String name) {
+  public NewPlayer(Color color, int playerNumber, String name, boolean removable) {
     getStyleClass().add("new-player");
 
-    Rectangle rect = new Rectangle(50, 50);
+    rect = new Rectangle(50, 50);
     rect.getStyleClass().add("new-player-rect");
     rect.setFill(color);
 
-    Label playerLabel = new Label(player);
-    playerLabel.getStyleClass().add("new-player-label");
+    playerLabel = new Label("P" + playerNumber + ":");
+    playerLabel.getStyleClass().add("new-player-number-label");
 
-    nameField = new TextField(name);
-    nameField.getStyleClass().add("new-player-name");
+    playerName = new TextField(name);
+    playerName.getStyleClass().add("new-player-input");
 
-    removeButton = new Button("-");
-
-    getChildren().addAll(rect, playerLabel, nameField, removeButton);
+    if (removable) {
+      removeButton = new Button("-");
+      removeButton.getStyleClass().add("new-player-remove-button");
+      getChildren().addAll(rect, playerLabel, playerName, removeButton);
+    } else {
+      removeButton = null;
+      getChildren().addAll(rect, playerLabel, playerName);
+    }
   }
 
   public String getName() {
-    return nameField.getText().trim();
+    return playerName.getText().trim();
+  }
+
+  public int getPlayerNumber() {
+    return Integer.parseInt(playerLabel.getText().substring(1, 2));
+  }
+
+  public void setPlayerNumber(int playerNumber) {
+    playerLabel.setText("P" + playerNumber + ":");
+  }
+
+  public void setColor(Color color) {
+    rect.setFill(color);
   }
 
   public void setOnClick(Runnable runnable) {

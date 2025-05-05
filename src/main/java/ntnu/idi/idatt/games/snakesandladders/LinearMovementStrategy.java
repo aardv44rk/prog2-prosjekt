@@ -1,6 +1,9 @@
 package ntnu.idi.idatt.games.snakesandladders;
 
-import ntnu.idi.idatt.core.*;
+import ntnu.idi.idatt.models.Board;
+import ntnu.idi.idatt.models.MovementStrategy;
+import ntnu.idi.idatt.models.Piece;
+import ntnu.idi.idatt.models.Tile;
 
 public class LinearMovementStrategy implements MovementStrategy {
 
