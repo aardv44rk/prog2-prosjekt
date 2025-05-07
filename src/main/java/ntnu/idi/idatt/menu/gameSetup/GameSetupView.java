@@ -7,9 +7,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import ntnu.idi.idatt.AssetRepository;
-import ntnu.idi.idatt.UI.components.AddPlayer;
-import ntnu.idi.idatt.UI.components.NewPlayer;
-import ntnu.idi.idatt.UI.components.TextButton;
+import ntnu.idi.idatt.components.AddPlayer;
+import ntnu.idi.idatt.components.NewPlayer;
+import ntnu.idi.idatt.components.TextButton;
 import ntnu.idi.idatt.models.Board;
 import ntnu.idi.idatt.models.Player;
 

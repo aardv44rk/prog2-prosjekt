@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import ntnu.idi.idatt.UI.components.GameCard;
+import ntnu.idi.idatt.components.GameCard;
 import ntnu.idi.idatt.models.GameInfo;
 
 public class GameMenuView extends VBox {

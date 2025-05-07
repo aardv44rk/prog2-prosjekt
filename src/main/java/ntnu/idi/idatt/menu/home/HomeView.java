@@ -2,7 +2,7 @@ package ntnu.idi.idatt.menu.home;
 
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
-import ntnu.idi.idatt.UI.components.TextButton;
+import ntnu.idi.idatt.components.TextButton;
 
 public class HomeView extends VBox {
 

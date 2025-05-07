@@ -9,7 +9,14 @@ import ntnu.idi.idatt.models.Board;
 public class SnakesAndLaddersBoardFactory {
 
   public static Board createStandardBoard() {
-    return new SnakesAndLaddersBoard();
+    SnakesAndLaddersBoard board = new SnakesAndLaddersBoard(9, 10);
+
+    board.getTile(80).setTileAction(new LadderAction(50));
+    board.getTile(81).setTileAction(new LadderAction(50));
+    board.getTile(82).setTileAction(new LadderAction(50));
+    board.getTile(83).setTileAction(new LadderAction(50));
+
+    return board;
   }
 
   public static List<Board> getBoards() {

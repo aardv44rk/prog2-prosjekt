@@ -30,7 +30,7 @@ public class GameConfigTest {
   @BeforeEach
   public void setUp() {
     // Create a test board
-    board = new SnakesAndLaddersBoard();
+    board = new SnakesAndLaddersBoard(10, 10);
 
     // Create test players with pieces
     players = new ArrayList<>();

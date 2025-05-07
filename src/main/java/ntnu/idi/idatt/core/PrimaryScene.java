@@ -5,7 +5,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
-import ntnu.idi.idatt.UI.components.PauseMenu;
+import ntnu.idi.idatt.components.PauseMenu;
 
 public class PrimaryScene extends Scene {
 

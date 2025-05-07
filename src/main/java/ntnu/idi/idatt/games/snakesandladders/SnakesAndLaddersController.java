@@ -2,46 +2,46 @@ package ntnu.idi.idatt.games.snakesandladders;
 
 import java.util.ArrayList;
 import java.util.List;
-import ntnu.idi.idatt.models.Board;
-import ntnu.idi.idatt.models.Piece;
+import javafx.scene.Parent;
+import ntnu.idi.idatt.AppState;
+import ntnu.idi.idatt.components.UISnakesAndLaddersBoard;
+import ntnu.idi.idatt.models.Dice;
+import ntnu.idi.idatt.models.Die;
+import ntnu.idi.idatt.models.GameConfig;
 import ntnu.idi.idatt.models.Player;
 
-/**
- * Controller for Snakes and Ladders game. Manages game setup and turn progression.
- */
 public class SnakesAndLaddersController {
 
-  private SnakesAndLaddersEngine engine;
+  private final SnakesAndLaddersEngine engine;
+  private final SnakesAndLaddersView view;
 
-  /**
-   * Sets up and starts a new Snakes and Ladders game.
-   *
-   * @param playerNames Names of the players.
-   */
-  public void startNewGame(List<String> playerNames) {
-    // Create board
-    Board board = SnakesAndLaddersBoardFactory.createStandardBoard();
-
-    // Create players
-    List<Player> players = new ArrayList<>();
-
-    for (String name : playerNames) {
-      List<Piece> pieces = new ArrayList<>();
-      Player player = new Player(name, pieces);
-
-      Piece piece = new Piece(board.getTile(0), player, new LinearMovementStrategy());
-      pieces.add(piece);
-
-      players.add(player);
+  public SnakesAndLaddersController() {
+    GameConfig config = AppState.getCurrentGameConfig();
+    this.engine = new SnakesAndLaddersEngine(
+        config.getPlayers(),
+        config.getBoard(),
+        config.getCurrentPlayerIndex(),
+        new Dice(List.of(new Die(6), new Die(6)))
+    );
+    if (this.engine.getPlayers().stream().map(Player::getPieces).anyMatch(List::isEmpty)) {
+      this.engine.initPieces();
     }
-
-    // Create engine
-    engine = new SnakesAndLaddersEngine(players, board, 0);
+    this.view = new SnakesAndLaddersView();
+    SnakesAndLaddersBoard board = (SnakesAndLaddersBoard) config.getBoard();
+    this.view.setBoard(
+        new UISnakesAndLaddersBoard(board.getRows(), board.getColumns(), new ArrayList<>()));
+    view.setDiceEyes(2, 2);
+    setupEventHandlers();
   }
 
-  /**
-   * Plays the game as CLI.
-   */
+  public Parent getView() {
+    return view;
+  }
+
+  public void setupEventHandlers() {
+
+  }
+
   public void playCLI() {
     if (engine == null) {
       System.out.println("Game not started!");
@@ -49,12 +49,5 @@ public class SnakesAndLaddersController {
     }
 
     engine.startGame();
-  }
-
-  /**
-   * Returns current game engine.
-   */
-  public SnakesAndLaddersEngine getEngine() {
-    return engine;
   }
 }

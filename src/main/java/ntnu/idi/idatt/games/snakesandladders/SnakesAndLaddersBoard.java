@@ -10,20 +10,32 @@ import java.util.HashMap;
  */
 public class SnakesAndLaddersBoard extends Board {
 
-  public SnakesAndLaddersBoard() {
+  private final int rows;
+  private final int columns;
+
+  public SnakesAndLaddersBoard(int rows, int columns) {
+    this.rows = rows;
+    this.columns = columns;
+
     initializeBoard();
   }
 
   @Override
   protected void initializeBoard() {
     tiles = new HashMap<>();
-    int size = 100;
 
-    for (int i = 0; i < size; i++) {
-      tiles.put(i, new Tile(i));
+    for (int i = 0; i < rows; i++) {
+      for (int j = 1; j <= columns; j++) {
+        tiles.put(i * (rows + 1) + j, new Tile(i * (rows + 1) + j));
+      }
     }
+  }
 
-    tiles.get(3).setTileAction(new LadderAction(22));
-    tiles.get(8).setTileAction(new LadderAction(30));
+  public int getRows() {
+    return rows;
+  }
+
+  public int getColumns() {
+    return columns;
   }
 }

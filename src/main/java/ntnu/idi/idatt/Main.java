@@ -2,11 +2,12 @@ package ntnu.idi.idatt;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-import ntnu.idi.idatt.UI.components.NavBar;
+import ntnu.idi.idatt.components.NavBar;
 import ntnu.idi.idatt.core.PrimaryScene;
+import ntnu.idi.idatt.games.ludo.LudoController;
+import ntnu.idi.idatt.games.snakesandladders.SnakesAndLaddersController;
 import ntnu.idi.idatt.menu.gameSetup.GameSetupController;
 import ntnu.idi.idatt.menu.gameLoad.GameLoadController;
-import ntnu.idi.idatt.UI.views.ViewFactory;
 import ntnu.idi.idatt.core.Route;
 import ntnu.idi.idatt.core.Router;
 import ntnu.idi.idatt.menu.gameMenu.GameMenuController;
@@ -51,12 +52,21 @@ public class Main extends Application {
             () -> new GameSetupController().getViewForGame(AppState.getSelectedGame())));
     Router.registerRoute(
         new Route(
-            "game",
+            "Snakes and Ladders",
             () -> new NavBar(
                 AppState.getSelectedGame().getName(),
                 primaryScene::showPauseMenu,
                 true),
-            () -> ViewFactory.getGameView(AppState.getSelectedGame())));
+            () -> new SnakesAndLaddersController().getView()
+        ));
+    Router.registerRoute(
+        new Route(
+            "Ludo",
+            () -> new NavBar(
+                AppState.getSelectedGame().getName(),
+                primaryScene::showPauseMenu,
+                true),
+            () -> new LudoController().getView()));
 
     Router.navigateTo("home");
 

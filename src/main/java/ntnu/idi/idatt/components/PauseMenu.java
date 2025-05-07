@@ -1,4 +1,4 @@
-package ntnu.idi.idatt.UI.components;
+package ntnu.idi.idatt.components;
 
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;

@@ -126,7 +126,7 @@ public class GameConfig {
       board = (Board) clazz.getDeclaredConstructor().newInstance();
     } catch (Exception e) {
       System.err.println("Failed to create board " + boardType + ": " + e.getMessage());
-      board = new SnakesAndLaddersBoard(); // Fallback to default board if loading fails
+      board = new SnakesAndLaddersBoard(10, 10); // Fallback to default board if loading fails
     }
 
     if (config.has("tiles")) {
