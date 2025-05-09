@@ -23,11 +23,8 @@ public class SnakesAndLaddersBoard extends Board {
   @Override
   protected void initializeBoard() {
     tiles = new HashMap<>();
-
-    for (int i = 0; i < rows; i++) {
-      for (int j = 1; j <= columns; j++) {
-        tiles.put(i * (rows + 1) + j, new Tile(i * (rows + 1) + j));
-      }
+    for (int i = 0; i < rows * columns; i++) {
+      tiles.put(i, new Tile(i));
     }
   }
 

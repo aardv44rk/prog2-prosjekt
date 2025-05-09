@@ -1,4 +1,8 @@
 .snl-board {
+  -fx-alignment: center;
+}
+
+.snl-board-board {
   -fx-border-color: black;
   -fx-border-width: 1;
   -fx-background-color: -fx-background-color-2;

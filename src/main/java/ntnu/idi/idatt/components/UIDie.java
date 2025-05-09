@@ -5,7 +5,7 @@ import javafx.scene.control.Label;
 public class UIDie extends Label {
 
   public UIDie(int eyes) {
-    getStyleClass().add("ui-die");
+    getStyleClass().add("die");
     this.setText(Integer.toString(eyes));
   }
 

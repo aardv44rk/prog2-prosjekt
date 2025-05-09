@@ -1,11 +1,14 @@
 /* Imports css for components */
 
 @import "../components/add-player.css";
+@import "../components/die.css";
 @import "../components/game-card.css";
+@import "../components/game-player-list.css";
 @import "../components/icon-button.css";
 @import "../components/menu-nav-bar.css";
 @import "../components/new-player.css";
 @import "../components/pause-menu.css";
 @import "../components/snl-board.css";
+@import "../components/snl-piece.css";
 @import "../components/snl-tile.css";
 @import "../components/text-button.css";

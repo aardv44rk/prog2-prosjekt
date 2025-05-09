@@ -8,6 +8,14 @@ import ntnu.idi.idatt.models.Board;
  */
 public class SnakesAndLaddersBoardFactory {
 
+  public static Board createSmallBoard() {
+    SnakesAndLaddersBoard board = new SnakesAndLaddersBoard(8, 9);
+
+    board.getTile(50).setTileAction(new LadderAction(30));
+
+    return board;
+  }
+
   public static Board createStandardBoard() {
     SnakesAndLaddersBoard board = new SnakesAndLaddersBoard(9, 10);
 
@@ -19,7 +27,17 @@ public class SnakesAndLaddersBoardFactory {
     return board;
   }
 
+  public static Board createBigBoard() {
+    SnakesAndLaddersBoard board = new SnakesAndLaddersBoard(10, 10);
+
+    board.getTile(80).setTileAction(new LadderAction(50));
+    board.getTile(81).setTileAction(new LadderAction(50));
+
+    return board;
+  }
+
+
   public static List<Board> getBoards() {
-    return List.of(createStandardBoard(), createStandardBoard(), createStandardBoard());
+    return List.of(createSmallBoard(), createStandardBoard(), createBigBoard());
   }
 }

@@ -23,4 +23,8 @@ public class Dice {
   public int getValue() {
     return dice.stream().mapToInt(Die::getValue).sum();
   }
+
+  public int[] getValues() {
+    return dice.stream().mapToInt(Die::getValue).toArray();
+  }
 }

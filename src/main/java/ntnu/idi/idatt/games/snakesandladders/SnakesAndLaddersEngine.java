@@ -24,13 +24,12 @@ public class SnakesAndLaddersEngine extends GameEngine {
   public void initPieces() {
     for (Player p : players) {
       p.getPieces().clear();
-      p.getPieces().add(new Piece(board.getTile(1), p, new LinearMovementStrategy()));
+      p.getPieces().add(new Piece(board.getTile(0), p, new LinearMovementStrategy()));
     }
   }
 
   @Override
-  public void startGame() {
-    System.out.println("Starting Snakes and Ladders...");
+  public void playGame() {
     while (!isGameOver()) {
       handleTurn();
     }
@@ -43,13 +42,11 @@ public class SnakesAndLaddersEngine extends GameEngine {
 
     dice.roll();
     int steps = dice.getValue();
-    System.out.println(player.getName() + " rolled " + steps);
 
     piece.move(steps, board);
 
     if (checkWinCondition() != null) {
       endGame();
-      System.out.println(player.getName() + " has won!");
     } else {
       nextPlayer();
     }
@@ -58,11 +55,15 @@ public class SnakesAndLaddersEngine extends GameEngine {
   @Override
   public Player checkWinCondition() {
     for (Player player : players) {
-      Piece piece = player.getPieces().get(0);
+      Piece piece = player.getPieces().getFirst();
       if (piece.getCurrentTile().getTileId() == board.getTiles().size() - 1) {
         return player;
       }
     }
     return null;
+  }
+
+  public Dice getDice() {
+    return dice;
   }
 }
