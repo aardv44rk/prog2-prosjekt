@@ -67,10 +67,10 @@ public class GameSetupView extends BorderPane {
 
   public void setPlayers(int min, int max) {
     playerList.clear();
-    for (int i = 0; i < max - min; i++) {
+    for (int i = 0; i < min; i++) {
       playerList.add(
           new NewPlayer(
-              AssetRepository.PLAYER_COLORS.get(i),
+              AssetRepository.SNL_COLORS.get(i),
               i + 1,
               "Player " + (i + 1),
               false
@@ -82,7 +82,7 @@ public class GameSetupView extends BorderPane {
 
   public void addPlayer(String playerName, int min, int max) {
     NewPlayer newPlayer = new NewPlayer(
-        AssetRepository.PLAYER_COLORS.get(playerList.size()),
+        AssetRepository.SNL_COLORS.get(playerList.size()),
         playerList.size() + 1,
         playerName,
         true
@@ -92,7 +92,7 @@ public class GameSetupView extends BorderPane {
         int playerNumber = p.getPlayerNumber();
         if (newPlayer.getPlayerNumber() < playerNumber) {
           p.setPlayerNumber(playerNumber - 1);
-          p.setColor(AssetRepository.PLAYER_COLORS.get(playerNumber - 2));
+          p.setColor(AssetRepository.SNL_COLORS.get(playerNumber - 2));
         }
       }
       playerList.remove(newPlayer);

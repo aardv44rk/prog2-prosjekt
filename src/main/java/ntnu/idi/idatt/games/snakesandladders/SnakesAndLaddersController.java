@@ -10,7 +10,6 @@ import javafx.scene.Parent;
 import javafx.util.Pair;
 import ntnu.idi.idatt.AppState;
 import ntnu.idi.idatt.AssetRepository;
-import ntnu.idi.idatt.components.GamePlayerList;
 import ntnu.idi.idatt.components.UISnakesAndLaddersBoard;
 import ntnu.idi.idatt.components.UISnakesAndLaddersPiece;
 import ntnu.idi.idatt.components.UISnakesAndLaddersTile;
@@ -52,13 +51,13 @@ public class SnakesAndLaddersController {
     for (int i = 0; i < pieceList.size(); i++) {
       pieces.put(
           pieceList.get(i),
-          new UISnakesAndLaddersPiece(AssetRepository.PLAYER_COLORS.get(i))
+          new UISnakesAndLaddersPiece(AssetRepository.SNL_COLORS.get(i))
       );
     }
 
     // Board
     SnakesAndLaddersBoard board = (SnakesAndLaddersBoard) config.getBoard();
-    uIBoard = new UISnakesAndLaddersBoard(board.getRows(), board.getColumns(), new ArrayList<>());
+    uIBoard = new UISnakesAndLaddersBoard(board.getRows(), board.getColumns(), board.getLadders());
     view.setBoard(uIBoard);
 
     // Name piece list
@@ -82,8 +81,8 @@ public class SnakesAndLaddersController {
       if (!engine.isGameOver()) {
         engine.handleTurn();
         updateDice();
-        updatePieces();
         updatePlayerList();
+        updatePieces();
       }
     });
   }
@@ -94,12 +93,9 @@ public class SnakesAndLaddersController {
   }
 
   public void updatePieces() {
-    for (UISnakesAndLaddersTile tile : uIBoard.getTiles()) {
-      tile.clearPieces();
-    }
     for (Entry<Piece, UISnakesAndLaddersPiece> entry : pieces.entrySet()) {
       int tileId = entry.getKey().getCurrentTile().getTileId();
-      uIBoard.getTile(tileId).addPiece(entry.getValue());
+      uIBoard.drawPiece(entry.getValue(), tileId);
     }
   }
 

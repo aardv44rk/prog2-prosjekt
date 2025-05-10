@@ -16,7 +16,7 @@ public class GameRegistry {
     games.add(
         new GameInfo("Snakes and Ladders",
             "Roll the dice to move forward. Green ladders move you up, and red ladders move you down. First to the end wins.",
-            2, 4,
+            2, 5,
             config -> new SnakesAndLaddersEngine(config.getPlayers(), config.getBoard(),
                 config.getCurrentPlayerIndex(), new Dice(List.of(new Die(6), new Die(6)))),
             SnakesAndLaddersBoardFactory::getBoards

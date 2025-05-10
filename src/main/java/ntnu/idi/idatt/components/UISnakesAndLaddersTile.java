@@ -23,7 +23,7 @@ public class UISnakesAndLaddersTile extends BorderPane {
 
   public void addPiece(UISnakesAndLaddersPiece piece) {
     pieces.getChildren().add(piece);
-    StackPane.setMargin(piece, new Insets(0, 0, (pieces.getChildren().size() - 3) * 10, 0));
+    StackPane.setMargin(piece, new Insets(0, 0, (pieces.getChildren().size() - 4) * 10, 0));
   }
 
   public void clearPieces() {

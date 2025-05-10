@@ -1,5 +1,6 @@
 package ntnu.idi.idatt.games.snakesandladders;
 
+import java.util.List;
 import ntnu.idi.idatt.models.Board;
 import ntnu.idi.idatt.models.Tile;
 
@@ -12,10 +13,12 @@ public class SnakesAndLaddersBoard extends Board {
 
   private final int rows;
   private final int columns;
+  private final List<SnakesAndLaddersLadder> ladders;
 
-  public SnakesAndLaddersBoard(int rows, int columns) {
+  public SnakesAndLaddersBoard(int rows, int columns, List<SnakesAndLaddersLadder> ladders) {
     this.rows = rows;
     this.columns = columns;
+    this.ladders = ladders;
 
     initializeBoard();
   }
@@ -34,5 +37,9 @@ public class SnakesAndLaddersBoard extends Board {
 
   public int getColumns() {
     return columns;
+  }
+
+  public List<SnakesAndLaddersLadder> getLadders() {
+    return ladders;
   }
 }
