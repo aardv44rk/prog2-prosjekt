@@ -1,7 +1,7 @@
 /* Import view stylesheets */
 
-@import "../views/game.css";
 @import "../views/game-load-view.css";
 @import "../views/game-setup.css";
 @import "../views/game-menu-view.css";
 @import "../views/home-view.css";
+@import "../views/snakes-and-ladders-view.css";

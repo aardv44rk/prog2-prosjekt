@@ -8,6 +8,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import ntnu.idi.idatt.games.snakesandladders.SnakesAndLaddersBoardFactory;
 import ntnu.idi.idatt.models.Board;
 import ntnu.idi.idatt.models.GameConfig;
 import ntnu.idi.idatt.models.Piece;
@@ -30,7 +31,7 @@ public class GameConfigTest {
   @BeforeEach
   public void setUp() {
     // Create a test board
-    board = new SnakesAndLaddersBoard();
+    board = SnakesAndLaddersBoardFactory.createStandardBoard();
 
     // Create test players with pieces
     players = new ArrayList<>();

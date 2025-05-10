@@ -14,6 +14,7 @@ import com.google.gson.JsonParser;
 import ntnu.idi.idatt.games.snakesandladders.LadderAction;
 import ntnu.idi.idatt.games.snakesandladders.LinearMovementStrategy;
 import ntnu.idi.idatt.games.snakesandladders.SnakesAndLaddersBoard;
+import ntnu.idi.idatt.games.snakesandladders.SnakesAndLaddersBoardFactory;
 import ntnu.idi.idatt.utility.FileUtil;
 import ntnu.idi.idatt.utility.JsonUtil;
 
@@ -126,7 +127,7 @@ public class GameConfig {
       board = (Board) clazz.getDeclaredConstructor().newInstance();
     } catch (Exception e) {
       System.err.println("Failed to create board " + boardType + ": " + e.getMessage());
-      board = new SnakesAndLaddersBoard(); // Fallback to default board if loading fails
+      board = SnakesAndLaddersBoardFactory.createStandardBoard(); // Fallback to default board if loading fails
     }
 
     if (config.has("tiles")) {

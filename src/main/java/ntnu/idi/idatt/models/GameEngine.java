@@ -27,9 +27,9 @@ public abstract class GameEngine {
   }
 
   /**
-   * Starts the game. Concrete implementation defines game loop.
+   * Plays the game. Concrete implementation defines game loop.
    */
-  public abstract void startGame();
+  public abstract void playGame();
 
   /**
    * Handles the current player's turn.
@@ -48,7 +48,6 @@ public abstract class GameEngine {
    */
   public void endGame() {
     this.gameOver = true;
-    System.out.println("Game over!");
   }
 
   /**

@@ -1,0 +1,13 @@
+.game-player-list {
+  -fx-spacing: 15;
+}
+
+.game-player-list * {
+  -fx-spacing: 15;
+  -fx-alignment: center-left;
+}
+
+.game-player-list-current-piece {
+  -fx-scale-x: 1.5;
+  -fx-scale-y: 1.5;
+}
