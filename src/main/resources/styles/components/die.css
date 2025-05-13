@@ -1,0 +1,10 @@
+.die {
+  -fx-min-width: 80;
+  -fx-min-height: 80;
+  -fx-border-color: black;
+  -fx-border-width: 2;
+  -fx-background-color: -fx-background-color-2;
+  -fx-effect: -fx-drop-shadow-color-1;
+  -fx-alignment: center;
+  -fx-font-size: 28;
+}

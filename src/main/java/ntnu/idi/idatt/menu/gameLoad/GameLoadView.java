@@ -4,8 +4,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import ntnu.idi.idatt.AppState;
-import ntnu.idi.idatt.core.Router;
-import ntnu.idi.idatt.UI.components.TextButton;
+import ntnu.idi.idatt.components.TextButton;
 
 public class GameLoadView extends VBox {
 

@@ -13,7 +13,6 @@ public class LinearMovementStrategy implements MovementStrategy {
     int targetPos = Math.min(currentPos + steps, board.getTiles().size() - 1);
     Tile targetTile = board.getTile(targetPos);
     piece.setCurrentTile(targetTile);
-    System.out.println(piece.getOwner().getName() + " moved to tile " + targetPos);
     targetTile.land(piece, board);
   }
 }

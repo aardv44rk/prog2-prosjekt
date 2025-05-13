@@ -30,7 +30,7 @@ public class GameSetupController {
               0
           )
       );
-      Router.navigateTo("game");
+      Router.navigateTo(AppState.getSelectedGame().getName());
     });
   }
 

@@ -2,6 +2,7 @@ package ntnu.idi.idatt.games.snakesandladders;
 
 import java.util.List;
 import ntnu.idi.idatt.models.Board;
+import ntnu.idi.idatt.models.Dice;
 import ntnu.idi.idatt.models.GameEngine;
 import ntnu.idi.idatt.models.Piece;
 import ntnu.idi.idatt.models.Player;
@@ -11,13 +12,24 @@ import ntnu.idi.idatt.models.Player;
  */
 public class SnakesAndLaddersEngine extends GameEngine {
 
-  public SnakesAndLaddersEngine(List<Player> players, Board board, int currentPlayerIndex) {
+  private final Dice dice;
+
+  public SnakesAndLaddersEngine(List<Player> players, Board board, int currentPlayerIndex,
+      Dice dice) {
     super(players, board, currentPlayerIndex);
+
+    this.dice = dice;
+  }
+
+  public void initPieces() {
+    for (Player p : players) {
+      p.getPieces().clear();
+      p.getPieces().add(new Piece(board.getTile(0), p, new LinearMovementStrategy()));
+    }
   }
 
   @Override
-  public void startGame() {
-    System.out.println("Starting Snakes and Ladders...");
+  public void playGame() {
     while (!isGameOver()) {
       handleTurn();
     }
@@ -26,16 +38,15 @@ public class SnakesAndLaddersEngine extends GameEngine {
   @Override
   public void handleTurn() {
     Player player = getCurrentPlayer();
-    Piece piece = player.getPieces().get(0); // Only one piece in SnL
+    Piece piece = player.getPieces().getFirst();
 
-    int steps = rollDice();
-    System.out.println(player.getName() + " rolled " + steps);
+    dice.roll();
+    int steps = dice.getValue();
 
     piece.move(steps, board);
 
     if (checkWinCondition() != null) {
       endGame();
-      System.out.println(player.getName() + " has won!");
     } else {
       nextPlayer();
     }
@@ -44,7 +55,7 @@ public class SnakesAndLaddersEngine extends GameEngine {
   @Override
   public Player checkWinCondition() {
     for (Player player : players) {
-      Piece piece = player.getPieces().get(0);
+      Piece piece = player.getPieces().getFirst();
       if (piece.getCurrentTile().getTileId() == board.getTiles().size() - 1) {
         return player;
       }
@@ -52,7 +63,7 @@ public class SnakesAndLaddersEngine extends GameEngine {
     return null;
   }
 
-  private int rollDice() {
-    return (int) (Math.random() * 6) + 1;
+  public Dice getDice() {
+    return dice;
   }
 }
