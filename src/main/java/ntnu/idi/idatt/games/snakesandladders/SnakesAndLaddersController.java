@@ -16,6 +16,7 @@ import ntnu.idi.idatt.components.UISnakesAndLaddersBoard;
 import ntnu.idi.idatt.components.UISnakesAndLaddersLadder;
 import ntnu.idi.idatt.components.UISnakesAndLaddersPiece;
 import ntnu.idi.idatt.components.UISnakesAndLaddersTile;
+import ntnu.idi.idatt.core.Router;
 import ntnu.idi.idatt.models.Dice;
 import ntnu.idi.idatt.models.Die;
 import ntnu.idi.idatt.models.GameConfig;
@@ -91,9 +92,10 @@ public class SnakesAndLaddersController {
         updatePlayerList();
         if (engine.isGameOver()) {
           updatePiece(getPiecePairFromPlayer(engine.getCurrentPlayer()));
+          Router.showAlert("Game over!", engine.getCurrentPlayer().getName() + " has won.", "Close",
+              null);
         } else {
           updatePiece(getPiecePairFromPlayer(engine.getLastPlayer()));
-          updatePiece(getPiecePairFromPlayer(engine.getCurrentPlayer()));
         }
       }
     });

@@ -55,7 +55,7 @@ public class Main extends Application {
             "Snakes and Ladders",
             () -> new NavBar(
                 AppState.getSelectedGame().getName(),
-                primaryScene::showPauseMenu,
+                Router::showPauseMenu,
                 true),
             () -> new SnakesAndLaddersController().getView()
         ));
@@ -64,7 +64,7 @@ public class Main extends Application {
             "Ludo",
             () -> new NavBar(
                 AppState.getSelectedGame().getName(),
-                primaryScene::showPauseMenu,
+                Router::showPauseMenu,
                 true),
             () -> new LudoController().getView()));
 

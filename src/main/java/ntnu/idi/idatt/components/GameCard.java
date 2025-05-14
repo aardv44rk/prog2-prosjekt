@@ -18,7 +18,7 @@ public class GameCard extends VBox {
   }
 
   public void setOnClick(Runnable runnable) {
-    gameButton.setOnMouseClicked(event -> {
+    gameButton.setOnAction(event -> {
       runnable.run();
     });
   }

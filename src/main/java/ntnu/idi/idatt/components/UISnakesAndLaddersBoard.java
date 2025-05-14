@@ -38,7 +38,6 @@ public class UISnakesAndLaddersBoard extends StackPane {
     ladderLayer = new Pane();
     pieceLayer = new Pane();
     getChildren().addAll(board, ladderLayer, pieceLayer);
-    System.out.println(this);
   }
 
   public Map<Integer, UISnakesAndLaddersTile> getTiles() {

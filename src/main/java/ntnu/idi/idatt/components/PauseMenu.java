@@ -8,11 +8,15 @@ import ntnu.idi.idatt.core.Router;
 
 public class PauseMenu extends StackPane {
 
+  TextButton resumeButton;
+  TextButton saveButton;
+  TextButton exitButton;
+
   public PauseMenu() {
-    this.getStyleClass().add("pause-menu");
+    getStyleClass().add("pause-menu");
 
     Rectangle blur = new Rectangle(1280, 720);
-    blur.getStyleClass().add("pause-menu-blur");
+    blur.getStyleClass().add("background-blur");
 
     VBox pauseDialog = new VBox();
     pauseDialog.getStyleClass().add("pause-menu-dialog");
@@ -20,23 +24,24 @@ public class PauseMenu extends StackPane {
     Label title = new Label("Paused");
     title.getStyleClass().add("title");
 
-    TextButton resumeButton = new TextButton("Resume");
-    resumeButton.setOnMouseClicked(e -> {
-      this.setVisible(false);
-    });
+    resumeButton = new TextButton("Resume");
+    saveButton = new TextButton("Save");
+    exitButton = new TextButton("Exit");
 
-    TextButton settingsButton = new TextButton("Save");
-    settingsButton.setOnMouseClicked(e -> {
-      System.out.println("Saving...");
-    });
+    pauseDialog.getChildren().addAll(title, resumeButton, saveButton, exitButton);
 
-    TextButton exitButton = new TextButton("Exit");
-    exitButton.setOnMouseClicked(e -> {
-      this.setVisible(false);
-      Router.navigateTo("home");
-    });
-    pauseDialog.getChildren().addAll(title, resumeButton, settingsButton, exitButton);
+    getChildren().addAll(blur, pauseDialog);
+  }
 
-    this.getChildren().addAll(blur, pauseDialog);
+  public void resumeButtonSetOnClick(Runnable runnable) {
+    resumeButton.setOnAction(e -> runnable.run());
+  }
+
+  public void saveButtonSetOnClick(Runnable runnable) {
+    saveButton.setOnAction(e -> runnable.run());
+  }
+
+  public void exitButtonSetOnClick(Runnable runnable) {
+    exitButton.setOnAction(e -> runnable.run());
   }
 }

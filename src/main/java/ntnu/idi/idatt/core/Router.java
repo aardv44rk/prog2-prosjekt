@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
 import javafx.stage.Stage;
+import ntnu.idi.idatt.components.AlertDialog;
+import ntnu.idi.idatt.components.PauseMenu;
 
 public class Router {
 
@@ -11,6 +13,16 @@ public class Router {
   private static PrimaryScene primaryScene;
   private static final Map<String, Route> routes = new HashMap<>();
   private static final Stack<Route> history = new Stack<>();
+  private static final PauseMenu pauseMenu = new PauseMenu();
+
+  static {
+    pauseMenu.resumeButtonSetOnClick(() -> primaryScene.removeNode(pauseMenu));
+    pauseMenu.saveButtonSetOnClick(() -> System.out.println("Saving..."));
+    pauseMenu.exitButtonSetOnClick(() -> {
+      primaryScene.removeNode(pauseMenu);
+      navigateTo("home");
+    });
+  }
 
   public static void registerRoute(Route route) {
     routes.put(route.getName(), route);
@@ -53,6 +65,21 @@ public class Router {
     primaryScene.setContent(route.getContent());
     primaryScene.setNavBar(route.getNavBar());
     history.push(route);
+  }
+
+  public static void showAlert(String title, String message, String buttonText, Runnable runnable) {
+    AlertDialog alertDialog = new AlertDialog(title, message, buttonText, AlertDialogType.INFO);
+    alertDialog.buttonSetOnClick(() -> {
+      if (runnable != null) {
+        runnable.run();
+      }
+      primaryScene.removeNode(alertDialog);
+    });
+    primaryScene.addNode(alertDialog);
+  }
+
+  public static void showPauseMenu() {
+    primaryScene.addNode(pauseMenu);
   }
 }
 
