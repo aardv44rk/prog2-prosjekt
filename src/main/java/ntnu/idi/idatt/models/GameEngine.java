@@ -59,6 +59,10 @@ public abstract class GameEngine {
     return players.get(currentPlayerIndex);
   }
 
+  public Player getLastPlayer() {
+    return (currentPlayerIndex == 0) ? players.getLast() : players.get(currentPlayerIndex - 1);
+  }
+
   /**
    * Advances to the next player's turn.
    */

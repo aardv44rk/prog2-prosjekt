@@ -2,15 +2,18 @@ package ntnu.idi.idatt.games.snakesandladders;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
+import java.util.concurrent.atomic.AtomicInteger;
+import javafx.geometry.Bounds;
+import javafx.geometry.Point2D;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.util.Pair;
 import ntnu.idi.idatt.AppState;
 import ntnu.idi.idatt.AssetRepository;
 import ntnu.idi.idatt.components.UISnakesAndLaddersBoard;
+import ntnu.idi.idatt.components.UISnakesAndLaddersLadder;
 import ntnu.idi.idatt.components.UISnakesAndLaddersPiece;
 import ntnu.idi.idatt.components.UISnakesAndLaddersTile;
 import ntnu.idi.idatt.models.Dice;
@@ -22,53 +25,57 @@ import ntnu.idi.idatt.models.Player;
 public class SnakesAndLaddersController {
 
   private final SnakesAndLaddersEngine engine;
-  private final Map<Piece, UISnakesAndLaddersPiece> pieces;
   private final SnakesAndLaddersView view;
+  private final List<Pair<Piece, UISnakesAndLaddersPiece>> pieces;
+  private final List<Pair<SnakesAndLaddersLadder, UISnakesAndLaddersLadder>> ladders;
+  private final SnakesAndLaddersBoard board;
   private final UISnakesAndLaddersBoard uIBoard;
+  private final Map<Integer, UISnakesAndLaddersTile> tiles;
 
   public SnakesAndLaddersController() {
     GameConfig config = AppState.getCurrentGameConfig();
 
-    this.view = new SnakesAndLaddersView();
-
-    // Engine
     this.engine = new SnakesAndLaddersEngine(
         config.getPlayers(),
         config.getBoard(),
         config.getCurrentPlayerIndex(),
         new Dice(List.of(new Die(6), new Die(6)))
     );
+    this.view = new SnakesAndLaddersView();
+    this.board = (SnakesAndLaddersBoard) config.getBoard();
+    this.pieces = new ArrayList<>();
+    this.ladders = new ArrayList<>();
+    this.uIBoard = new UISnakesAndLaddersBoard(board.getRows(), board.getColumns());
+    this.tiles = uIBoard.getTiles();
 
-    // Piece init
-    if (engine.getPlayers().stream().map(Player::getPieces).anyMatch(List::isEmpty)) {
-      engine.initPieces();
-    }
-    List<Piece> pieceList = engine.getPlayers().stream()
-        .map(Player::getPieces)
-        .flatMap(Collection::stream).toList();
+    setPieces();
 
-    pieces = new HashMap<>();
-    for (int i = 0; i < pieceList.size(); i++) {
-      pieces.put(
-          pieceList.get(i),
-          new UISnakesAndLaddersPiece(AssetRepository.SNL_COLORS.get(i))
-      );
-    }
-
-    // Board
-    SnakesAndLaddersBoard board = (SnakesAndLaddersBoard) config.getBoard();
-    uIBoard = new UISnakesAndLaddersBoard(board.getRows(), board.getColumns(), board.getLadders());
     view.setBoard(uIBoard);
 
-    // Name piece list
-    List<Pair<String, UISnakesAndLaddersPiece>> namePieceList = new ArrayList<>();
-    for (Player player : engine.getPlayers()) {
-      namePieceList.add(new Pair<>(player.getName(), pieces.get(player.getPieces().getFirst())));
+    renderPlayerList();
+
+    // Render pieces and ladders after tiles finish rendering to get correct coords
+    pieces.forEach(pair -> {
+      pair.getValue().layoutBoundsProperty().addListener((o, oldBounds, newBounds) -> {
+        if (newBounds.getWidth() > 0 && newBounds.getHeight() > 0) {
+          updatePiece(pair);
+        }
+      });
+      uIBoard.renderPiece(pair.getValue());
+    });
+
+    AtomicInteger remaining = new AtomicInteger(tiles.size());
+    for (UISnakesAndLaddersTile tile : tiles.values()) {
+      tile.layoutBoundsProperty().addListener((o, oldBounds, newBounds) -> {
+        if (newBounds.getWidth() > 0 && newBounds.getHeight() > 0) {
+          if (remaining.decrementAndGet() == 0) {
+            renderLadders();
+          }
+        }
+      });
     }
-    view.setPlayerList(namePieceList);
 
     updateDice();
-    updatePieces();
     setupEventHandlers();
   }
 
@@ -76,39 +83,116 @@ public class SnakesAndLaddersController {
     return view;
   }
 
-  public void setupEventHandlers() {
+  private void setupEventHandlers() {
     view.rollSetOnClick(() -> {
       if (!engine.isGameOver()) {
         engine.handleTurn();
         updateDice();
         updatePlayerList();
-        updatePieces();
+        if (engine.isGameOver()) {
+          updatePiece(getPiecePairFromPlayer(engine.getCurrentPlayer()));
+        } else {
+          updatePiece(getPiecePairFromPlayer(engine.getLastPlayer()));
+          updatePiece(getPiecePairFromPlayer(engine.getCurrentPlayer()));
+        }
       }
     });
   }
 
-  public void updateDice() {
+  private void setPieces() {
+    if (engine.getPlayers().stream().map(Player::getPieces).anyMatch(List::isEmpty)) {
+      engine.initPieces();
+    }
+    List<Piece> pieceList = engine.getPlayers().stream()
+        .map(Player::getPieces)
+        .flatMap(Collection::stream).toList();
+
+    for (int i = 0; i < pieceList.size(); i++) {
+      UISnakesAndLaddersPiece piece = new UISnakesAndLaddersPiece(
+          AssetRepository.SNL_COLORS.get(i));
+      pieces.add(
+          new Pair<>(
+              pieceList.get(i), piece));
+    }
+  }
+
+  private void renderLadders() {
+    board.getLadders().forEach(ladder -> {
+      tiles.get(ladder.startTileId()).setColor(
+          ladder.isAscending() ? AssetRepository.LADDER_START_UP
+              : AssetRepository.LADDER_START_DOWN);
+      tiles.get(ladder.endTileId()).setColor(
+          ladder.isAscending() ? AssetRepository.LADDER_END_UP
+              : AssetRepository.LADDER_END_DOWN);
+      uIBoard.renderLadder(
+          new UISnakesAndLaddersLadder(
+              getBoardCenterCoords(tiles.get(ladder.startTileId())),
+              getBoardCenterCoords(tiles.get(ladder.endTileId())),
+              ladder.isAscending()
+          )
+      );
+    });
+  }
+
+  private void renderPlayerList() {
+    List<Pair<String, UISnakesAndLaddersPiece>> namePieceList = new ArrayList<>();
+    for (Pair<Piece, UISnakesAndLaddersPiece> pair : pieces) {
+      namePieceList.add(new Pair<>(pair.getKey().getOwner().getName(), pair.getValue()));
+    }
+    view.setPlayerList(namePieceList);
+  }
+
+
+  private void updateDice() {
     int[] diceValues = engine.getDice().getValues();
     view.setDiceEyes(diceValues[0], diceValues[1]);
   }
 
-  public void updatePieces() {
-    for (Entry<Piece, UISnakesAndLaddersPiece> entry : pieces.entrySet()) {
-      int tileId = entry.getKey().getCurrentTile().getTileId();
-      uIBoard.drawPiece(entry.getValue(), tileId);
-    }
+  private void updatePiece(Pair<Piece, UISnakesAndLaddersPiece> pair) {
+    UISnakesAndLaddersPiece piece = pair.getValue();
+    int tileId = pair.getKey().getCurrentTile().getTileId();
+    UISnakesAndLaddersTile tile = tiles.get(tileId);
+
+    Point2D coords = getCoordsForPiece(tile, piece);
+    long sameCoords = pieces.stream().map(Pair::getValue)
+        .filter(p -> !p.equals(piece)
+            && p.getLayoutX() == coords.getX()
+            && p.getLayoutY() == coords.getY())
+        .count();
+    piece.setLayoutX(coords.getX());
+    piece.setLayoutY(coords.getY() - sameCoords * 5);
   }
 
-  public void updatePlayerList() {
+  private void updatePlayerList() {
     view.shufflePlayerList();
   }
 
-  public void playCLI() {
-    if (engine == null) {
-      System.out.println("Game not started!");
-      return;
-    }
+  private Point2D getBoardCenterCoords(Node node) {
+    Bounds bounds = node.localToScene(node.getBoundsInLocal());
 
-    engine.playGame();
+    double centerX = bounds.getMinX() + bounds.getWidth() / 2;
+    double centerY = bounds.getMinY() + bounds.getHeight() / 2;
+
+    return uIBoard.sceneToLocal(new Point2D(centerX, centerY));
+  }
+
+  private Point2D getCoordsForPiece(Node tile, Node piece) {
+    Bounds tileBoundsInLocal = tile.getBoundsInLocal();
+    Bounds tileBoundsInScene = tile.localToScene(tileBoundsInLocal);
+    Bounds pieceBounds = piece.getLayoutBounds();
+
+    double centerX = tileBoundsInScene.getMinX() + tileBoundsInScene.getWidth() / 2;
+    double centerY = tileBoundsInScene.getMinY() + tileBoundsInScene.getHeight() / 2;
+
+    double layoutX = centerX - pieceBounds.getWidth() / 2;
+    double layoutY = centerY - pieceBounds.getHeight() / 2;
+
+    return uIBoard.sceneToLocal(new Point2D(layoutX, layoutY));
+  }
+
+  private Pair<Piece, UISnakesAndLaddersPiece> getPiecePairFromPlayer(Player player) {
+    return pieces.stream()
+        .filter(p -> p.getKey().equals(player.getPieces().getFirst()))
+        .findFirst().get();
   }
 }
