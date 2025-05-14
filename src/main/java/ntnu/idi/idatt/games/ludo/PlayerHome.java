@@ -22,7 +22,7 @@ public class PlayerHome {
 
     for (int i = 1; i <= 4; i++) {
       // using custom made ids for home tiles to avoid potential conflicts
-      int tileId = 2000 * (color + 1) + i;
+      int tileId = 1000 + (color * 10) + i;
       homeTiles.put(i, new Tile(tileId));
     }
   }
