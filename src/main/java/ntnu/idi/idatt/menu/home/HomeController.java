@@ -16,7 +16,7 @@ public class HomeController {
     return view;
   }
 
-  public void setupEventHandlers() {
+  private void setupEventHandlers() {
     view.startSetOnClick(() -> Router.navigateTo("menu"));
     view.settingsSetOnClick(() -> Router.navigateTo("settings"));
     view.quitSetOnClick(() -> System.exit(0));

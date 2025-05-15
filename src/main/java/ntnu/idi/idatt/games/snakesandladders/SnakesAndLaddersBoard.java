@@ -42,4 +42,17 @@ public class SnakesAndLaddersBoard extends Board {
   public List<SnakesAndLaddersLadder> getLadders() {
     return ladders;
   }
+
+  @Override
+  public String toString() {
+    StringBuilder s = new StringBuilder();
+    for (int i = 0; i < rows; i++) {
+      StringBuilder row = new StringBuilder();
+      for (int j = 0; j < columns; j++) {
+        row.append(tiles.get(i * columns + j)).append(" ");
+      }
+      s.append(row).append("\n");
+    }
+    return s.toString();
+  }
 }

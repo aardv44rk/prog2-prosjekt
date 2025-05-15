@@ -105,7 +105,7 @@ public class GameSetupView extends BorderPane {
     boardBox.getChildren().clear();
     for (Board board : boards) {
       TextButton boardButton = new TextButton(board.getTiles().size() + " tiles");
-      boardButton.setOnMouseClicked(e -> {
+      boardButton.setOnAction(e -> {
         if (selectedBoardButton != null) {
           selectedBoardButton.getStyleClass().remove("game-setup-selected-board");
         }
@@ -138,6 +138,6 @@ public class GameSetupView extends BorderPane {
   }
 
   public void startButtonSetOnClick(Runnable runnable) {
-    startButton.setOnMouseClicked(e -> runnable.run());
+    startButton.setOnAction(e -> runnable.run());
   }
 }

@@ -17,8 +17,6 @@ public class SnakesAndLaddersView extends BorderPane {
   private final UIDie rightDie;
   private final TextButton rollButton;
 
-  private final VBox center;
-
   public SnakesAndLaddersView() {
     getStyleClass().add("snakes-and-ladders-view");
 
@@ -43,7 +41,7 @@ public class SnakesAndLaddersView extends BorderPane {
     left.setTop(playerList);
     left.setBottom(diceBox);
 
-    center = new VBox();
+    VBox center = new VBox();
     center.getStyleClass().add("snakes-and-ladders-center");
 
     setLeft(left);

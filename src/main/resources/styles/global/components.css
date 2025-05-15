@@ -1,5 +1,6 @@
 /* Imports css for components */
 
+@import "../components/alert-dialog.css";
 @import "../components/add-player.css";
 @import "../components/die.css";
 @import "../components/game-card.css";

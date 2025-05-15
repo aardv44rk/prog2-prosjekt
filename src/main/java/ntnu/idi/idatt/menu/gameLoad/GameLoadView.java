@@ -34,11 +34,11 @@ public class GameLoadView extends VBox {
   }
 
   public void newGameButtonSetOnClick(Runnable runnable) {
-    newGameButton.setOnMouseClicked(e -> runnable.run());
+    newGameButton.setOnAction(e -> runnable.run());
   }
 
   public void loadGameButtonSetOnClick(Runnable runnable) {
-    loadGameButton.setOnMouseClicked(e -> runnable.run());
+    loadGameButton.setOnAction(e -> runnable.run());
   }
 
 }

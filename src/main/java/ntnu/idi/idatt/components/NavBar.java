@@ -9,7 +9,7 @@ public class NavBar extends HBox {
     this.getStyleClass().add("menu-nav-bar");
 
     IconButton backButton = new IconButton(isPause ? "x" : "<");
-    backButton.setOnMouseClicked(e -> {
+    backButton.setOnAction(e -> {
       action.run();
     });
 

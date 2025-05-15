@@ -11,14 +11,15 @@ public class SnakesAndLaddersBoardFactory {
 
   public static Board createSmallBoard() {
     List<SnakesAndLaddersLadder> ladders = List.of(
-        new SnakesAndLaddersLadder(2, 14),
-        new SnakesAndLaddersLadder(5, 26),
-        new SnakesAndLaddersLadder(10, 21),
-        new SnakesAndLaddersLadder(16, 30),
-        new SnakesAndLaddersLadder(25, 38),
-        new SnakesAndLaddersLadder(33, 45),
-        new SnakesAndLaddersLadder(44, 19),
-        new SnakesAndLaddersLadder(49, 35)
+        new SnakesAndLaddersLadder(1, 13),
+        new SnakesAndLaddersLadder(4, 25),
+        new SnakesAndLaddersLadder(15, 29),
+        new SnakesAndLaddersLadder(24, 37),
+        new SnakesAndLaddersLadder(32, 44),
+
+        new SnakesAndLaddersLadder(20, 9),
+        new SnakesAndLaddersLadder(43, 18),
+        new SnakesAndLaddersLadder(48, 34)
     );
     SnakesAndLaddersBoard board = new SnakesAndLaddersBoard(7, 8, ladders);
 
@@ -30,17 +31,21 @@ public class SnakesAndLaddersBoardFactory {
 
   public static Board createStandardBoard() {
     List<SnakesAndLaddersLadder> ladders = List.of(
-        new SnakesAndLaddersLadder(4, 18),
-        new SnakesAndLaddersLadder(22, 47),
-        new SnakesAndLaddersLadder(41, 60),
-        new SnakesAndLaddersLadder(45, 66),
-        new SnakesAndLaddersLadder(63, 78),
-        new SnakesAndLaddersLadder(20, 6),
-        new SnakesAndLaddersLadder(36, 17),
-        new SnakesAndLaddersLadder(55, 35),
-        new SnakesAndLaddersLadder(65, 52),
-        new SnakesAndLaddersLadder(72, 49)
+        new SnakesAndLaddersLadder(5, 15),
+        new SnakesAndLaddersLadder(11, 31),
+        new SnakesAndLaddersLadder(23, 55),
+        new SnakesAndLaddersLadder(33, 65),
+        new SnakesAndLaddersLadder(50, 69),
+        new SnakesAndLaddersLadder(61, 76),
+
+        new SnakesAndLaddersLadder(28, 6),
+        new SnakesAndLaddersLadder(41, 22),
+        new SnakesAndLaddersLadder(52, 27),
+        new SnakesAndLaddersLadder(62, 13),
+        new SnakesAndLaddersLadder(72, 51),
+        new SnakesAndLaddersLadder(83, 75)
     );
+
     SnakesAndLaddersBoard board = new SnakesAndLaddersBoard(9, 10, ladders);
 
     for (SnakesAndLaddersLadder ladder : ladders) {
@@ -51,13 +56,19 @@ public class SnakesAndLaddersBoardFactory {
 
   public static Board createBigBoard() {
     List<SnakesAndLaddersLadder> ladders = List.of(
-        new SnakesAndLaddersLadder(4, 40),
-        new SnakesAndLaddersLadder(12, 72),
+        new SnakesAndLaddersLadder(4, 22),
+        new SnakesAndLaddersLadder(12, 46),
+        new SnakesAndLaddersLadder(24, 54),
+        new SnakesAndLaddersLadder(41, 55),
+        new SnakesAndLaddersLadder(48, 73),
+        new SnakesAndLaddersLadder(68, 89),
+
         new SnakesAndLaddersLadder(28, 8),
-        new SnakesAndLaddersLadder(48, 93),
+        new SnakesAndLaddersLadder(44, 26),
         new SnakesAndLaddersLadder(60, 20),
-        new SnakesAndLaddersLadder(68, 98),
-        new SnakesAndLaddersLadder(99, 57)
+        new SnakesAndLaddersLadder(76, 64),
+        new SnakesAndLaddersLadder(81, 57),
+        new SnakesAndLaddersLadder(92, 66)
     );
     SnakesAndLaddersBoard board = new SnakesAndLaddersBoard(10, 10, ladders);
 
