@@ -75,7 +75,7 @@ public class LudoBoard extends Board {
     Player owner = piece.getOwner();
     int playerIndex = getPlayerIndex(owner);
 
-    if (currentTileId >= 1000 & currentTileId < 2000) {
+    if (currentTileId >= 1000 && currentTileId < 2000) {
       if (steps == 6) {
         return tiles.get(playerIndex * 13); // move to start tile
       } else {
