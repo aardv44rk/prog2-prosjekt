@@ -1,5 +1,6 @@
 package ntnu.idi.idatt.games.ludo;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +33,7 @@ public class PlayerHome {
   }
 
   public List<Piece> getHomePieces() {
+    if (owner == null) return Collections.emptyList();
     return owner.getPieces().stream()
         .filter(piece -> homeTiles.containsValue(piece.getCurrentTile()))
         .toList();
@@ -42,6 +44,16 @@ public class PlayerHome {
       throw new IllegalArgumentException("Position must be between 1 and 4");
     }
     piece.setCurrentTile(homeTiles.get(pos));
+  }
+
+  public boolean isTileOccupied(int pos) {
+    Tile tile = homeTiles.get(pos);
+    for (Piece piece : owner.getPieces()) {
+      if (piece.getCurrentTile().equals(tile)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   public int getPieceCount() {

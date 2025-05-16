@@ -59,6 +59,7 @@ public class PlayerGoal { // should be a subclass of Tile?
 
 
   public int getPieceCount() {
+    if (owner == null) return 0; // TODO or throw an exception
     return owner.getPieces().stream()
         .filter(piece -> goalTiles.containsValue(piece.getCurrentTile()))
         .toList()
