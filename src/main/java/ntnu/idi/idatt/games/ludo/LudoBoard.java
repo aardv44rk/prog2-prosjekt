@@ -88,8 +88,8 @@ public class LudoBoard extends Board {
   }
 
   public void assignPlayers(List<Player> players) {
+    this.players = players;
     for (int i = 0; i < players.size(); i++) {
-      this.players = players;
       Player player = players.get(i);
       PlayerHome home = playerHomes.get(i);
       PlayerGoal goal = playerGoals.get(i);
