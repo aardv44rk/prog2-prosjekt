@@ -10,3 +10,7 @@
 .title {
   -fx-font-size: 24;
 }
+
+.background-blur {
+  -fx-fill: rgba(0, 0, 0, 0.3)
+}

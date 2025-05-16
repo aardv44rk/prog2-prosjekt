@@ -20,9 +20,7 @@ public class LadderAction implements TileAction {
   public void perform(Piece piece, Board board) {
     Tile destination = board.getTile(destinationTileId);
     if (destination != null) {
-      piece.setCurrentTile(destination);
-      System.out.println(
-          piece.getOwner().getName() + " climbs ladder to tile " + destinationTileId);
+      piece.move(destinationTileId - piece.getCurrentTile().getTileId(), board);
     }
   }
 

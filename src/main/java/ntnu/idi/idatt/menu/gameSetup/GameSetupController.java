@@ -21,7 +21,7 @@ public class GameSetupController {
     return view;
   }
 
-  public void setupEventHandlers() {
+  private void setupEventHandlers() {
     view.startButtonSetOnClick(() -> {
       AppState.setCurrentGameConfig(
           new GameConfig(

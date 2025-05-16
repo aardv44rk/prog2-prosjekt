@@ -41,4 +41,9 @@ public class Tile {
   public TileAction getTileAction() {
     return tileAction;
   }
+
+  @Override
+  public String toString() {
+    return "" + tileId;
+  }
 }
