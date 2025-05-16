@@ -19,7 +19,7 @@ public class LudoMoveStrategy implements MovementStrategy {
       for (Player otherPlayer : ludoBoard.getPlayers()) {
         if (otherPlayer != piece.getOwner()) {
           for (Piece otherPiece : otherPlayer.getPieces()) {
-            if (otherPiece.getCurrentTile() == nextTile) {
+            if (otherPiece.getCurrentTile().equals(nextTile)) {
               // Knock out this piece
               int playerIndex = ludoBoard.getPlayerIndex(otherPlayer);
               PlayerHome home = ludoBoard.getPlayerHomes().get(playerIndex);
