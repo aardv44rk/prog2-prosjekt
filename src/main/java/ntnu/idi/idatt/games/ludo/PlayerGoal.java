@@ -3,12 +3,13 @@ package ntnu.idi.idatt.games.ludo;
 import java.util.HashMap;
 import java.util.Map;
 
+import ntnu.idi.idatt.models.Piece;
 import ntnu.idi.idatt.models.Player;
 import ntnu.idi.idatt.models.Tile;
 
 public class PlayerGoal { // should be a subclass of Tile?
  
-  private final Player owner;
+  private Player owner;
   private final Map<Integer, Tile> goalTiles; // Pos -> tile (1-4)
   private final int color;
 
@@ -32,7 +33,30 @@ public class PlayerGoal { // should be a subclass of Tile?
     return goalTiles.get(pos);
   }
 
-  
+  public int getFirstAvailablePosition() {
+    for (int i = 1; i <= 4; i++) {
+      Tile tile = goalTiles.get(i);
+      boolean occupied = false;
+
+      for (Piece piece : owner.getPieces()) {
+        if (piece.getCurrentTile().equals(tile)) {
+          occupied = true;
+          break;
+        }
+      }
+
+      if (!occupied) {
+        return i; // return the first available position
+      }
+    }
+    return -1; // all positions are occupied
+  }
+
+  public boolean isComplete() {
+    return getPieceCount() == 4; // all 4 pieces are in the goal
+  }
+
+
 
   public int getPieceCount() {
     return owner.getPieces().stream()
@@ -51,5 +75,9 @@ public class PlayerGoal { // should be a subclass of Tile?
 
   public Map<Integer, Tile> getGoalTiles() {
     return goalTiles;
+  }
+
+  public void setOwner(Player owner) {
+    this.owner = owner;
   }
 }

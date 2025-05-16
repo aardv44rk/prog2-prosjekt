@@ -9,12 +9,12 @@ import ntnu.idi.idatt.models.Player;
 import ntnu.idi.idatt.models.Tile;
 
 public class PlayerHome {
-  private final Player owner;
+  private Player owner;
   private final int color; // 0 = red, 1 = green, 2 = yellow, 3 = blue
   private final Map<Integer, Tile> homeTiles; // Pos -> tile (1-4)
   private final int startTileId;
 
-  public PlayerHome(Player owner, int color, Map<Integer, Tile> homeTiles, int startTileId) {
+  public PlayerHome(Player owner, int color, int startTileId) {
     this.owner = owner;
     this.color = color;
     this.startTileId = startTileId;
@@ -37,6 +37,13 @@ public class PlayerHome {
         .toList();
   }
 
+  public void placePiece(Piece piece, int pos) {
+    if (pos < 1 || pos > 4) {
+      throw new IllegalArgumentException("Position must be between 1 and 4");
+    }
+    piece.setCurrentTile(homeTiles.get(pos));
+  }
+
   public int getPieceCount() {
     return getHomePieces().size();
   }
@@ -55,5 +62,9 @@ public class PlayerHome {
 
   public Map<Integer, Tile> getHomeTiles() {
     return homeTiles;
+  }
+
+  public void setOwner(Player owner) {
+    this.owner = owner;
   }
 }
