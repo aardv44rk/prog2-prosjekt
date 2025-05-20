@@ -21,6 +21,13 @@ public class LadderAction implements TileAction {
     this.destinationTileId = destinationTileId;
   }
 
+  /**
+   * Performs the action of moving a piece to the destination tile.
+   * 
+   * @param piece The piece to move.
+   * @param board The board context.
+   * @throws IllegalArgumentException if the destination tile is invalid.
+   */
   @Override
   public void perform(Piece piece, Board board) {
     Tile destination = board.getTile(destinationTileId - 1); // i have no idea why this works, but it does

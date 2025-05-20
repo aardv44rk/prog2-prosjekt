@@ -3,6 +3,7 @@ package ntnu.idi.idatt.games.snakesandladders;
 import java.util.List;
 import ntnu.idi.idatt.models.Board;
 import ntnu.idi.idatt.models.Tile;
+import ntnu.idi.idatt.utility.ArgumentValidator;
 
 import java.util.HashMap;
 
@@ -15,7 +16,17 @@ public class SnakesAndLaddersBoard extends Board {
   private final int columns;
   private final List<SnakesAndLaddersLadder> ladders;
 
+  /**
+   * Constructor for SnakesAndLaddersBoard.
+   *
+   * @param rows     Number of rows on the board.
+   * @param columns  Number of columns on the board.
+   * @param ladders  List of ladders on the board.
+   */
   public SnakesAndLaddersBoard(int rows, int columns, List<SnakesAndLaddersLadder> ladders) {
+    if (!isValidBoard(rows, columns, ladders)) {
+      throw new IllegalArgumentException("Invalid board parameters");
+    }
     this.rows = rows;
     this.columns = columns;
     this.ladders = ladders;
@@ -54,5 +65,18 @@ public class SnakesAndLaddersBoard extends Board {
       s.append(row).append("\n");
     }
     return s.toString();
+  }
+
+  /**
+   * Validates a Snakes and Ladders board.
+   * 
+   * @param rows     Number of rows.
+   * @param columns  Number of columns.
+   * @param ladders  List of ladders.
+   * @return true if the board is valid, false otherwise.
+   */
+  public boolean isValidBoard(int rows, int columns, List<SnakesAndLaddersLadder> ladders) {
+    return ArgumentValidator.isPositiveInteger(rows) && ArgumentValidator.isPositiveInteger(columns) 
+        && ArgumentValidator.isValidList(ladders);
   }
 }
