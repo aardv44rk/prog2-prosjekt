@@ -60,7 +60,7 @@ class CsvUtilTest {
         List<String> lines = Arrays.asList(
                 "name;age;city",
                 "Kari;30;Oslo",
-                "\"Ola; Jr.\";25;\"Bergen\"" // Semicolon within quoted field
+                "\"Ola; Jr.\";25;\"Bergen\""
         );
         Files.write(csvFile, lines);
 
@@ -78,8 +78,8 @@ class CsvUtilTest {
         List<String[]> data = new ArrayList<>();
         data.add(new String[]{"name", "age", "city"});
         data.add(new String[]{"Kari", "30", "Oslo"});
-        data.add(new String[]{"Ola, Jr.", "25", "Bergen"}); // Contains comma
-        data.add(new String[]{"Per", "35", "Trondheim \"Nidaros\""}); // Contains quote
+        data.add(new String[]{"Ola, Jr.", "25", "Bergen"}); 
+        data.add(new String[]{"Per", "35", "Trondheim \"Nidaros\""});
 
         CsvUtil.writeCsv(csvFile.toString(), data);
 
@@ -100,7 +100,7 @@ class CsvUtilTest {
         List<String[]> data = new ArrayList<>();
         data.add(new String[]{"name", "age", "city"});
         data.add(new String[]{"Kari", "30", "Oslo"});
-        data.add(new String[]{"Ola; Jr.", "25", "Bergen"}); // Contains separator
+        data.add(new String[]{"Ola; Jr.", "25", "Bergen"}); // Separator here
 
         CsvUtil.writeCsv(csvFile.toString(), data, separator);
 
