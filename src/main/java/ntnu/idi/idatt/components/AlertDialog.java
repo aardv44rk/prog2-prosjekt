@@ -7,18 +7,12 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
 import ntnu.idi.idatt.core.AlertDialogType;
 
-public class AlertDialog extends StackPane {
+public class AlertDialog extends BorderPane {
 
   TextButton button;
 
   public AlertDialog(String title, String message, String buttonText, AlertDialogType type) {
     getStyleClass().add("alert-dialog");
-
-    Rectangle blur = new Rectangle(1280, 720);
-    blur.getStyleClass().add("background-blur");
-
-    BorderPane alertDialog = new BorderPane();
-    alertDialog.getStyleClass().add("alert-dialog-dialog");
 
     Label titleLabel = new Label(title);
     titleLabel.getStyleClass().add("title");
@@ -35,11 +29,10 @@ public class AlertDialog extends StackPane {
     button = new TextButton(buttonText);
     BorderPane.setAlignment(button, Pos.CENTER);
 
-    alertDialog.setTop(titleLabel);
-    alertDialog.setCenter(messageLabel);
-    alertDialog.setBottom(button);
+    setTop(titleLabel);
+    setCenter(messageLabel);
+    setBottom(button);
 
-    getChildren().addAll(blur, alertDialog);
   }
 
   public void buttonSetOnClick(Runnable runnable) {
