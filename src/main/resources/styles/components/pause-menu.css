@@ -1,9 +1,9 @@
-.pause-menu-dialog {
+.pause-menu {
   -fx-alignment: center;
   -fx-spacing: 20;
   -fx-background-color: -fx-background-color-1;
-  -fx-max-width: 300;
-  -fx-max-height: 400;
+  -fx-max-width: 350;
+  -fx-max-height: 450;
   -fx-border-color: black;
   -fx-border-width: 2;
   -fx-effect: -fx-drop-shadow-color-1;

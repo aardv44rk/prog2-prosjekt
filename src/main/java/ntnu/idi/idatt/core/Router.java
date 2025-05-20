@@ -17,7 +17,8 @@ public class Router {
 
   static {
     pauseMenu.resumeButtonSetOnClick(() -> primaryScene.removeNode(pauseMenu));
-    pauseMenu.saveButtonSetOnClick(() -> System.out.println("Saving..."));
+    pauseMenu.saveGameButtonSetOnClick(() -> System.out.println("Saving game..."));
+    pauseMenu.savePlayersButtonSetOnClick(() -> System.out.println("Saving players..."));
     pauseMenu.exitButtonSetOnClick(() -> {
       primaryScene.removeNode(pauseMenu);
       navigateTo("home");

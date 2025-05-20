@@ -1,45 +1,41 @@
 package ntnu.idi.idatt.components;
 
 import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.shape.Rectangle;
-import ntnu.idi.idatt.core.Router;
 
-public class PauseMenu extends StackPane {
+public class PauseMenu extends VBox {
 
   TextButton resumeButton;
-  TextButton saveButton;
+  TextButton saveGameButton;
+  TextButton savePlayersButton;
   TextButton exitButton;
 
   public PauseMenu() {
     getStyleClass().add("pause-menu");
 
-    Rectangle blur = new Rectangle(1280, 720);
-    blur.getStyleClass().add("background-blur");
-
-    VBox pauseDialog = new VBox();
-    pauseDialog.getStyleClass().add("pause-menu-dialog");
-
     Label title = new Label("Paused");
     title.getStyleClass().add("title");
 
     resumeButton = new TextButton("Resume");
-    saveButton = new TextButton("Save");
+    saveGameButton = new TextButton("Save game");
+    savePlayersButton = new TextButton("Save players");
     exitButton = new TextButton("Exit");
 
-    pauseDialog.getChildren().addAll(title, resumeButton, saveButton, exitButton);
-
-    getChildren().addAll(blur, pauseDialog);
+    getChildren().addAll(title, resumeButton, saveGameButton, savePlayersButton, exitButton);
   }
 
   public void resumeButtonSetOnClick(Runnable runnable) {
     resumeButton.setOnAction(e -> runnable.run());
   }
 
-  public void saveButtonSetOnClick(Runnable runnable) {
-    saveButton.setOnAction(e -> runnable.run());
+  public void saveGameButtonSetOnClick(Runnable runnable) {
+    saveGameButton.setOnAction(e -> runnable.run());
   }
+
+  public void savePlayersButtonSetOnClick(Runnable runnable) {
+    savePlayersButton.setOnAction(e -> runnable.run());
+  }
+
 
   public void exitButtonSetOnClick(Runnable runnable) {
     exitButton.setOnAction(e -> runnable.run());

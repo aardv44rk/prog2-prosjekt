@@ -1,6 +1,7 @@
 package ntnu.idi.idatt.menu.gameLoad;
 
 import javafx.scene.Parent;
+import ntnu.idi.idatt.AppState;
 import ntnu.idi.idatt.core.Router;
 
 public class GameLoadController {
@@ -18,6 +19,6 @@ public class GameLoadController {
 
   private void setupEventHandlers() {
     view.newGameButtonSetOnClick(() -> Router.navigateTo("setup"));
-    view.loadGameButtonSetOnClick(() -> Router.navigateTo("game"));
+    view.loadGameButtonSetOnClick(() -> Router.navigateTo(AppState.getSelectedGame().getName()));
   }
 }
