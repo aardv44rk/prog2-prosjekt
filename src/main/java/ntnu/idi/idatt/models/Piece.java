@@ -1,5 +1,7 @@
 package ntnu.idi.idatt.models;
 
+import ntnu.idi.idatt.utility.ArgumentValidator;
+
 /**
  * Represents a movable piece controlled by a player. A piece has a current tile position, an owner,
  * and a movement strategy.
@@ -94,6 +96,8 @@ public class Piece {
    * @return
    */
   public boolean isValidPiece(Tile currentTile, Player owner, MovementStrategy movementStrategy) {
-    return currentTile != null && owner != null && movementStrategy != null;
+    return ArgumentValidator.isValidObject(currentTile) &&
+        ArgumentValidator.isValidObject(owner) &&
+        ArgumentValidator.isValidObject(movementStrategy);
   }
 }
