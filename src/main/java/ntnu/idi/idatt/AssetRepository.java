@@ -15,10 +15,6 @@ public class AssetRepository {
       PLAYER_RED, PLAYER_YELLOW, PLAYER_GREEN, PLAYER_BLUE, PLAYER_PURPLE
   );
 
-  public static List<Color> LUDO_COLORS = List.of(
-      PLAYER_RED, PLAYER_YELLOW, PLAYER_GREEN, PLAYER_BLUE
-  );
-
   public static Color LADDER_UP = Color.web("81C784");
   public static Color LADDER_DOWN = Color.web("FF8A65");
 
@@ -27,5 +23,12 @@ public class AssetRepository {
 
   public static Color LADDER_START_DOWN = Color.web("FFAB91");
   public static Color LADDER_END_DOWN = Color.web("FFE0B2");
+
+
+  public static Color LUDO_GOAL = Color.web("FCFCFA");
+
+  public static List<Color> LUDO_COLORS = List.of(
+      PLAYER_RED, PLAYER_YELLOW, PLAYER_GREEN, PLAYER_BLUE
+  );
 
 }

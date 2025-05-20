@@ -6,7 +6,7 @@
   -fx-spacing: 15;
 }
 
-.snakes-and-ladders-board {
+.snakes-and-ladders-board-container {
   -fx-alignment: center;
   -fx-max-width: 200;
   -fx-max-height: 200;

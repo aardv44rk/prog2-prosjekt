@@ -1,15 +1,15 @@
 package ntnu.idi.idatt.games.snakesandladders;
 
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.atomic.AtomicInteger;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.util.Pair;
 import ntnu.idi.idatt.AppState;
 import ntnu.idi.idatt.AssetRepository;
 import ntnu.idi.idatt.components.UISnakesAndLaddersBoard;
@@ -27,8 +27,7 @@ public class SnakesAndLaddersController {
 
   private final SnakesAndLaddersEngine engine;
   private final SnakesAndLaddersView view;
-  private final List<Pair<Piece, UISnakesAndLaddersPiece>> pieces;
-  private final List<Pair<SnakesAndLaddersLadder, UISnakesAndLaddersLadder>> ladders;
+  private final LinkedHashMap<Piece, UISnakesAndLaddersPiece> pieces;
   private final SnakesAndLaddersBoard board;
   private final UISnakesAndLaddersBoard uIBoard;
   private final Map<Integer, UISnakesAndLaddersTile> tiles;
@@ -44,8 +43,7 @@ public class SnakesAndLaddersController {
     );
     this.view = new SnakesAndLaddersView();
     this.board = (SnakesAndLaddersBoard) config.getBoard();
-    this.pieces = new ArrayList<>();
-    this.ladders = new ArrayList<>();
+    this.pieces = new LinkedHashMap<>();
     this.uIBoard = new UISnakesAndLaddersBoard(board.getRows(), board.getColumns());
     this.tiles = uIBoard.getTiles();
 
@@ -56,14 +54,14 @@ public class SnakesAndLaddersController {
     renderPlayerList();
 
     // Render pieces and ladders after tiles finish rendering to get correct coords
-    pieces.forEach(pair -> {
-      pair.getValue().layoutBoundsProperty().addListener((o, oldBounds, newBounds) -> {
+    for (Entry<Piece, UISnakesAndLaddersPiece> entry : pieces.entrySet()) {
+      entry.getValue().layoutBoundsProperty().addListener((o, oldBounds, newBounds) -> {
         if (newBounds.getWidth() > 0 && newBounds.getHeight() > 0) {
-          updatePiece(pair);
+          updatePiece(entry.getKey().getCurrentTile().getTileId(), entry.getValue());
         }
       });
-      uIBoard.renderPiece(pair.getValue());
-    });
+      uIBoard.renderPiece(entry.getValue());
+    }
 
     AtomicInteger remaining = new AtomicInteger(tiles.size());
     for (UISnakesAndLaddersTile tile : tiles.values()) {
@@ -89,13 +87,15 @@ public class SnakesAndLaddersController {
       if (!engine.isGameOver()) {
         engine.handleTurn();
         updateDice();
-        updatePlayerList();
+        view.shufflePlayerList();
         if (engine.isGameOver()) {
-          updatePiece(getPiecePairFromPlayer(engine.getCurrentPlayer()));
+          Piece p = engine.getCurrentPlayer().getPieces().getFirst();
+          updatePiece(p.getCurrentTile().getTileId(), pieces.get(p));
           Router.showAlert("Game over!", engine.getCurrentPlayer().getName() + " has won.", "Close",
               null);
         } else {
-          updatePiece(getPiecePairFromPlayer(engine.getLastPlayer()));
+          Piece p = engine.getLastPlayer().getPieces().getFirst();
+          updatePiece(p.getCurrentTile().getTileId(), pieces.get(p));
         }
       }
     });
@@ -112,9 +112,7 @@ public class SnakesAndLaddersController {
     for (int i = 0; i < pieceList.size(); i++) {
       UISnakesAndLaddersPiece piece = new UISnakesAndLaddersPiece(
           AssetRepository.SNL_COLORS.get(i));
-      pieces.add(
-          new Pair<>(
-              pieceList.get(i), piece));
+      pieces.put(pieceList.get(i), piece);
     }
   }
 
@@ -137,9 +135,10 @@ public class SnakesAndLaddersController {
   }
 
   private void renderPlayerList() {
-    List<Pair<String, UISnakesAndLaddersPiece>> namePieceList = new ArrayList<>();
-    for (Pair<Piece, UISnakesAndLaddersPiece> pair : pieces) {
-      namePieceList.add(new Pair<>(pair.getKey().getOwner().getName(), pair.getValue()));
+    LinkedHashMap<String, Node> namePieceList = new LinkedHashMap<>();
+    for (Map.Entry<Piece, UISnakesAndLaddersPiece> entry : pieces.entrySet()) {
+      namePieceList.put(entry.getKey().getOwner().getName(),
+          new UISnakesAndLaddersPiece(entry.getValue().getColor()));
     }
     view.setPlayerList(namePieceList);
   }
@@ -150,23 +149,17 @@ public class SnakesAndLaddersController {
     view.setDiceEyes(diceValues[0], diceValues[1]);
   }
 
-  private void updatePiece(Pair<Piece, UISnakesAndLaddersPiece> pair) {
-    UISnakesAndLaddersPiece piece = pair.getValue();
-    int tileId = pair.getKey().getCurrentTile().getTileId();
+  private void updatePiece(int tileId, UISnakesAndLaddersPiece piece) {
     UISnakesAndLaddersTile tile = tiles.get(tileId);
 
     Point2D coords = getCoordsForPiece(tile, piece);
-    long sameCoords = pieces.stream().map(Pair::getValue)
+    long sameCoords = pieces.values().stream()
         .filter(p -> !p.equals(piece)
             && p.getLayoutX() == coords.getX()
             && p.getLayoutY() == coords.getY())
         .count();
     piece.setLayoutX(coords.getX());
     piece.setLayoutY(coords.getY() - sameCoords * 5);
-  }
-
-  private void updatePlayerList() {
-    view.shufflePlayerList();
   }
 
   private Point2D getBoardCenterCoords(Node node) {
@@ -190,11 +183,5 @@ public class SnakesAndLaddersController {
     double layoutY = centerY - pieceBounds.getHeight() / 2;
 
     return uIBoard.sceneToLocal(new Point2D(layoutX, layoutY));
-  }
-
-  private Pair<Piece, UISnakesAndLaddersPiece> getPiecePairFromPlayer(Player player) {
-    return pieces.stream()
-        .filter(p -> p.getKey().equals(player.getPieces().getFirst()))
-        .findFirst().get();
   }
 }

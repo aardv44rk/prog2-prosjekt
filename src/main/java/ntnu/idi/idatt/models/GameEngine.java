@@ -27,16 +27,6 @@ public abstract class GameEngine {
   }
 
   /**
-   * Plays the game. Concrete implementation defines game loop.
-   */
-  public abstract void playGame();
-
-  /**
-   * Handles the current player's turn.
-   */
-  public abstract void handleTurn();
-
-  /**
    * Checks if a player has won the game.
    *
    * @return The winning player, or null if no winner yet.
