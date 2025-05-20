@@ -3,6 +3,9 @@ package ntnu.idi.idatt.models;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.times;
@@ -76,5 +79,48 @@ class GameInfoTest {
         verify(mockBoardOptionsSupplier, times(1)).get();
         assertEquals(mockBoardList, boardOptions, "getBoardOptions should return the list from the supplier");
         assertEquals(1, boardOptions.size(), "Board options list should contain one mock board");
+    }
+
+    @Test
+    void testIsValidatingGameInfo() {
+        assertTrue(gameInfo.isValidGameInfo(testName, testRules, testPlayerMin, testPlayerMax,
+                                                     mockEngineFactory, mockBoardOptionsSupplier),
+                     "isValidGameInfo should return true for valid parameters");
+        assertFalse(gameInfo.isValidGameInfo("", testRules, testPlayerMin, testPlayerMax,
+                                                     mockEngineFactory, mockBoardOptionsSupplier),
+                     "isValidGameInfo should return false for invalid parameters");
+        assertFalse(gameInfo.isValidGameInfo(testName, "", testPlayerMin, testPlayerMax,
+                                                     mockEngineFactory, mockBoardOptionsSupplier),
+                    "isValidGameInfo should return false for invalid parameters");
+        assertFalse(gameInfo.isValidGameInfo(testName, testRules, -1, testPlayerMax,
+                                                     mockEngineFactory, mockBoardOptionsSupplier),
+                    "isValidGameInfo should return false for invalid parameters");
+        assertFalse(gameInfo.isValidGameInfo(testName, testRules, testPlayerMin, -1,
+                                                     mockEngineFactory, mockBoardOptionsSupplier),
+                    "isValidGameInfo should return false for invalid parameters");
+        assertFalse(gameInfo.isValidGameInfo(testName, testRules, testPlayerMin, testPlayerMax,
+                                                     null, mockBoardOptionsSupplier),
+                    "isValidGameInfo should return false for invalid parameters");
+        assertFalse(gameInfo.isValidGameInfo(testName, testRules, testPlayerMin, testPlayerMax,
+                                                     mockEngineFactory, null),
+                    "isValidGameInfo should return false for invalid parameters");
+    }
+
+    @Test
+    void testInvalidGameInfoParametersThrowsException() {
+        // Test with invalid parameters
+        String invalidName = "";
+        String invalidRules = "";
+        int invalidPlayerMin = -1;
+        int invalidPlayerMax = -1;
+        Function<GameConfig, GameEngine> invalidEngineFactory = null;
+        Supplier<List<Board>> invalidBoardOptionsSupplier = null;
+
+        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> {
+            new GameInfo(invalidName, invalidRules, invalidPlayerMin, invalidPlayerMax,
+                         invalidEngineFactory, invalidBoardOptionsSupplier);
+        });
+
+        assertEquals("Invalid game info parameters", e.getMessage(), "Should throw exception for invalid parameters");
     }
 }
