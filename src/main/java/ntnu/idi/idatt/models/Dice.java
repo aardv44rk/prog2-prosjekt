@@ -19,7 +19,7 @@ public class Dice {
    * @throws IllegalArgumentException if the dice list is null or empty.
    */
   public Dice(List<Die> dice) throws IllegalArgumentException {
-    if (!ArgumentValidator.isValidObject(dice)) {
+    if (!isValidDice(dice)) {
       throw new IllegalArgumentException("Dice list cannot be null or empty");
     }
     this.dice = dice;
@@ -54,5 +54,15 @@ public class Dice {
    */
   public int[] getValues() {
     return dice.stream().mapToInt(Die::getValue).toArray();
+  }
+
+  /**
+   * Validates dice input.
+   * 
+   * @param dice the list of dice to validate
+   * @return true if the input is a valid list of dice, false otherwise
+   */
+  public boolean isValidDice(List<Die> dice) {
+    return ArgumentValidator.isValidList(dice);
   }
 }
