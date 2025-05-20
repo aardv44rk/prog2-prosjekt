@@ -2,7 +2,6 @@ package ntnu.idi.idatt.models;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -16,19 +15,26 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import ntnu.idi.idatt.games.snakesandladders.LinearMovementStrategy;
+import ntnu.idi.idatt.games.snakesandladders.SnakesAndLaddersBoard;
 
 public class GameConfigTest {
 
   private GameConfig gameConfig;
+  private GameConfig gameConfig2;
+  private GameConfig gameConfig3;
   private List<Player> players;
-  private Board board;
+  private Board smallBoard;
+  private Board standardBoard;
+  private Board bigBoard;
   private final String CONFIG_TEST_FILE = "test_config.json";
   private final String PLAYER_LIST_TEST_FILE = "test_players.json";
 
   @BeforeEach
   public void setUp() {
-    // Create a test board
-    board = SnakesAndLaddersBoardFactory.createStandardBoard();
+    // Create test boards
+    smallBoard = SnakesAndLaddersBoardFactory.createSmallBoard();
+    standardBoard = SnakesAndLaddersBoardFactory.createStandardBoard();
+    bigBoard = SnakesAndLaddersBoardFactory.createBigBoard();
 
     // Create test players with pieces
     players = new ArrayList<>();
@@ -36,19 +42,21 @@ public class GameConfigTest {
     // Player 1 with one piece
     List<Piece> pieces1 = new ArrayList<>();
     Player player1 = new Player("Alice", pieces1);
-    Piece piece1 = new Piece(board.getTile(5), player1, new LinearMovementStrategy());
+    Piece piece1 = new Piece(standardBoard.getTile(5), player1, new LinearMovementStrategy());
     pieces1.add(piece1);
     players.add(player1);
 
     // Player 2 with one piece
     List<Piece> pieces2 = new ArrayList<>();
     Player player2 = new Player("Bob", pieces2);
-    Piece piece2 = new Piece(board.getTile(10), player2, new LinearMovementStrategy());
+    Piece piece2 = new Piece(standardBoard.getTile(10), player2, new LinearMovementStrategy());
     pieces2.add(piece2);
     players.add(player2);
 
     // Create game config with current player index 0 (Alice's turn)
-    gameConfig = new GameConfig(players, board, 0);
+    gameConfig = new GameConfig(players, smallBoard, 0);
+    gameConfig2 = new GameConfig(players, standardBoard, 0);
+    gameConfig3 = new GameConfig(players, bigBoard, 0);
   }
 
   @AfterEach
@@ -69,7 +77,6 @@ public class GameConfigTest {
       System.out.println("Saving game configuration to: " + CONFIG_TEST_FILE);
       // Save the game configuration
       gameConfig.saveConfig(CONFIG_TEST_FILE);
-
       // Check that the file exists
       assertTrue(Files.exists(Paths.get(CONFIG_TEST_FILE)), "Config file should be created");
 
@@ -87,6 +94,14 @@ public class GameConfigTest {
       assertEquals("Bob", loadedConfig.getPlayers().get(1).getName(),
           "Second player name should be Bob");
 
+      // Check board is loaded correctly
+      assertTrue(loadedConfig.getBoard() instanceof SnakesAndLaddersBoard,
+          "Loaded board should be of type SnakesAndLaddersBoard");
+      SnakesAndLaddersBoard loadedBoard = (SnakesAndLaddersBoard) loadedConfig.getBoard();
+      // Check board properties are correct
+      assertEquals(7, loadedBoard.getRows(), "Loaded board should have 10 rows");
+      assertEquals(8, loadedBoard.getColumns(), "Loaded board should have 10 columns");
+
       // Check pieces are loaded correctly
       assertEquals(1, loadedConfig.getPlayers().get(0).getPieces().size(),
           "First player should have 1 piece");
@@ -97,6 +112,101 @@ public class GameConfigTest {
       fail("Exception should not be thrown: " + e.getMessage());
     }
   }
+
+  
+  @Test
+  public void testSaveAndLoadConfig2() {
+    try {
+
+      System.out.println("Saving game configuration to: " + CONFIG_TEST_FILE);
+      // Save the game configuration
+      gameConfig2.saveConfig(CONFIG_TEST_FILE);
+
+      // Check that the file exists
+      assertTrue(Files.exists(Paths.get(CONFIG_TEST_FILE)), "Config file should be created");
+
+      // Load the configuration
+      GameConfig loadedConfig = gameConfig2.loadConfig(CONFIG_TEST_FILE);
+
+      // Verify the loaded configuration
+      assertNotNull(loadedConfig, "Loaded config should not be null");
+      assertEquals(gameConfig2.getCurrentPlayerIndex(), loadedConfig.getCurrentPlayerIndex(),
+          "Current player index should match");
+      assertEquals(gameConfig2.getPlayers().size(), loadedConfig.getPlayers().size(),
+          "Player count should match");
+      assertEquals("Alice", loadedConfig.getPlayers().get(0).getName(),
+          "First player name should be Alice");
+      assertEquals("Bob", loadedConfig.getPlayers().get(1).getName(),
+          "Second player name should be Bob");
+
+       // Check board is loaded correctly
+      assertTrue(loadedConfig.getBoard() instanceof SnakesAndLaddersBoard,
+          "Loaded board should be of type SnakesAndLaddersBoard");
+      SnakesAndLaddersBoard loadedBoard = (SnakesAndLaddersBoard) loadedConfig.getBoard();
+      // Check board properties are correct
+      assertEquals(9, loadedBoard.getRows(), "Loaded board should have 10 rows");
+      assertEquals(10, loadedBoard.getColumns(), "Loaded board should have 10 columns");
+
+
+
+      // Check pieces are loaded correctly
+      assertEquals(1, loadedConfig.getPlayers().get(0).getPieces().size(),
+          "First player should have 1 piece");
+      assertEquals(5,
+          loadedConfig.getPlayers().get(0).getPieces().get(0).getCurrentTile().getTileId(),
+          "First player's piece should be on tile 5");
+    } catch (IOException e) {
+      fail("Exception should not be thrown: " + e.getMessage());
+    }
+  }
+
+  
+  @Test
+  public void testSaveAndLoadConfig3() {
+    try {
+
+      System.out.println("Saving game configuration to: " + CONFIG_TEST_FILE);
+      // Save the game configuration
+      gameConfig3.saveConfig(CONFIG_TEST_FILE);
+
+      // Check that the file exists
+      assertTrue(Files.exists(Paths.get(CONFIG_TEST_FILE)), "Config file should be created");
+
+      // Load the configuration
+      GameConfig loadedConfig = gameConfig3.loadConfig(CONFIG_TEST_FILE);
+
+      // Verify the loaded configuration
+      assertNotNull(loadedConfig, "Loaded config should not be null");
+      assertEquals(gameConfig3.getCurrentPlayerIndex(), loadedConfig.getCurrentPlayerIndex(),
+          "Current player index should match");
+      assertEquals(gameConfig3.getPlayers().size(), loadedConfig.getPlayers().size(),
+          "Player count should match");
+      assertEquals("Alice", loadedConfig.getPlayers().get(0).getName(),
+          "First player name should be Alice");
+      assertEquals("Bob", loadedConfig.getPlayers().get(1).getName(),
+          "Second player name should be Bob");
+
+      // Check board is loaded correctly
+      assertTrue(loadedConfig.getBoard() instanceof SnakesAndLaddersBoard,
+          "Loaded board should be of type SnakesAndLaddersBoard");
+      SnakesAndLaddersBoard loadedBoard = (SnakesAndLaddersBoard) loadedConfig.getBoard();
+      // Check board properties are correct
+      assertEquals(10, loadedBoard.getRows(), "Loaded board should have 10 rows");
+      assertEquals(10, loadedBoard.getColumns(), "Loaded board should have 10 columns");
+
+
+      // Check pieces are loaded correctly
+      assertEquals(1, loadedConfig.getPlayers().get(0).getPieces().size(),
+          "First player should have 1 piece");
+      assertEquals(5,
+          loadedConfig.getPlayers().get(0).getPieces().get(0).getCurrentTile().getTileId(),
+          "First player's piece should be on tile 5");
+    } catch (IOException e) {
+      fail("Exception should not be thrown: " + e.getMessage());
+    }
+  }
+
+  
 
   @Test
   public void testSaveAndLoadPlayerList() {
