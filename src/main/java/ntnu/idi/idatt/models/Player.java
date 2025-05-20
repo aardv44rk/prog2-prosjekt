@@ -20,7 +20,7 @@ public class Player {
    * @throws IllegalArgumentException if the name is null or blank, or if pieces is null or empty.
    */
   public Player(String name, List<Piece> pieces) {
-    if (!isValidPlayer(name)) {
+    if (!isValidPlayer(name, pieces)) {
       throw new IllegalArgumentException("Invalid player parameters");
     }
     this.name = name;
@@ -42,7 +42,7 @@ public class Player {
    * @param pieces The pieces of the player.
    * @return       true if the input is a valid player, false otherwise.
    */
-  public boolean isValidPlayer(String name) {
-    return ArgumentValidator.isValidString(name);
+  public boolean isValidPlayer(String name, List<Piece> pieces) {
+    return ArgumentValidator.isValidString(name) && ArgumentValidator.isValidObject(pieces);
   }
 }
