@@ -1,0 +1,9 @@
+.ludo-piece {
+  -fx-min-width: 20;
+  -fx-max-width: 20;
+  -fx-min-height: 20;
+  -fx-max-height: 20;
+  -fx-border-width: 2;
+  -fx-border-color: black;
+  -fx-effect: -fx-drop-shadow-color-1;
+}

@@ -1,14 +1,13 @@
 package ntnu.idi.idatt.games.snakesandladders;
 
-import java.util.List;
+import java.util.LinkedHashMap;
+import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import javafx.util.Pair;
 import ntnu.idi.idatt.components.GamePlayerList;
 import ntnu.idi.idatt.components.TextButton;
 import ntnu.idi.idatt.components.UIDie;
 import ntnu.idi.idatt.components.UISnakesAndLaddersBoard;
-import ntnu.idi.idatt.components.UISnakesAndLaddersPiece;
 
 public class SnakesAndLaddersView extends BorderPane {
 
@@ -41,14 +40,10 @@ public class SnakesAndLaddersView extends BorderPane {
     left.setTop(playerList);
     left.setBottom(diceBox);
 
-    VBox center = new VBox();
-    center.getStyleClass().add("snakes-and-ladders-center");
-
     setLeft(left);
-    setCenter(center);
   }
 
-  public void setPlayerList(List<Pair<String, UISnakesAndLaddersPiece>> players) {
+  public void setPlayerList(LinkedHashMap<String, Node> players) {
     playerList.setPieces(players);
   }
 
@@ -56,9 +51,9 @@ public class SnakesAndLaddersView extends BorderPane {
     playerList.shuffle();
   }
 
-  public void setBoard(UISnakesAndLaddersBoard board) {
+  public void setBoard(Node board) {
     BorderPane borderPane = new BorderPane(board);
-    borderPane.getStyleClass().add("snakes-and-ladders-board");
+    borderPane.getStyleClass().add("snakes-and-ladders-board-container");
     setCenter(borderPane);
   }
 

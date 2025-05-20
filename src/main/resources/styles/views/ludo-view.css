@@ -1,0 +1,5 @@
+.ludo-board-container {
+  -fx-alignment: center;
+  -fx-max-width: 200;
+  -fx-max-height: 200;
+}

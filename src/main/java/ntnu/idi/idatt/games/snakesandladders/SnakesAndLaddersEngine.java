@@ -28,14 +28,6 @@ public class SnakesAndLaddersEngine extends GameEngine {
     }
   }
 
-  @Override
-  public void playGame() {
-    while (!isGameOver()) {
-      handleTurn();
-    }
-  }
-
-  @Override
   public void handleTurn() {
     Player player = getCurrentPlayer();
     Piece piece = player.getPieces().getFirst();
