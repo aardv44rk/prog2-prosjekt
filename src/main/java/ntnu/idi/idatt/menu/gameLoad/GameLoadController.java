@@ -8,8 +8,8 @@ public class GameLoadController {
 
   private final GameLoadView view;
 
-  public GameLoadController() {
-    this.view = new GameLoadView();
+  public GameLoadController(GameLoadView view) {
+    this.view = view;
     setupEventHandlers();
   }
 
