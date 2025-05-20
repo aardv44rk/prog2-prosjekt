@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Test;
 import ntnu.idi.idatt.games.snakesandladders.LinearMovementStrategy;
 import ntnu.idi.idatt.games.snakesandladders.SnakesAndLaddersBoard;
 
-public class GameConfigTest {
+class GameConfigTest {
 
   private GameConfig gameConfig;
   private GameConfig gameConfig2;
