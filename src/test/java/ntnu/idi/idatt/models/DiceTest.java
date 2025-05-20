@@ -1,6 +1,7 @@
 package ntnu.idi.idatt.models;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
@@ -50,4 +51,21 @@ class DiceTest {
       assertEquals(expectedValues[i], dice.getValues()[i], "Value at index " + i + " should match");
     }
   } 
+
+  @Test
+  void testInvalidDiceCreation() {
+    IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> new Dice(null));
+    assertEquals("Dice list cannot be null or empty", e.getMessage(), "Exception message should match");
+  }
+  
+  @Test
+  void testInvalidDiceCreationEmpty() {
+    IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> new Dice(List.of()));
+    assertEquals("Dice list cannot be null or empty", e.getMessage(), "Exception message should match");
+  }
+
+  @Test
+  void testValidDice() {
+    assertTrue(dice.isValidDice(diceList), "Dice should be valid");
+  }
 }
