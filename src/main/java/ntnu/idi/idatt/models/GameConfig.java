@@ -11,6 +11,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import ntnu.idi.idatt.games.ludo.LudoBoard;
+import ntnu.idi.idatt.games.ludo.LudoBoardFactory;
 import ntnu.idi.idatt.games.snakesandladders.LadderAction;
 import ntnu.idi.idatt.games.snakesandladders.LinearMovementStrategy;
 import ntnu.idi.idatt.games.snakesandladders.SnakesAndLaddersBoard;
@@ -24,7 +26,9 @@ public class GameConfig {
   private final Board board;
   private final int currentPlayerIndex;
 
-  public GameConfig(List<Player> players, Board board, int currentPlayerIndex) {
+  public GameConfig(List<Player> players, 
+                    Board board, 
+                    int currentPlayerIndex) { // need to add more properties
     this.players = players;
     this.board = board;
     this.currentPlayerIndex = currentPlayerIndex;
@@ -48,6 +52,13 @@ public class GameConfig {
     // Add current player index and board type to the config
     config.addProperty("currentPlayerIndex", currentPlayerIndex);
     config.addProperty("boardType", board.getClass().getName());
+
+    // As SNL has more board information, we add it here
+    if (board instanceof SnakesAndLaddersBoard) {
+      SnakesAndLaddersBoard snlBoard = (SnakesAndLaddersBoard) board;
+      config.addProperty("boardRows", snlBoard.getRows());
+      config.addProperty("boardColumns", snlBoard.getColumns());
+    }
 
     // Save detailed board information
     JsonArray tilesArray = new JsonArray();
@@ -96,6 +107,8 @@ public class GameConfig {
       playersArray.add(playerObj);
     }
 
+    config.add("players", playersArray);
+
     // finally write to file
     FileUtil.writeString(filePath, config.toString());
     System.out.println("Game configuration saved to " + filePath);
@@ -120,14 +133,33 @@ public class GameConfig {
     String boardType = config.get("boardType").getAsString();
     Board board;
 
-    // Attempt to load the board class using reflection
-    // This assumes that the board class has a no-argument constructor IMPORTANT
-    try {
-      Class<?> clazz = Class.forName(boardType);
-      board = (Board) clazz.getDeclaredConstructor().newInstance();
-    } catch (Exception e) {
-      System.err.println("Failed to create board " + boardType + ": " + e.getMessage());
-      board = SnakesAndLaddersBoardFactory.createStandardBoard(); // Fallback to default board if loading fails
+    if (boardType.equals(SnakesAndLaddersBoard.class.getName())) {
+    // Check if dimensions are saved in the config
+    if (config.has("boardRows") && config.has("boardColumns")) {
+        int rows = config.get("boardRows").getAsInt();
+        int columns = config.get("boardColumns").getAsInt();
+        
+        // Find the matching board based on dimensions
+        if (rows == 7 && columns == 8) {
+          board = SnakesAndLaddersBoardFactory.createSmallBoard();            
+          System.out.println("Loaded small Snakes and Ladders board");
+        } else if (rows == 10 && columns == 10) {
+          board = SnakesAndLaddersBoardFactory.createBigBoard();
+          System.out.println("Loaded big Snakes and Ladders board");
+        } else {
+          board = SnakesAndLaddersBoardFactory.createStandardBoard();
+          System.out.println("Loaded standard Snakes and Ladders board");
+        }
+      } else {
+        // Backward compatibility for old save files
+        board = SnakesAndLaddersBoardFactory.createStandardBoard();
+        System.out.println("Loaded default Snakes and Ladders board");
+      }
+    } else if (boardType.equals(LudoBoard.class.getName())) {
+      board = LudoBoardFactory.createLudoBoard();
+      System.out.println("Loaded Ludo board");
+    } else {
+      throw new IllegalArgumentException("Unknown board type: " + boardType);
     }
 
     if (config.has("tiles")) {
@@ -155,28 +187,32 @@ public class GameConfig {
 
     // Load players & pieces
     List<Player> players = new ArrayList<>();
-    JsonArray playersArray = config.getAsJsonArray("players");
+    if (config.has("players")) {
+      JsonArray playersArray = config.getAsJsonArray("players");
 
-    for (int i = 0; i < playersArray.size(); i++) {
-      JsonObject playerObj = playersArray.get(i).getAsJsonObject();
-      String playerName = playerObj.get("name").getAsString();
+      for (int i = 0; i < playersArray.size(); i++) {
+        JsonObject playerObj = playersArray.get(i).getAsJsonObject();
+        String playerName = playerObj.get("name").getAsString();
 
-      List<Piece> pieces = new ArrayList<>();
-      Player player = new Player(playerName, pieces);
+        List<Piece> pieces = new ArrayList<>();
+        Player player = new Player(playerName, pieces);
 
-      JsonArray piecesArray = playerObj.getAsJsonArray("pieces");
+        if (playerObj.has("pieces")) {
+          // Load pieces for the player
+          JsonArray piecesArray = playerObj.getAsJsonArray("pieces");
+          for (int j = 0; j < piecesArray.size(); j++) {
+            JsonObject pieceObj = piecesArray.get(j).getAsJsonObject();
+            int tileId = pieceObj.get("tileId").getAsInt();
 
-      for (int j = 0; j < piecesArray.size(); j++) {
-        JsonObject pieceObj = piecesArray.get(j).getAsJsonObject();
-        int tileId = pieceObj.get("tileId").getAsInt();
+            Tile tile = board.getTile(tileId);
 
-        Tile tile = board.getTile(tileId);
-
-        MovementStrategy strategy = new LinearMovementStrategy();
-        Piece piece = new Piece(tile, player, strategy);
-        pieces.add(piece);
+            MovementStrategy strategy = new LinearMovementStrategy();
+            Piece piece = new Piece(tile, player, strategy);
+            pieces.add(piece);
+          }
+        }
+        players.add(player);
       }
-      players.add(player);
     }
     return new GameConfig(players, board, currentPlayerIndex);
   }

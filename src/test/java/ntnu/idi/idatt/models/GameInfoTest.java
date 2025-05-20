@@ -1,0 +1,80 @@
+package ntnu.idi.idatt.models;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.ArgumentMatchers.any;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Function;
+import java.util.function.Supplier;
+
+class GameInfoTest {
+
+    private String testName;
+    private String testRules;
+    private int testPlayerMin;
+    private int testPlayerMax;
+    private Function<GameConfig, GameEngine> mockEngineFactory;
+    private Supplier<List<Board>> mockBoardOptionsSupplier;
+    private GameInfo gameInfo;
+    private GameConfig mockGameConfig;
+    private GameEngine mockGameEngine;
+    private List<Board> mockBoardList;
+
+    @BeforeEach
+    @SuppressWarnings("unchecked") // For mock generic types
+    void setUp() {
+        testName = "Test Game";
+        testRules = "Test Rules";
+        testPlayerMin = 2;
+        testPlayerMax = 4;
+
+        mockEngineFactory = mock(Function.class);
+        mockBoardOptionsSupplier = mock(Supplier.class);
+        
+        mockGameConfig = mock(GameConfig.class);
+        mockGameEngine = mock(GameEngine.class); 
+        mockBoardList = new ArrayList<>();
+        mockBoardList.add(mock(Board.class));
+
+        // Configure mocks
+        when(mockEngineFactory.apply(any(GameConfig.class))).thenReturn(mockGameEngine);
+        when(mockBoardOptionsSupplier.get()).thenReturn(mockBoardList);
+
+        gameInfo = new GameInfo(testName, testRules, testPlayerMin, testPlayerMax,
+                                mockEngineFactory, mockBoardOptionsSupplier);
+    }
+
+    @Test
+    void testConstructorAndGetters() {
+        assertEquals(testName, gameInfo.getName(), "Name should match constructor argument");
+        assertEquals(testRules, gameInfo.getRules(), "Rules should match constructor argument");
+        assertEquals(testPlayerMin, gameInfo.getPlayerMin(), "PlayerMin should match constructor argument");
+        assertEquals(testPlayerMax, gameInfo.getPlayerMax(), "PlayerMax should match constructor argument");
+        assertEquals(mockEngineFactory, gameInfo.getEngineFactory(), "EngineFactory should match constructor argument");
+        assertEquals(mockBoardOptionsSupplier, gameInfo.getBoardOptionsSupplier(), "BoardOptionsSupplier should match constructor argument");
+    }
+
+    @Test
+    void testCreateEngine() {
+        GameEngine createdEngine = gameInfo.createEngine(mockGameConfig);
+        
+        verify(mockEngineFactory, times(1)).apply(mockGameConfig);
+        assertEquals(mockGameEngine, createdEngine, "createEngine should return the engine from the factory");
+    }
+
+    @Test
+    void testGetBoardOptions() {
+        List<Board> boardOptions = gameInfo.getBoardOptions();
+
+        verify(mockBoardOptionsSupplier, times(1)).get();
+        assertEquals(mockBoardList, boardOptions, "getBoardOptions should return the list from the supplier");
+        assertEquals(1, boardOptions.size(), "Board options list should contain one mock board");
+    }
+}
