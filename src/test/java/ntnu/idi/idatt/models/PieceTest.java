@@ -85,4 +85,19 @@ class PieceTest {
         // Optionally, assert the exception message
         assertEquals("MovementStrategy not set for piece.", exception.getMessage());
     }
+
+    @Test
+    void testValidatePieceParameters() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Piece(null, mockPlayer, mockMovementStrategy);
+        }, "Should throw exception for null tile");
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Piece(mockTile, null, mockMovementStrategy);
+        }, "Should throw exception for null player");
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Piece(mockTile, mockPlayer, null);
+        }, "Should throw exception for null movement strategy");
+    }
 }
