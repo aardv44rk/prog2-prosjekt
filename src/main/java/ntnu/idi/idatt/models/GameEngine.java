@@ -2,6 +2,8 @@ package ntnu.idi.idatt.models;
 
 import java.util.List;
 
+import ntnu.idi.idatt.utility.ArgumentValidator;
+
 /**
  * Represents the base game engine for board games. Handles players, board, and game flow. Concrete
  * games must implement specific behavior.
@@ -109,7 +111,8 @@ public abstract class GameEngine {
    * @return true if all parameters are valid, false otherwise.
    */
   public boolean isValidGameEngine(List<Player> players, Board board, int currentPlayerIndex) {
-    return players != null && !players.isEmpty() && board != null
-        && currentPlayerIndex >= 0;
+    return ArgumentValidator.isValidList(players) &&
+      ArgumentValidator.isValidObject(board) &&
+      ArgumentValidator.isValidInteger(currentPlayerIndex);
   }
 }
