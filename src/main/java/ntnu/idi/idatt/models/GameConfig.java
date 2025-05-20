@@ -17,18 +17,36 @@ import ntnu.idi.idatt.games.snakesandladders.LadderAction;
 import ntnu.idi.idatt.games.snakesandladders.LinearMovementStrategy;
 import ntnu.idi.idatt.games.snakesandladders.SnakesAndLaddersBoard;
 import ntnu.idi.idatt.games.snakesandladders.SnakesAndLaddersBoardFactory;
+import ntnu.idi.idatt.utility.ArgumentValidator;
 import ntnu.idi.idatt.utility.FileUtil;
 import ntnu.idi.idatt.utility.JsonUtil;
 
+/**
+ * Represents the configuration of a game, including players, board, and current player index.
+ * Provides methods to save and load game configurations and player lists.
+ */
 public class GameConfig {
 
   private final List<Player> players;
   private final Board board;
   private final int currentPlayerIndex;
 
-  public GameConfig(List<Player> players, 
-                    Board board, 
-                    int currentPlayerIndex) { // need to add more properties
+  /**
+   * Constructor for the GameConfig class.
+   *
+   * @param players a list of players
+   * @param board the game board
+   * @param currentPlayerIndex the index of the current player
+   * @throws IllegalArgumentException if the game configuration is invalid
+   */
+  public GameConfig(
+          List<Player> players, 
+          Board board, 
+          int currentPlayerIndex
+  ) {
+    if (!isValidGameConfig(players, board, currentPlayerIndex)) {
+      throw new IllegalArgumentException("Invalid game configuration");
+    }
     this.players = players;
     this.board = board;
     this.currentPlayerIndex = currentPlayerIndex;
@@ -46,7 +64,16 @@ public class GameConfig {
     return currentPlayerIndex;
   }
 
+  /**
+   * Saves the game configuration to a file.
+   *
+   * @param filePath the path to the file
+   * @throws IOException if an I/O error occurs
+   */
   public void saveConfig(String filePath) throws IOException {
+    if (!ArgumentValidator.isValidFilePath(filePath)) {
+      throw new IllegalArgumentException("Invalid file path");
+    }
     JsonObject config = new JsonObject();
 
     // Add current player index and board type to the config
@@ -114,7 +141,16 @@ public class GameConfig {
     System.out.println("Game configuration saved to " + filePath);
   }
 
+  /**
+   * Saves the player list to a file.
+   *
+   * @param filePath the path to the file
+   * @throws IOException if an I/O error occurs
+   */
   public void savePlayerList(String filePath) throws IOException {
+    if (!ArgumentValidator.isValidFilePath(filePath)) {
+      throw new IllegalArgumentException("Invalid file path");
+    }
     List<String> playerNames = new ArrayList<>();
     for (Player player : players) {
       playerNames.add(player.getName());
@@ -124,7 +160,17 @@ public class GameConfig {
     System.out.println("Player list saved to: " + filePath);
   }
 
+  /**
+   * Loads the game configuration from a file.
+   *
+   * @param filePath the path to the file
+   * @return the loaded game configuration
+   * @throws IOException if an I/O error occurs
+   */
   public GameConfig loadConfig(String filePath) throws IOException {
+    if (!ArgumentValidator.isValidFilePath(filePath)) {
+      throw new IllegalArgumentException("Invalid file path");
+    }
     String json = FileUtil.readString(filePath);
     JsonObject config = JsonParser.parseString(json).getAsJsonObject();
 
@@ -151,7 +197,6 @@ public class GameConfig {
           System.out.println("Loaded standard Snakes and Ladders board");
         }
       } else {
-        // Backward compatibility for old save files
         board = SnakesAndLaddersBoardFactory.createStandardBoard();
         System.out.println("Loaded default Snakes and Ladders board");
       }
@@ -217,7 +262,18 @@ public class GameConfig {
     return new GameConfig(players, board, currentPlayerIndex);
   }
 
+  /**
+   * Loads the player list from a file.
+   *
+   * @param filePath the path to the file
+   * @return the loaded player list
+   * @throws IOException if an I/O error occurs
+   */
   public List<Player> loadPlayerList(String filePath) throws IOException {
+    if (!ArgumentValidator.isValidFilePath(filePath)) {
+      throw new IllegalArgumentException("Bad file path");
+    }
+    
     Type listType = JsonUtil.getListType(String.class);
     List<String> playerNames = JsonUtil.readFromFile(filePath, listType);
 
@@ -230,10 +286,45 @@ public class GameConfig {
     return players;
   }
 
-  private int getActionDestinationTileId(TileAction action) {
+  /**
+   * Gets the destination tile ID for a given action.
+   *
+   * @param action the tile action
+   * @return the destination tile ID
+   */
+  protected int getActionDestinationTileId(TileAction action) {
+    if (!ArgumentValidator.isValidObject(action)) {
+      throw new IllegalArgumentException("Invalid action");
+    }
+
     if (action instanceof LadderAction) {
       return ((LadderAction) action).getDestinationTileId();
     }
     return -1; // or handle other action types
+  }
+
+  /**
+   * Validates the game configuration.
+   *
+   * @param players a list of players
+   * @param board the game board
+   * @param currentPlayerIndex the index of the current player
+   * @return true if the game configuration is valid, false otherwise
+   */
+  public boolean isValidGameConfig(
+    List<Player> players,
+    Board board,
+    int currentPlayerIndex
+  ) {
+    if (!ArgumentValidator.isValidList(players)) {
+      return false;
+    }
+    if (!ArgumentValidator.isValidObject(board)) {
+      return false;
+    }
+    if (!ArgumentValidator.isValidInteger(currentPlayerIndex)) {
+      return false;
+    }
+    return true;
   }
 }

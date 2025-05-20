@@ -9,7 +9,16 @@ public class Tile {
   private final int tileId;
   private TileAction tileAction;
 
+  /**
+   * Constructor for the Tile class.
+   *
+   * @param tileId The ID of the tile.
+   * @throws IllegalArgumentException if the tile ID is invalid.
+   */
   public Tile(int tileId) {
+    if (!isValidTile(tileId)) {
+      throw new IllegalArgumentException("Invalid arguments");
+    }
     this.tileId = tileId;
   }
 
@@ -45,5 +54,9 @@ public class Tile {
   @Override
   public String toString() {
     return "" + tileId;
+  }
+
+  public boolean isValidTile(int tileId) {
+    return tileId >= 0;
   }
 }

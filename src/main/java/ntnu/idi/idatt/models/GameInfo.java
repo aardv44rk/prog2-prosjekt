@@ -4,6 +4,12 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import ntnu.idi.idatt.utility.ArgumentValidator;
+
+/**
+ * Represents information about a game, including its name, rules, player limits, and engine
+ * factory.
+ */
 public class GameInfo {
 
   private final String name;
@@ -13,8 +19,14 @@ public class GameInfo {
   private final Function<GameConfig, GameEngine> engineFactory;
   private final Supplier<List<Board>> boardOptionsSupplier;
 
-  public GameInfo(String name, String rules, int playerMin, int playerMax,
-      Function<GameConfig, GameEngine> engineFactory, Supplier<List<Board>> boardOptionsSupplier) {
+
+  public GameInfo(
+      String name, String rules, int playerMin, int playerMax,
+      Function<GameConfig, GameEngine> engineFactory, Supplier<List<Board>> boardOptionsSupplier
+    ) {
+    if (!isValidGameInfo(name, rules, playerMin, playerMax, engineFactory, boardOptionsSupplier)) {
+      throw new IllegalArgumentException("Invalid game info parameters");
+    }
     this.name = name;
     this.rules = rules;
     this.playerMin = playerMin;
@@ -53,5 +65,28 @@ public class GameInfo {
 
   public List<Board> getBoardOptions() {
     return boardOptionsSupplier.get();
+  }
+
+  /**
+   * Validates the game information parameters.
+   *
+   * @param name The name of the game.
+   * @param rules The rules of the game.
+   * @param playerMin The minimum number of players.
+   * @param playerMax The maximum number of players.
+   * @param engineFactory The factory function to create the game engine.
+   * @param boardOptionsSupplier The supplier for board options.
+   * @return true if all parameters are valid, false otherwise.
+   */
+  public boolean isValidGameInfo(
+    String name, String rules, int playerMin, int playerMax,
+    Function<GameConfig, GameEngine> engineFactory, Supplier<List<Board>> boardOptionsSupplier
+  ) {
+    return ArgumentValidator.isValidString(name)
+      && ArgumentValidator.isValidString(rules)
+      && ArgumentValidator.isValidInteger(playerMin)
+      && ArgumentValidator.isValidInteger(playerMax)
+      && ArgumentValidator.isValidObject(engineFactory)
+      && ArgumentValidator.isValidObject(boardOptionsSupplier);
   }
 }

@@ -1,11 +1,26 @@
 package ntnu.idi.idatt.models;
 
+import ntnu.idi.idatt.utility.ArgumentValidator;
+
+/**
+ * Represents a single die in a board game. Responsible for rolling the die and providing its value.
+ */
 public class Die {
 
   private final int sides;
   private int value;
 
+
+  /**
+   * Constructor for the Die class.
+   * 
+   * @param sides the number of sides on the die
+   * @throws IllegalArgumentException if sides is not a positive integer
+   */
   public Die(int sides) {
+    if (!ArgumentValidator.isValidInteger(sides)) {
+      throw new IllegalArgumentException("Number of sides must be a positive integer");
+    }
     this.sides = sides;
     this.value = 0;
   }

@@ -20,6 +20,9 @@ public abstract class GameEngine {
    * @param board   The board used in the game.
    */
   public GameEngine(List<Player> players, Board board, int currentPlayerIndex) {
+    if (!isValidGameEngine(players, board, currentPlayerIndex)) {
+      throw new IllegalArgumentException("Invalid game engine parameters");
+    }
     this.players = players;
     this.board = board;
     this.currentPlayerIndex = currentPlayerIndex;
@@ -97,4 +100,16 @@ public abstract class GameEngine {
     return gameOver;
   }
 
+  /**
+   * Validates the game engine parameters.
+   *
+   * @param players The list of players.
+   * @param board   The board used in the game.
+   * @param currentPlayerIndex The index of the current player.
+   * @return true if all parameters are valid, false otherwise.
+   */
+  public boolean isValidGameEngine(List<Player> players, Board board, int currentPlayerIndex) {
+    return players != null && !players.isEmpty() && board != null
+        && currentPlayerIndex >= 0;
+  }
 }
