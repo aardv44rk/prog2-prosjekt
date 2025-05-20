@@ -1,5 +1,7 @@
 package ntnu.idi.idatt.models;
 
+import ntnu.idi.idatt.utility.ArgumentValidator;
+
 /**
  * Represents a tile on the board. A tile may have an optional action performed when a piece lands
  * on it.
@@ -57,6 +59,6 @@ public class Tile {
   }
 
   public boolean isValidTile(int tileId) {
-    return tileId >= 0;
+    return ArgumentValidator.isValidInteger(tileId);
   }
 }
