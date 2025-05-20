@@ -181,7 +181,7 @@ public class GameConfig {
 
     if (boardType.equals(SnakesAndLaddersBoard.class.getName())) {
     // Check if dimensions are saved in the config
-    if (config.has("boardRows") && config.has("boardColumns")) {
+      if (config.has("boardRows") && config.has("boardColumns")) {
         int rows = config.get("boardRows").getAsInt();
         int columns = config.get("boardColumns").getAsInt();
         
