@@ -6,7 +6,6 @@ import ntnu.idi.idatt.models.Board;
 /**
  * Factory class to create a Snakes and Ladders board.
  */
-
 public class SnakesAndLaddersBoardFactory {
 
   public static Board createSmallBoard() {

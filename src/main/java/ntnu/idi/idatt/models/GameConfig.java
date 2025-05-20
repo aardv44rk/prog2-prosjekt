@@ -202,6 +202,8 @@ public class GameConfig {
       }
     } else if (boardType.equals(LudoBoard.class.getName())) {
       board = LudoBoardFactory.createLudoBoard();
+      // TODO add ludo specific code here
+      // homes etc need to be saved in the config
       System.out.println("Loaded Ludo board");
     } else {
       throw new IllegalArgumentException("Unknown board type: " + boardType);
