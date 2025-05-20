@@ -1,5 +1,6 @@
 package ntnu.idi.idatt.models;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -19,7 +20,7 @@ public abstract class Board {
   public Tile getTile(int tileId) {
     return tiles.get(tileId);
   }
-
+  
   /**
    * Returns all tiles on the board.
    *

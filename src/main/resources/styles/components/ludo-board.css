@@ -1,0 +1,10 @@
+.ludo-board {
+  -fx-alignment: center;
+}
+
+.ludo-board-board {
+  -fx-border-color: black;
+  -fx-border-width: 1;
+  -fx-background-color: -fx-background-color-2;
+  -fx-effect: -fx-drop-shadow-color-1;
+}

@@ -1,19 +1,19 @@
 package ntnu.idi.idatt.components;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Map.Entry;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.util.Pair;
 
 public class GamePlayerList extends VBox {
 
   List<HBox> playerList;
-  List<UISnakesAndLaddersPiece> pieces;
-  UISnakesAndLaddersPiece currentPiece;
+  List<Node> pieces;
+  Node currentPiece;
 
   public GamePlayerList() {
     this.playerList = new ArrayList<>();
@@ -22,14 +22,14 @@ public class GamePlayerList extends VBox {
     getStyleClass().add("game-player-list");
   }
 
-  public void setPieces(List<Pair<String, UISnakesAndLaddersPiece>> players) {
-    for (Pair<String, UISnakesAndLaddersPiece> pair : players) {
+  public void setPieces(LinkedHashMap<String, Node> players) {
+    for (Entry<String, Node> entry : players.entrySet()) {
       HBox player = new HBox();
       player.getStyleClass().add("game-player-list-player");
 
-      UISnakesAndLaddersPiece piece = new UISnakesAndLaddersPiece(pair.getValue().getColor());
+      Node piece = entry.getValue();
 
-      Label name = new Label(pair.getKey());
+      Label name = new Label(entry.getKey());
       name.getStyleClass().add("game-player-list-name");
 
       player.getChildren().addAll(piece, name);
@@ -41,7 +41,7 @@ public class GamePlayerList extends VBox {
     setCurrentPiece(pieces.getFirst());
   }
 
-  public void setCurrentPiece(UISnakesAndLaddersPiece piece) {
+  private void setCurrentPiece(Node piece) {
     if (currentPiece != null) {
       this.currentPiece.getStyleClass().remove("game-player-list-current-piece");
     }
@@ -50,7 +50,7 @@ public class GamePlayerList extends VBox {
   }
 
   public void shuffle() {
-    UISnakesAndLaddersPiece firstPiece = pieces.removeFirst();
+    Node firstPiece = pieces.removeFirst();
     pieces.add(firstPiece);
 
     setCurrentPiece(pieces.getFirst());

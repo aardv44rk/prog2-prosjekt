@@ -6,6 +6,9 @@
 @import "../components/game-card.css";
 @import "../components/game-player-list.css";
 @import "../components/icon-button.css";
+@import "../components/ludo-board.css";
+@import "../components/ludo-piece.css";
+@import "../components/ludo-tile.css";
 @import "../components/menu-nav-bar.css";
 @import "../components/new-player.css";
 @import "../components/pause-menu.css";

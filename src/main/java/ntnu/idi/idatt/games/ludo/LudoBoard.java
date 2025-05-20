@@ -1,5 +1,6 @@
 package ntnu.idi.idatt.games.ludo;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,117 +12,85 @@ import ntnu.idi.idatt.models.Tile;
 
 public class LudoBoard extends Board {
 
-  private static final int TILE_COUNT = 52;
+  private static final int MAIN_PATH_LENGTH = 52;
+  private static final int FINAL_STRETCH_LENGTH = 6;
 
-  private List<Player> players;
+  private final Map<Integer, LudoTile> mainTiles;
+  private final Map<Player, LudoTile> entryTiles;
+  private final Map<Player, List<LudoTile>> finalStretches;
+  private final Map<Player, LudoTile> goalTiles;
+  private final List<Player> players;
 
-  private final Map<Integer, Tile> safeTiles;
-  private final Map<Integer, PlayerHome> playerHomes;
-  private final Map<Integer, PlayerGoal> playerGoals;
-
-  public LudoBoard() {
-    this.tiles = new HashMap<>(); // tiles of the main board (52 tiles)
-    this.safeTiles = new HashMap<>();
-    this.playerHomes = new HashMap<>();
-    this.playerGoals = new HashMap<>();
+  public LudoBoard(List<Player> players) {
+    this.tiles = new HashMap<>();
+    this.mainTiles = new HashMap<>();
+    this.entryTiles = new HashMap<>();
+    this.finalStretches = new HashMap<>();
+    this.goalTiles = new HashMap<>();
+    this.players = players;
     initializeBoard();
   }
 
   @Override
   public void initializeBoard() {
-    // first we init main track
-    for (int i = 0; i < TILE_COUNT; i++) {
-      tiles.put(i, new Tile(i));
-    }
-    // then we init safe tiles
-    for (int i = 0; i < 4; i++) {
-      int safeTileId = i * 13; // 0, 13, 26, 39 corresponding to player id
-      safeTiles.put(i, tiles.get(safeTileId));
+
+    for (int i = 0; i < MAIN_PATH_LENGTH; i++) {
+      LudoTile tile = new LudoTile(i);
+      mainTiles.put(i, tile);
+      tiles.put(i, tile);
     }
 
-    // then we init player homes
-    for (int i =  0; i < 4; i++) {
-      int startTileId = i * 13; // same as safe tiles?? this makes sense i think
-      playerHomes.put(i, new PlayerHome(null, i, startTileId)); // Owner maybe unneeded, as we have ids for each color?
-    }
-
-    // finally goals
-    for (int i = 0; i < 4; i++) {
-      playerGoals.put(i, new PlayerGoal(null, i));
-    }
-  }
-
-  public void moveFromHomeToStart(Player player, Piece piece) {
-    int playerIndex = getPlayerIndex(player);
-    if (playerIndex == -1) return; // maybe be more verbose here
-
-    int startTileId = playerIndex * 13;
-    piece.setCurrentTile(tiles.get(startTileId));
-  }
-
-  public int getPlayerIndex(Player player) {
-    for(Map.Entry<Integer, PlayerHome> entry : playerHomes.entrySet()) {
-      if (player.equals(entry.getValue().getOwner())) {
-        return entry.getKey();
-      }
-    }
-
-    return -1; // player not found
-  }
-
-  public Tile getNextTile(Piece piece, int steps) {
-    Tile currentTile = piece.getCurrentTile();
-    int currentTileId = currentTile.getTileId();
-    Player owner = piece.getOwner();
-    int playerIndex = getPlayerIndex(owner);
-
-    if (currentTileId >= 1000 && currentTileId < 2000) {
-      if (steps == 6) {
-        return tiles.get(playerIndex * 13); // move to start tile
-      } else {
-        return currentTile; // stay in home
-      }
-    }
-
-    int nextId = (currentTileId + steps) % TILE_COUNT;
-    return tiles.get(nextId);
-  }
-
-  public void assignPlayers(List<Player> players) {
-    this.players = players;
     for (int i = 0; i < players.size(); i++) {
+      int entryIndex = i * 13;
       Player player = players.get(i);
-      PlayerHome home = playerHomes.get(i);
-      PlayerGoal goal = playerGoals.get(i);
+      LudoTile entryTile = mainTiles.get(entryIndex);
+      entryTiles.put(player, entryTile);
 
-      home.setOwner(player);
-      goal.setOwner(player);
-
-      List<Piece> pieces = player.getPieces();
-      for (int j = 0; j < pieces.size(); j++) {
-        home.placePiece(pieces.get(j), j + 1);
+      List<LudoTile> finalStretch = new ArrayList<>();
+      for (int j = 0; j < FINAL_STRETCH_LENGTH; j++) {
+        LudoTile finalStretchTile = new LudoTile(1000 + i * 10 + j);
+        finalStretch.add(finalStretchTile);
+        tiles.put(finalStretchTile.getTileId(), finalStretchTile);
       }
+      finalStretches.put(player, finalStretch);
+      goalTiles.put(player, finalStretch.getLast());
     }
   }
 
-  public Map<Integer, Tile> getTiles() {
-    return tiles;
+  public LudoTile getNextTile(Piece piece, int steps) {
+    LudoTile currentTile = (LudoTile) piece.getCurrentTile();
+    Player player = piece.getOwner();
+
+    if (currentTile == null) {
+      return (steps == 6) ? entryTiles.get(player) : null;
+    }
+
+    if (mainTiles.containsValue(currentTile)) {
+      int currentId = currentTile.getTileId();
+      int entryId = entryTiles.get(player).getTileId();
+      int distanceToFinal = (entryId - currentId + MAIN_PATH_LENGTH) % MAIN_PATH_LENGTH;
+
+      if (steps < distanceToFinal) {
+        return mainTiles.get((currentId + steps) % MAIN_PATH_LENGTH);
+      } else {
+        int intoFinal = steps - distanceToFinal;
+        List<LudoTile> finalStretch = finalStretches.get(player);
+        return intoFinal < finalStretch.size() ? finalStretch.get(intoFinal) : null;
+      }
+    }
+
+    return null;
   }
 
-  public Map<Integer, Tile> getSafeTiles() {
-    return safeTiles;
+  public LudoTile getEntryTile(Player player) {
+    return entryTiles.get(player);
   }
 
-  public Map<Integer, PlayerHome> getPlayerHomes() {
-    return playerHomes;
+  public List<LudoTile> getFinalStretch(Player player) {
+    return finalStretches.get(player);
   }
 
-  public Map<Integer, PlayerGoal> getPlayerGoals() {
-    return playerGoals;
+  public LudoTile getGoalTile(Player player) {
+    return goalTiles.get(player);
   }
-
-  public List<Player> getPlayers() {
-    return players;
-  }
-  
 }
