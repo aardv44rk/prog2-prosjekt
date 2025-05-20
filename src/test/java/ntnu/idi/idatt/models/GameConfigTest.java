@@ -1,7 +1,8 @@
-package ntnu.idi.idatt.core;
+package ntnu.idi.idatt.models;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -9,16 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ntnu.idi.idatt.games.snakesandladders.SnakesAndLaddersBoardFactory;
-import ntnu.idi.idatt.models.Board;
-import ntnu.idi.idatt.models.GameConfig;
-import ntnu.idi.idatt.models.Piece;
-import ntnu.idi.idatt.models.Player;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import ntnu.idi.idatt.games.snakesandladders.LinearMovementStrategy;
-import ntnu.idi.idatt.games.snakesandladders.SnakesAndLaddersBoard;
 
 public class GameConfigTest {
 
@@ -68,6 +65,8 @@ public class GameConfigTest {
   @Test
   public void testSaveAndLoadConfig() {
     try {
+
+      System.out.println("Saving game configuration to: " + CONFIG_TEST_FILE);
       // Save the game configuration
       gameConfig.saveConfig(CONFIG_TEST_FILE);
 
@@ -126,6 +125,7 @@ public class GameConfigTest {
     }
   }
 
+  @SuppressWarnings("unused") // we on purpose create an unused player list to test the exception
   @Test
   public void testNonExistentFile() {
     try {
