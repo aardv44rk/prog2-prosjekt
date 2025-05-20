@@ -21,16 +21,6 @@ class TestGameEngine extends GameEngine {
     }
 
     @Override
-    public void playGame() {
-        // No-op for testing base class
-    }
-
-    @Override
-    public void handleTurn() {
-        // No-op for testing base class
-    }
-
-    @Override
     public Player checkWinCondition() {
         // No-op for testing base class
         return null;
