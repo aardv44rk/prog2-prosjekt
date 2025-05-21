@@ -12,7 +12,7 @@ public class UIThievesAndRobbersTile extends BorderPane {
 
     Label numberLabel = new Label();
     if (!number.isEmpty()) {
-      numberLabel.setText("+$" + number);
+      numberLabel.setText(number + "$");
     }
     numberLabel.getStyleClass().add("tar-tile-number");
 

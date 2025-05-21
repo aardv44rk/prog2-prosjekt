@@ -23,13 +23,11 @@ public class SimpleGameEngine extends GameEngine {
 
     if (checkWinCondition() != null) {
       endGame();
-    } else {
-      nextPlayer();
     }
   }
 
   public void initPieces() {
-    
+
   }
 
   @Override

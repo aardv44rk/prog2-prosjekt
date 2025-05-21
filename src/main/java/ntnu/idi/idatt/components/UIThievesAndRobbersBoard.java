@@ -6,8 +6,12 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import ntnu.idi.idatt.AssetRepository;
+import ntnu.idi.idatt.utility.StyleUtil;
 
 public class UIThievesAndRobbersBoard extends StackPane {
+
+  private static final int MIN_MONEY = -20;
+  private static final int MAX_MONEY = 40;
 
   private final Map<Integer, UIThievesAndRobbersTile> tiles;
   private final int width;
@@ -61,7 +65,7 @@ public class UIThievesAndRobbersBoard extends StackPane {
     Map<Integer, UIThievesAndRobbersTile> tileList = new HashMap<>();
     for (int i = 0; i < width * 2 + (height - 2) * 2; i++) {
       UIThievesAndRobbersTile tile = new UIThievesAndRobbersTile(money[i] + "");
-      tile.setColor(AssetRepository.TAR_PATH);
+      tile.setColor(StyleUtil.greenRedGradientColor(money[i], MIN_MONEY, MAX_MONEY));
       tileList.put(i, tile);
     }
     tileList.get(0).setColor(AssetRepository.TAR_START);

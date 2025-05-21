@@ -1,5 +1,6 @@
 package ntnu.idi.idatt.games.thievesAndRobbers;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -8,8 +9,11 @@ import java.util.Map.Entry;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.paint.Color;
+import javafx.util.Pair;
 import ntnu.idi.idatt.AppState;
 import ntnu.idi.idatt.AssetRepository;
+import ntnu.idi.idatt.components.MoneyGraph;
 import ntnu.idi.idatt.components.UIPiece;
 import ntnu.idi.idatt.components.UIThievesAndRobbersBoard;
 import ntnu.idi.idatt.components.UIThievesAndRobbersTile;
@@ -26,10 +30,10 @@ public class ThievesAndRobbersController {
 
   private final ThievesAndRobbersEngine engine;
   private final GameView view;
-  private final ThievesAndRobbersBoard board;
   private final LinkedHashMap<Piece, UIPiece> pieces;
   private final UIThievesAndRobbersBoard uIBoard;
   private final Map<Integer, UIThievesAndRobbersTile> tiles;
+  private final MoneyGraph moneyGraph;
 
   public ThievesAndRobbersController() {
     GameConfig config = AppState.getCurrentGameConfig();
@@ -41,16 +45,26 @@ public class ThievesAndRobbersController {
         new Dice(List.of(new Die(6), new Die(6)))
     );
     this.view = new GameView();
-    this.board = (ThievesAndRobbersBoard) config.getBoard();
+    ThievesAndRobbersBoard board = (ThievesAndRobbersBoard) config.getBoard();
     this.pieces = new LinkedHashMap<>();
     this.uIBoard = new UIThievesAndRobbersBoard(board.getWidth(), board.getHeight(),
         board.getMoneyList());
     this.tiles = uIBoard.getTiles();
 
+    List<Pair<String, Color>> playerColors = new ArrayList<>();
+
+    for (int i = 0; i < engine.getPlayers().size(); i++) {
+      Color color = AssetRepository.TAR_COLORS.get(i);
+      playerColors.add(new Pair<>(engine.getPlayers().get(i).getName(), color));
+    }
+
+    this.moneyGraph = new MoneyGraph(playerColors);
+
     setPieces();
 
     view.setBoard(uIBoard);
-    
+    view.setStats(moneyGraph);
+
     renderPlayerList();
 
     for (Entry<Piece, UIPiece> entry : pieces.entrySet()) {
@@ -74,17 +88,20 @@ public class ThievesAndRobbersController {
     view.rollSetOnClick(() -> {
       if (!engine.isGameOver()) {
         engine.handleTurn();
+        Player currentPlayer = engine.getCurrentPlayer();
+        Piece currentPiece = currentPlayer.getPieces().getFirst();
+        int playerMoney = currentPlayer.getPieces().stream()
+            .mapToInt(piece -> ((ThievesAndRobbersPiece) piece).getMoney())
+            .sum();
         updateDice();
+        updateMoneyGraph(currentPlayer.getName(), playerMoney);
         view.shufflePlayerList();
+        updatePiece(currentPiece.getCurrentTile().getTileId(), pieces.get(currentPiece));
         if (engine.isGameOver()) {
-          Piece p = engine.getCurrentPlayer().getPieces().getFirst();
-          updatePiece(p.getCurrentTile().getTileId(), pieces.get(p));
-          Router.showAlert("Game over!", engine.getCurrentPlayer().getName() + " has won.", "Close",
+          Router.showAlert("Game over!", currentPlayer.getName() + " has won.", "Close",
               null);
-        } else {
-          Piece p = engine.getLastPlayer().getPieces().getFirst();
-          updatePiece(p.getCurrentTile().getTileId(), pieces.get(p));
         }
+        engine.nextPlayer();
       }
     });
   }
@@ -130,6 +147,10 @@ public class ThievesAndRobbersController {
         .count();
     piece.setLayoutX(coords.getX());
     piece.setLayoutY(coords.getY() - sameCoords * 5);
+  }
+
+  private void updateMoneyGraph(String playerName, int amount) {
+    moneyGraph.setMoney(playerName, amount);
   }
 
 }
