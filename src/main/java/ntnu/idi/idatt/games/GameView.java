@@ -1,4 +1,4 @@
-package ntnu.idi.idatt.games.snakesandladders;
+package ntnu.idi.idatt.games;
 
 import java.util.LinkedHashMap;
 import javafx.scene.Node;
@@ -7,20 +7,20 @@ import javafx.scene.layout.VBox;
 import ntnu.idi.idatt.components.GamePlayerList;
 import ntnu.idi.idatt.components.TextButton;
 import ntnu.idi.idatt.components.UIDie;
-import ntnu.idi.idatt.components.UISnakesAndLaddersBoard;
 
-public class SnakesAndLaddersView extends BorderPane {
+
+public class GameView extends BorderPane {
 
   private final GamePlayerList playerList;
   private final UIDie leftDie;
   private final UIDie rightDie;
   private final TextButton rollButton;
 
-  public SnakesAndLaddersView() {
-    getStyleClass().add("snakes-and-ladders-view");
+  public GameView() {
+    getStyleClass().add("game-view");
 
     BorderPane left = new BorderPane();
-    left.getStyleClass().add("snakes-and-ladders-left");
+    left.getStyleClass().add("game-left");
 
     playerList = new GamePlayerList();
 
@@ -34,7 +34,7 @@ public class SnakesAndLaddersView extends BorderPane {
     rollButton = new TextButton("Roll");
 
     VBox diceBox = new VBox();
-    diceBox.getStyleClass().add("snakes-and-ladders-dice");
+    diceBox.getStyleClass().add("game-dice");
     diceBox.getChildren().addAll(dice, rollButton);
 
     left.setTop(playerList);
@@ -53,8 +53,12 @@ public class SnakesAndLaddersView extends BorderPane {
 
   public void setBoard(Node board) {
     BorderPane borderPane = new BorderPane(board);
-    borderPane.getStyleClass().add("snakes-and-ladders-board-container");
+    borderPane.getStyleClass().add("game-board-container");
     setCenter(borderPane);
+  }
+
+  public void setStats(Node node) {
+    setRight(node);
   }
 
   public void setDiceEyes(int leftEyes, int rightEyes) {

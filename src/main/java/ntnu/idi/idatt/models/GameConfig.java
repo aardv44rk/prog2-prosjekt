@@ -26,9 +26,9 @@ public class GameConfig {
   private final Board board;
   private final int currentPlayerIndex;
 
-  public GameConfig(List<Player> players, 
-                    Board board, 
-                    int currentPlayerIndex) { // need to add more properties
+  public GameConfig(List<Player> players,
+      Board board,
+      int currentPlayerIndex) { // need to add more properties
     this.players = players;
     this.board = board;
     this.currentPlayerIndex = currentPlayerIndex;
@@ -134,14 +134,14 @@ public class GameConfig {
     Board board;
 
     if (boardType.equals(SnakesAndLaddersBoard.class.getName())) {
-    // Check if dimensions are saved in the config
-    if (config.has("boardRows") && config.has("boardColumns")) {
+      // Check if dimensions are saved in the config
+      if (config.has("boardRows") && config.has("boardColumns")) {
         int rows = config.get("boardRows").getAsInt();
         int columns = config.get("boardColumns").getAsInt();
-        
+
         // Find the matching board based on dimensions
         if (rows == 7 && columns == 8) {
-          board = SnakesAndLaddersBoardFactory.createSmallBoard();            
+          board = SnakesAndLaddersBoardFactory.createSmallBoard();
           System.out.println("Loaded small Snakes and Ladders board");
         } else if (rows == 10 && columns == 10) {
           board = SnakesAndLaddersBoardFactory.createBigBoard();

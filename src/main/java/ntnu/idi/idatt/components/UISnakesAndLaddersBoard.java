@@ -52,7 +52,7 @@ public class UISnakesAndLaddersBoard extends StackPane {
     return tileList;
   }
 
-  public void renderPiece(UISnakesAndLaddersPiece piece) {
+  public void renderPiece(UIPiece piece) {
     if (!pieceLayer.getChildren().contains(piece)) {
       pieceLayer.getChildren().add(piece);
     }

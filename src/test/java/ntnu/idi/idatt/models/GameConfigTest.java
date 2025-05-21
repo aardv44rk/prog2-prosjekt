@@ -8,13 +8,13 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import ntnu.idi.idatt.games.snakesandladders.LinearMovementStrategy;
 import ntnu.idi.idatt.games.snakesandladders.SnakesAndLaddersBoardFactory;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ntnu.idi.idatt.games.snakesandladders.LinearMovementStrategy;
 import ntnu.idi.idatt.games.snakesandladders.SnakesAndLaddersBoard;
 
 class GameConfigTest {
@@ -113,7 +113,7 @@ class GameConfigTest {
     }
   }
 
-  
+
   @Test
   public void testSaveAndLoadConfig2() {
     try {
@@ -139,15 +139,13 @@ class GameConfigTest {
       assertEquals("Bob", loadedConfig.getPlayers().get(1).getName(),
           "Second player name should be Bob");
 
-       // Check board is loaded correctly
+      // Check board is loaded correctly
       assertTrue(loadedConfig.getBoard() instanceof SnakesAndLaddersBoard,
           "Loaded board should be of type SnakesAndLaddersBoard");
       SnakesAndLaddersBoard loadedBoard = (SnakesAndLaddersBoard) loadedConfig.getBoard();
       // Check board properties are correct
       assertEquals(9, loadedBoard.getRows(), "Loaded board should have 10 rows");
       assertEquals(10, loadedBoard.getColumns(), "Loaded board should have 10 columns");
-
-
 
       // Check pieces are loaded correctly
       assertEquals(1, loadedConfig.getPlayers().get(0).getPieces().size(),
@@ -160,7 +158,7 @@ class GameConfigTest {
     }
   }
 
-  
+
   @Test
   public void testSaveAndLoadConfig3() {
     try {
@@ -194,7 +192,6 @@ class GameConfigTest {
       assertEquals(10, loadedBoard.getRows(), "Loaded board should have 10 rows");
       assertEquals(10, loadedBoard.getColumns(), "Loaded board should have 10 columns");
 
-
       // Check pieces are loaded correctly
       assertEquals(1, loadedConfig.getPlayers().get(0).getPieces().size(),
           "First player should have 1 piece");
@@ -206,7 +203,6 @@ class GameConfigTest {
     }
   }
 
-  
 
   @Test
   public void testSaveAndLoadPlayerList() {

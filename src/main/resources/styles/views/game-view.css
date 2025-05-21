@@ -1,0 +1,13 @@
+.game-left {
+  -fx-padding: 30 0 30 30;
+}
+
+.game-dice {
+  -fx-spacing: 15;
+}
+
+.game-board-container {
+  -fx-alignment: center;
+  -fx-max-width: 200;
+  -fx-max-height: 200;
+}
