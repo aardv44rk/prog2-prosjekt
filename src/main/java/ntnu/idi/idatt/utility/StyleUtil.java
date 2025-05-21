@@ -4,8 +4,21 @@ import java.net.URL;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 
+/**
+ * Utility class for applying styles to JavaFX components.
+ */
 public class StyleUtil {
 
+  private StyleUtil() {
+    // Prevent instantiation
+  }
+
+  /**
+   * Applies a stylesheet to a JavaFX scene if the stylesheet exists.
+   *
+   * @param scene          The JavaFX scene to apply the stylesheet to.
+   * @param stylesheetPath The path to the stylesheet.
+   */
   public static void applyStyleIfExists(Scene scene, String stylesheetPath) {
     URL resource = StyleUtil.class.getResource(stylesheetPath);
     if (resource != null) {
@@ -15,6 +28,12 @@ public class StyleUtil {
     }
   }
 
+  /**
+   * Converts a JavaFX Color object to a CSS RGB string.
+   *
+   * @param c The JavaFX Color object to convert.
+   * @return A string representing the color in CSS RGB format.
+   */
   public static String toRgbString(Color c) {
     int r = (int) (c.getRed() * 255);
     int g = (int) (c.getGreen() * 255);
