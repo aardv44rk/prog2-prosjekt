@@ -5,10 +5,18 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import ntnu.idi.idatt.utility.StyleUtil;
 
+/**
+ * Component for a Snakes and Ladders piece.
+ */
 public class UISnakesAndLaddersPiece extends VBox {
 
   private final Color color;
 
+  /**
+   * Constructor for the UISnakesAndLaddersPiece class.
+   *
+   * @param color The color of the piece.
+   */
   public UISnakesAndLaddersPiece(Color color) {
     this.color = color;
     getStyleClass().add("snl-piece");

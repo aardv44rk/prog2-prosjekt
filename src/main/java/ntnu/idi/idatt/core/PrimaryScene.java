@@ -6,9 +6,12 @@ import javafx.scene.Scene;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
-import ntnu.idi.idatt.components.AlertDialog;
 import ntnu.idi.idatt.components.PauseMenu;
 
+/**
+ * PrimaryScene class represents the main scene of the application.
+ * It manages the layout and visibility of the main content and the pause menu.
+ */
 public class PrimaryScene extends Scene {
 
   private static final int WIDTH = 1280;
@@ -17,6 +20,10 @@ public class PrimaryScene extends Scene {
   private final BorderPane borderPane;
   private final PauseMenu pauseMenu;
 
+  /**
+   * Constructor for the PrimaryScene class.
+   * Initializes the scene with a root layout and sets the dimensions.
+   */
   public PrimaryScene() {
     super(root, WIDTH, HEIGHT);
 

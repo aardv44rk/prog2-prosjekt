@@ -6,6 +6,10 @@ import ntnu.idi.idatt.games.ludo.LudoBoardFactory;
 import ntnu.idi.idatt.games.snakesandladders.SnakesAndLaddersBoardFactory;
 import ntnu.idi.idatt.models.GameInfo;
 
+/**
+ * GameRegistry is a singleton class that holds a list of available games.
+ * It provides methods to retrieve game information and board options.
+ */
 public class GameRegistry {
 
   public final static List<GameInfo> games = new ArrayList<>();

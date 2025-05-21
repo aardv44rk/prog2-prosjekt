@@ -8,6 +8,10 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 
+/**
+ * Component for the Snakes and Ladders board.
+ * This class extends StackPane and represents the game board.
+ */
 public class UISnakesAndLaddersBoard extends StackPane {
 
   private final Map<Integer, UISnakesAndLaddersTile> tiles;
@@ -16,6 +20,13 @@ public class UISnakesAndLaddersBoard extends StackPane {
   private final Pane ladderLayer;
   private final Pane pieceLayer;
 
+  /**
+   * Constructor for the UISnakesAndLaddersBoard class.
+   * Initializes the board with the specified number of rows and columns.
+   *
+   * @param rows    the number of rows in the board
+   * @param columns the number of columns in the board
+   */
   public UISnakesAndLaddersBoard(int rows, int columns) {
     getStyleClass().add("snl-board");
 
@@ -44,6 +55,11 @@ public class UISnakesAndLaddersBoard extends StackPane {
     return tiles;
   }
 
+  /**
+   * Generates the tiles for the board.
+   *
+   * @return a map of tile IDs to UISnakesAndLaddersTile objects
+   */
   private Map<Integer, UISnakesAndLaddersTile> generateTiles() {
     Map<Integer, UISnakesAndLaddersTile> tileList = new HashMap<>();
     for (int i = 0; i < rows * columns; i++) {
@@ -52,12 +68,22 @@ public class UISnakesAndLaddersBoard extends StackPane {
     return tileList;
   }
 
+  /**
+   * Renders a piece on the board.
+   *
+   * @param piece the UISnakesAndLaddersPiece to render
+   */
   public void renderPiece(UISnakesAndLaddersPiece piece) {
     if (!pieceLayer.getChildren().contains(piece)) {
       pieceLayer.getChildren().add(piece);
     }
   }
 
+  /**
+   * Renders a ladder on the board.
+   *
+   * @param ladder the UISnakesAndLaddersLadder to render
+   */
   public void renderLadder(UISnakesAndLaddersLadder ladder) {
     if (!ladderLayer.getChildren().contains(ladder)) {
       ladderLayer.getChildren().add(ladder);

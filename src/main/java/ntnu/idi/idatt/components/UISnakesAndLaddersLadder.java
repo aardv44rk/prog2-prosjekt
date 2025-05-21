@@ -6,8 +6,18 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import ntnu.idi.idatt.AssetRepository;
 
+/**
+ * Component for the ladder in the Snakes and Ladders game.
+ */
 public class UISnakesAndLaddersLadder extends Pane {
 
+  /**
+   * Constructor for the UISnakesAndLaddersLadder class.
+   *
+   * @param start       The starting point of the ladder.
+   * @param end         The ending point of the ladder.
+   * @param isAscending Indicates if the ladder is ascending or descending.
+   */
   public UISnakesAndLaddersLadder(Point2D start, Point2D end, boolean isAscending) {
     double dx = end.getX() - start.getX();
     double dy = end.getY() - start.getY();

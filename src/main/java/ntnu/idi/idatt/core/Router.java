@@ -7,6 +7,9 @@ import javafx.stage.Stage;
 import ntnu.idi.idatt.components.AlertDialog;
 import ntnu.idi.idatt.components.PauseMenu;
 
+/**
+ * Router class for managing navigation between different views in the application.
+ */
 public class Router {
 
   private static Stage primaryStage;
@@ -25,6 +28,11 @@ public class Router {
     });
   }
 
+  /**
+   * Registers a new route in the router.
+   *
+   * @param route The route to register.
+   */
   public static void registerRoute(Route route) {
     routes.put(route.getName(), route);
   }
@@ -33,11 +41,23 @@ public class Router {
     primaryStage = stage;
   }
 
-  public static void setScene(PrimaryScene scene) {
-    primaryScene = scene;
-    primaryStage.setScene(scene);
+  public static Stage getStage() {
+    return primaryStage;
   }
 
+  /**
+   * Sets the primary scene for the router.
+   */
+  public static void setScene(PrimaryScene scene) {
+    primaryScene = scene;
+    primaryStage.setScene(primaryScene);
+  }
+
+  /**
+   * Gets the primary scene.
+   *
+   * @return The primary scene.
+   */
   public static void goBack() {
     if (history.size() > 1) {
       history.pop();
@@ -49,6 +69,11 @@ public class Router {
     }
   }
 
+  /**
+   * Navigates to a specified route.
+   *
+   * @param routeName The name of the route to navigate to.
+   */
   public static void navigateTo(String routeName) {
     // Does route exist
     if (!routes.containsKey(routeName)) {
@@ -68,6 +93,14 @@ public class Router {
     history.push(route);
   }
 
+  /**
+   * Shows an alert dialog with a title, message, and button text.
+   *
+   * @param title       The title of the alert dialog.
+   * @param message     The message to display in the alert dialog.
+   * @param buttonText  The text for the button in the alert dialog.
+   * @param runnable    A runnable to execute when the button is clicked.
+   */
   public static void showAlert(String title, String message, String buttonText, Runnable runnable) {
     AlertDialog alertDialog = new AlertDialog(title, message, buttonText, AlertDialogType.INFO);
     alertDialog.buttonSetOnClick(() -> {
@@ -79,6 +112,9 @@ public class Router {
     primaryScene.addNode(alertDialog);
   }
 
+  /**
+   * Shows the pause menu.
+   */
   public static void showPauseMenu() {
     primaryScene.addNode(pauseMenu);
   }

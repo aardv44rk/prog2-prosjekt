@@ -30,9 +30,11 @@ public class LadderAction implements TileAction {
    */
   @Override
   public void perform(Piece piece, Board board) {
-    Tile destination = board.getTile(destinationTileId - 1); // i have no idea why this works, but it does
-    if (destination != null) {                               // if we don't do this, all tests fail so don't touch it
-      piece.move(destinationTileId - piece.getCurrentTile().getTileId(), board);
+    Tile destination = board.getTile(destinationTileId - 1); // -1 so that the tile ID is 0-indexed
+    if (destination != null) {                              
+      piece.setCurrentTile(destination);
+      // Old code
+      // piece.move(destinationTileId - piece.getCurrentTile().getTileId(), board);
     }
   }
 
