@@ -25,31 +25,39 @@ public class Main extends Application {
     StyleUtil.applyStyleIfExists(primaryScene, "/styles/global/global.css");
     Router.setScene(primaryScene);
 
+    HomeController homeController = new HomeController();
+    SettingsController settingsController = new SettingsController();
+    GameMenuController gameMenuController = new GameMenuController();
+    GameLoadController gameLoadController = new GameLoadController();
+    GameSetupController gameSetupController = new GameSetupController();
+
     Router.registerRoute(
         new Route(
             "home",
             () -> null,
-            () -> new HomeController().getView()));
+            homeController::getView, homeController));
     Router.registerRoute(
         new Route(
             "settings",
             () -> new NavBar("Settings", Router::goBack, false),
-            () -> new SettingsController().getView()));
+            settingsController::getView, settingsController));
     Router.registerRoute(
         new Route(
             "menu",
             () -> new NavBar("Play", Router::goBack, false),
-            () -> new GameMenuController().getView()));
+            gameMenuController::getView, gameMenuController));
     Router.registerRoute(
         new Route(
             "load",
             () -> new NavBar(AppState.getSelectedGame().getName(), Router::goBack, false),
-            () -> new GameLoadController().getView()));
+            gameLoadController::getView, gameLoadController));
     Router.registerRoute(
         new Route(
             "setup",
             () -> new NavBar(AppState.getSelectedGame().getName(), Router::goBack, false),
-            () -> new GameSetupController().getViewForGame(AppState.getSelectedGame())));
+            () -> new GameSetupController().getViewForGame(AppState.getSelectedGame()), gameSetupController));
+    
+    SnakesAndLaddersController snlController = new SnakesAndLaddersController();      
     Router.registerRoute(
         new Route(
             "Snakes and Ladders",
@@ -57,19 +65,18 @@ public class Main extends Application {
                 AppState.getSelectedGame().getName(),
                 Router::showPauseMenu,
                 true),
-            () -> new SnakesAndLaddersController().getView()
+            snlController::getView, snlController
         ));
-    Router.registerRoute(
-        new Route(
-            "Ludo",
-            () -> new NavBar(
-                AppState.getSelectedGame().getName(),
-                Router::showPauseMenu,
-                true),
-            () -> new LudoController().getView()));
+    // Router.registerRoute(
+    //     new Route(
+    //         "Ludo",
+    //         () -> new NavBar(
+    //             AppState.getSelectedGame().getName(),
+    //             Router::showPauseMenu,
+    //             true),
+    //         () -> new LudoController().getView()));
 
     Router.navigateTo("home");
-
     stage.show();
   }
 

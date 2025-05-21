@@ -2,6 +2,7 @@ package ntnu.idi.idatt.models;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -46,7 +47,8 @@ public class GameConfig {
     return currentPlayerIndex;
   }
 
-  public void saveConfig(String filePath) throws IOException {
+  public void saveConfig(String fileName) throws IOException {
+    Path filePath = FileUtil.getSavePath(fileName);
     JsonObject config = new JsonObject();
 
     // Add current player index and board type to the config
@@ -114,7 +116,8 @@ public class GameConfig {
     System.out.println("Game configuration saved to " + filePath);
   }
 
-  public void savePlayerList(String filePath) throws IOException {
+  public void savePlayerList(String fileName) throws IOException {
+    Path filePath = FileUtil.getSavePath(fileName);
     List<String> playerNames = new ArrayList<>();
     for (Player player : players) {
       playerNames.add(player.getName());
@@ -124,7 +127,8 @@ public class GameConfig {
     System.out.println("Player list saved to: " + filePath);
   }
 
-  public GameConfig loadConfig(String filePath) throws IOException {
+  public GameConfig loadConfig(String fileName) throws IOException {
+    Path filePath = FileUtil.getSavePath(fileName);
     String json = FileUtil.readString(filePath);
     JsonObject config = JsonParser.parseString(json).getAsJsonObject();
 

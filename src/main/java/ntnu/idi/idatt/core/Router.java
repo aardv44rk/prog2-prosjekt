@@ -4,8 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
 import javafx.stage.Stage;
+import ntnu.idi.idatt.AppState;
 import ntnu.idi.idatt.components.AlertDialog;
 import ntnu.idi.idatt.components.PauseMenu;
+import ntnu.idi.idatt.games.snakesandladders.SnakesAndLaddersController;
 
 public class Router {
 
@@ -14,11 +16,37 @@ public class Router {
   private static final Map<String, Route> routes = new HashMap<>();
   private static final Stack<Route> history = new Stack<>();
   private static final PauseMenu pauseMenu = new PauseMenu();
+  private static Route currentRoute;
 
   static {
-    pauseMenu.resumeButtonSetOnClick(() -> primaryScene.removeNode(pauseMenu));
-    pauseMenu.saveGameButtonSetOnClick(() -> System.out.println("Saving game..."));
-    pauseMenu.savePlayersButtonSetOnClick(() -> System.out.println("Saving players..."));
+    pauseMenu.resumeButtonSetOnClick(() -> {
+      if (primaryScene != null) {
+        primaryScene.removeNode(pauseMenu);
+      }
+    });
+    pauseMenu.saveGameButtonSetOnClick(() -> {
+      if (primaryScene != null && primaryScene.getSaveGameAction() != null) {
+        String gameName = "default";
+        if (AppState.getSelectedGame().getName() != null) {
+          gameName = AppState.getSelectedGame().getName().replaceAll("\\s+", "_").toLowerCase();
+        }
+        String fileName = gameName + "_quicksave.json";
+        try {
+          primaryScene.getSaveGameAction().accept(fileName);
+          showAlert("Game saved", "Game saved to " + fileName, "OK", null);
+        } catch (Exception e) {
+          showAlert("Error", "Cannot save game right now.", "OK", null);
+        }
+      } else {
+        showAlert("Error", "Cannot save game right now.", "OK", null);
+      }
+      if (primaryScene != null) {
+        primaryScene.removeNode(pauseMenu);
+      }
+    });
+    pauseMenu.savePlayersButtonSetOnClick(() -> {
+      System.out.println("Save players button clicked"); // TODO we need to implement this too
+    });
     pauseMenu.exitButtonSetOnClick(() -> {
       primaryScene.removeNode(pauseMenu);
       navigateTo("home");
@@ -36,6 +64,10 @@ public class Router {
   public static void setScene(PrimaryScene scene) {
     primaryScene = scene;
     primaryStage.setScene(scene);
+  }
+
+  public static PrimaryScene getPrimaryScene() {
+    return primaryScene;
   }
 
   public static void goBack() {
@@ -65,6 +97,16 @@ public class Router {
 
     primaryScene.setContent(route.getContent());
     primaryScene.setNavBar(route.getNavBar());
+
+    Object controller = route.getController();
+    if (controller instanceof SnakesAndLaddersController) {
+      SnakesAndLaddersController snlController = (SnakesAndLaddersController) controller;
+      primaryScene.setSaveGameAction(snlController::saveGame);
+    } else {
+      // TODO implement other game controllers
+      primaryScene.setSaveGameAction(null);
+    }
+    
     history.push(route);
   }
 
@@ -77,6 +119,24 @@ public class Router {
       primaryScene.removeNode(alertDialog);
     });
     primaryScene.addNode(alertDialog);
+  }
+
+  private static void activateRoute(Route route) {
+    primaryScene.setNavBar(route.getNavBar());
+    primaryScene.setContent(route.getContent());
+
+    primaryScene.setSaveGameAction(null);
+
+    if (route.getController() instanceof SnakesAndLaddersController) {
+      SnakesAndLaddersController snlController = (SnakesAndLaddersController) route.getController();
+      primaryScene.setSaveGameAction(snlController::saveGame);
+    } else {
+      // TODO implement other game controllers
+    }
+
+    currentRoute = route;
+
+
   }
 
   public static void showPauseMenu() {

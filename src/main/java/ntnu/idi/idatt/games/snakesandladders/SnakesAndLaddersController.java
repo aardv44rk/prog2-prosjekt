@@ -78,6 +78,21 @@ public class SnakesAndLaddersController {
     setupEventHandlers();
   }
 
+  public void saveGame(String fileName) {
+    try {
+      GameConfig currentConfig = new GameConfig(
+        engine.getPlayers(),
+        engine.getBoard(),
+        engine.getCurrentPlayerIndex()
+      );
+      currentConfig.saveConfig(fileName);
+      System.out.println("Snakes and Ladders game saved to " + fileName);
+    } catch (Exception e) {
+      System.err.println("Failed to save game: " + e.getMessage());
+      Router.showAlert("Save Error", "Failed to save game: " + e.getMessage(), "OK", null);
+    }
+  }
+
   public Parent getView() {
     return view;
   }

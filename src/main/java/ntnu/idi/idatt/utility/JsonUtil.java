@@ -2,6 +2,7 @@ package ntnu.idi.idatt.utility;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.nio.file.Path;
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -34,6 +35,11 @@ public class JsonUtil {
   }
 
   public static void writeToFile(String filePath, Object object) throws IOException {
+    String json = toJson(object);
+    FileUtil.writeString(filePath, json);
+  }
+
+  public static void writeToFile(Path filePath, Object object) throws IOException {
     String json = toJson(object);
     FileUtil.writeString(filePath, json);
   }

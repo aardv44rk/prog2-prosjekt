@@ -79,6 +79,15 @@ public abstract class GameEngine {
   }
 
   /**
+   * Returns the current players index.
+   *
+   * @return The index of the current player.
+   */
+  public int getCurrentPlayerIndex() {
+    return currentPlayerIndex;
+  }
+
+  /**
    * Checks whether the game is over.
    *
    * @return true if the game is over, false otherwise.
