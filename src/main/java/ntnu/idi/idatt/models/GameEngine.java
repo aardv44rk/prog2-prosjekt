@@ -103,6 +103,6 @@ public abstract class GameEngine {
   public boolean isValidGameEngine(List<Player> players, Board board, int currentPlayerIndex) {
     return ArgumentValidator.isValidList(players) &&
       ArgumentValidator.isValidObject(board) &&
-      ArgumentValidator.isValidInteger(currentPlayerIndex);
+      ArgumentValidator.isValidIndex(currentPlayerIndex);
   }
 }

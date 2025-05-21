@@ -25,10 +25,9 @@ public class SnakesAndLaddersEngine extends GameEngine {
    */
   public SnakesAndLaddersEngine(List<Player> players, Board board, int currentPlayerIndex, Dice dice) {
     super(players, board, currentPlayerIndex);
-    if (!isValidSnakeEngine(players, board, currentPlayerIndex, dice)) {
-      throw new IllegalArgumentException("Invalid Snakes and Ladders engine parameters");
+    if (!ArgumentValidator.isValidObject(dice)) {
+      throw new IllegalArgumentException("Invalid dice");
     }
-
     this.dice = dice;
   }
 
@@ -79,17 +78,5 @@ public class SnakesAndLaddersEngine extends GameEngine {
 
   public Dice getDice() {
     return dice;
-  }
-
-  /**
-   * Checks if the game engine is valid.
-   *
-   * @param players           The list of players.
-   * @param board             The board used in the game.
-   * @param currentPlayerIndex The index of the current player.
-   * @return True if valid, false otherwise.
-   */
-  public boolean isValidSnakeEngine(List<Player> players, Board board, int currentPlayerIndex, Dice dice) {
-    return super.isValidGameEngine(players, board, currentPlayerIndex) && ArgumentValidator.isValidObject(dice);
   }
 }

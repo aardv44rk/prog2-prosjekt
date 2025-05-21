@@ -12,17 +12,24 @@ public class ArgumentValidator { // TODO Potentially add more validation methods
   }
 
   /**
-   * Validates if the input is a valid integer.
+   * Validates if the input is a valid index. In other words, if the input is a non-negative
+   * integer.
    *
    * @param input the input string to validate
    * @return true if the input is a valid integer, false otherwise
    */
-  public static boolean isValidInteger(int input) {
-    if (input < 0) {
-      return false;
-    }
-    
-    return true;
+  public static boolean isValidIndex(int input) {
+    return input >= 0;
+  }
+
+  /**
+   * Validates if the input is a positive integer.
+   *
+   * @param input the input integer to validate
+   * @return true if the input is a positive integer, false otherwise
+   */
+  public static boolean isPositiveInteger(int input) {
+    return input > 0;
   }
 
   /**

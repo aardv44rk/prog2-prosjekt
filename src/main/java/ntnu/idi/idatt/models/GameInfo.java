@@ -69,8 +69,8 @@ public class GameInfo {
   ) {
     return ArgumentValidator.isValidString(name)
       && ArgumentValidator.isValidString(rules)
-      && ArgumentValidator.isValidInteger(playerMin)
-      && ArgumentValidator.isValidInteger(playerMax)
+      && ArgumentValidator.isPositiveInteger(playerMin)
+      && ArgumentValidator.isPositiveInteger(playerMax)
       && ArgumentValidator.isValidObject(boardOptionsSupplier);
   }
 }

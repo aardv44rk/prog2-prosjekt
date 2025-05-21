@@ -324,7 +324,7 @@ public class GameConfig {
     if (!ArgumentValidator.isValidObject(board)) {
       return false;
     }
-    if (!ArgumentValidator.isValidInteger(currentPlayerIndex)) {
+    if (!ArgumentValidator.isValidIndex(currentPlayerIndex)) {
       return false;
     }
     return true;

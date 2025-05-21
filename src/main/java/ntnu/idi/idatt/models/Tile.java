@@ -59,6 +59,6 @@ public class Tile {
   }
 
   public boolean isValidTile(int tileId) {
-    return ArgumentValidator.isValidInteger(tileId);
+    return ArgumentValidator.isValidIndex(tileId);
   }
 }

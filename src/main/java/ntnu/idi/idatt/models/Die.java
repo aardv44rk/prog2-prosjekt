@@ -44,6 +44,6 @@ public class Die {
    * @return true if the input is a valid die, false otherwise
    */
   protected boolean isValidDie(int sides) {
-    return ArgumentValidator.isValidInteger(sides - 1); // take sides - 1 as 0 is invalid for die
+    return ArgumentValidator.isPositiveInteger(sides); // take sides - 1 as 0 is invalid for die
   }
 }
