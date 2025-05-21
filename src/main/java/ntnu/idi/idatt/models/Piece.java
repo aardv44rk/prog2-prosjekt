@@ -1,5 +1,7 @@
 package ntnu.idi.idatt.models;
 
+import ntnu.idi.idatt.utility.ArgumentValidator;
+
 /**
  * Represents a movable piece controlled by a player. A piece has a current tile position, an owner,
  * and a movement strategy.
@@ -18,6 +20,9 @@ public class Piece {
    * @param movementStrategy The movement strategy used by this piece.
    */
   public Piece(Tile currentTile, Player owner, MovementStrategy movementStrategy) {
+    if (!isValidPiece(currentTile, owner, movementStrategy)) {
+      throw new IllegalArgumentException("Invalid piece parameters");
+    }
     this.currentTile = currentTile;
     this.owner = owner;
     this.movementStrategy = movementStrategy;
@@ -80,5 +85,19 @@ public class Piece {
     } else {
       throw new IllegalStateException("MovementStrategy not set for piece.");
     }
+  }
+
+  /**
+   * Validates the parameters for creating a piece.
+   *
+   * @param currentTile      The tile the piece is currently on.
+   * @param owner            The player who owns this piece. 
+   * @param movementStrategy The movement strategy used by this piece.
+   * @return
+   */
+  public boolean isValidPiece(Tile currentTile, Player owner, MovementStrategy movementStrategy) {
+    return ArgumentValidator.isValidObject(currentTile) &&
+        ArgumentValidator.isValidObject(owner) &&
+        ArgumentValidator.isValidObject(movementStrategy);
   }
 }

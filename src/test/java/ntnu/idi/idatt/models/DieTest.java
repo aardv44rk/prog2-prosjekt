@@ -1,5 +1,6 @@
 package ntnu.idi.idatt.models;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,5 +19,14 @@ class DieTest {
   @Test
   void testGetSides() {
     assertEquals(6, die.getSides(), "Die should have 6 sides");
+  }
+
+  @Test
+  void testDieInvalidSides() {
+    int sides = 0;
+    IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> new Die(sides));
+
+    assertEquals("Number of sides must be a positive integer", e.getMessage(),
+        "Exception message should match");
   }
 }

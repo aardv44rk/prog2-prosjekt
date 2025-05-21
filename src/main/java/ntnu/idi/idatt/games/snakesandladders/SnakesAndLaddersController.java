@@ -24,6 +24,9 @@ import ntnu.idi.idatt.models.Piece;
 import ntnu.idi.idatt.models.Player;
 import ntnu.idi.idatt.utility.DrawingUtil;
 
+/**
+ * Controller for the Snakes and Ladders game.
+ */
 public class SnakesAndLaddersController {
 
   private final SnakesAndLaddersEngine engine;
@@ -33,6 +36,11 @@ public class SnakesAndLaddersController {
   private final UISnakesAndLaddersBoard uIBoard;
   private final Map<Integer, UISnakesAndLaddersTile> tiles;
 
+  /**
+   * Constructor for the Snakes and Ladders controller.
+   * Initializes the game engine, view, and board.
+   * Sets up the pieces and event handlers.
+   */
   public SnakesAndLaddersController() {
     GameConfig config = AppState.getCurrentGameConfig();
 
@@ -83,6 +91,10 @@ public class SnakesAndLaddersController {
     return view;
   }
 
+  /**
+   * Sets up event handlers for the game.
+   * Handles the roll button click event and updates the game state accordingly.
+   */
   private void setupEventHandlers() {
     view.rollSetOnClick(() -> {
       if (!engine.isGameOver()) {
@@ -102,6 +114,10 @@ public class SnakesAndLaddersController {
     });
   }
 
+  /**
+   * Sets up the pieces for the game.
+   * Initializes the pieces for each player and assigns them to the corresponding UI elements.
+   */
   private void setPieces() {
     if (engine.getPlayers().stream().map(Player::getPieces).anyMatch(List::isEmpty)) {
       engine.initPieces();
@@ -117,6 +133,10 @@ public class SnakesAndLaddersController {
     }
   }
 
+  /**
+   * Renders the ladders on the board.
+   * Sets the color of the tiles based on the ladder's direction (ascending or descending).
+   */
   private void renderLadders() {
     board.getLadders().forEach(ladder -> {
       tiles.get(ladder.startTileId()).setColor(
@@ -135,6 +155,9 @@ public class SnakesAndLaddersController {
     });
   }
 
+  /**
+   * Renders the player list on the UI.
+   */
   private void renderPlayerList() {
     LinkedHashMap<String, Node> namePieceList = new LinkedHashMap<>();
     for (Map.Entry<Piece, UIPiece> entry : pieces.entrySet()) {
@@ -145,11 +168,22 @@ public class SnakesAndLaddersController {
   }
 
 
+  /**
+   * Updates the dice display on the UI.
+   * Sets the eyes of the dice based on the current values.
+   */
   private void updateDice() {
     int[] diceValues = engine.getDice().getValues();
     view.setDiceEyes(diceValues[0], diceValues[1]);
   }
 
+  /**
+   * Updates the position of a piece on the board and sets the layout coordinates
+   * of the piece based on its current tile.
+   *
+   * @param tileId The ID of the tile where the piece is located.
+   * @param piece   The piece to be updated.
+   */
   private void updatePiece(int tileId, UIPiece piece) {
     UISnakesAndLaddersTile tile = tiles.get(tileId);
 

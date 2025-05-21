@@ -6,12 +6,21 @@ import ntnu.idi.idatt.models.Dice;
 import ntnu.idi.idatt.models.Piece;
 import ntnu.idi.idatt.models.Player;
 import ntnu.idi.idatt.models.SimpleGameEngine;
+import ntnu.idi.idatt.utility.ArgumentValidator;
 
 /**
  * Game engine for Snakes and Ladders. Handles game flow and win condition.
  */
 public class SnakesAndLaddersEngine extends SimpleGameEngine {
 
+  /**
+   * Constructor for SnakesAndLaddersEngine.
+   *
+   * @param players           List of players in the game.
+   * @param board             The game board.
+   * @param currentPlayerIndex Index of the current player.
+   * @param dice              The dice used in the game.
+   */
   public SnakesAndLaddersEngine(List<Player> players, Board board, int currentPlayerIndex,
       Dice dice) {
     super(players, board, currentPlayerIndex, dice);
@@ -25,6 +34,7 @@ public class SnakesAndLaddersEngine extends SimpleGameEngine {
       p.getPieces().add(new Piece(board.getTile(0), p, new LinearMovementStrategy()));
     }
   }
+
 
   @Override
   public Player checkWinCondition() {

@@ -10,8 +10,8 @@ public class GameSetupController {
 
   private final GameSetupView view;
 
-  public GameSetupController() {
-    this.view = new GameSetupView();
+  public GameSetupController(GameSetupView view) {
+    this.view = view;
   }
 
   public Parent getViewForGame(GameInfo gameInfo) {

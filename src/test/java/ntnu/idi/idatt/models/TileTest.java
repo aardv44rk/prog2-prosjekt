@@ -46,7 +46,7 @@ class TileTest {
     }
 
     @Test
-    void testLand_whenActionIsSet() {
+    void testLandWhenActionIsSet() {
         tile.setTileAction(mockTileAction);
         tile.land(mockPiece, mockBoard);
         // Verify that the action's perform method was called once
@@ -54,7 +54,7 @@ class TileTest {
     }
 
     @Test
-    void testLand_whenActionIsNull() {
+    void testLandWhenActionIsNull() {
         tile.setTileAction(null); // Ensure action is null
         
         // Call land and assert that no exception is thrown (and no method on a null action is called)
@@ -67,5 +67,20 @@ class TileTest {
     @Test
     void testToString() {
         assertEquals(String.valueOf(TILE_ID), tile.toString(), "toString should return the tileId as a String.");
+    }
+
+    @Test
+    void testIsValidTile() {
+        assertTrue(tile.isValidTile(TILE_ID), "Valid tile ID should return true.");
+        assertFalse(tile.isValidTile(-1), "Negative tile ID should return false.");
+        assertTrue(tile.isValidTile(0), "Zero tile ID should return true.");
+    }
+
+    @Test
+    void testInvalidTileIdThrowsException() {
+        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> {
+            new Tile(-1);
+        });
+        assertEquals("Invalid arguments", e.getMessage(), "Should throw exception for invalid tile ID");
     }
 }
