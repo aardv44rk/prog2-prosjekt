@@ -8,10 +8,17 @@ import javafx.scene.layout.VBox;
 import ntnu.idi.idatt.components.GameCard;
 import ntnu.idi.idatt.models.GameInfo;
 
+/**
+ * The GameMenuView class represents the view for the game menu. It displays a list of game cards
+ * that users can select to start a game.
+ */
 public class GameMenuView extends VBox {
 
   HBox gameCardContainer;
 
+  /**
+   * Constructor for the GameMenuView class. It initializes the view with a container for game cards.
+   */
   public GameMenuView() {
     getStyleClass().add("game-menu-view");
 
@@ -21,6 +28,13 @@ public class GameMenuView extends VBox {
     getChildren().add(gameCardContainer);
   }
 
+  /**
+   * Sets the list of games to be displayed in the game menu. Each game card is clickable and
+   * triggers the provided action when clicked.
+   *
+   * @param games   The list of GameInfo objects representing the games.
+   * @param onClick The action to be performed when a game card is clicked.
+   */
   public void setGames(List<GameInfo> games, Consumer<GameInfo> onClick) {
     List<GameCard> gameCards = new ArrayList<>();
 
