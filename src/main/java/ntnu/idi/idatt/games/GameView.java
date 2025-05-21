@@ -101,10 +101,6 @@ public class GameView extends BorderPane {
    * @throws IllegalArgumentException if the number of eyes are invalid
    */
   public void setDiceEyes(int leftEyes, int rightEyes) {
-    if (!ArgumentValidator.isPositiveInteger(leftEyes) || !ArgumentValidator.isPositiveInteger(
-        rightEyes)) {
-      throw new IllegalArgumentException("Invalid dice eyes");
-    }
     leftDie.setEyes(leftEyes);
     rightDie.setEyes(rightEyes);
   }
