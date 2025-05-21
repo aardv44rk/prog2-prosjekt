@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 
 import java.util.ArrayList;
@@ -17,16 +18,6 @@ import java.util.List;
 class TestGameEngine extends GameEngine {
     public TestGameEngine(List<Player> players, Board board, int currentPlayerIndex) {
         super(players, board, currentPlayerIndex);
-    }
-
-    @Override
-    public void playGame() {
-        // No-op for testing base class
-    }
-
-    @Override
-    public void handleTurn() {
-        // No-op for testing base class
     }
 
     @Override
@@ -113,5 +104,29 @@ class GameEngineTest {
     void testGetPlayers() {
         assertEquals(players, gameEngine.getPlayers(), "getPlayers should return the initialized list of players");
         assertEquals(3, gameEngine.getPlayers().size(), "Should be 3 players in the list");
+    }
+
+    @Test
+    void testValidateGameEngineParameters() {
+        assertTrue(gameEngine.isValidGameEngine(players, mockBoard, 0), "Should return true for valid parameters");
+        assertFalse(gameEngine.isValidGameEngine(new ArrayList<>(), mockBoard, 0), "Should return false for empty players list");
+        assertFalse(gameEngine.isValidGameEngine(players, null, 0), "Should return false for null board");
+        assertFalse(gameEngine.isValidGameEngine(players, mockBoard, -1), "Should return false for negative current player index");
+        assertFalse(gameEngine.isValidGameEngine(null, mockBoard, 0), "Should return false for out-of-bounds current player index");
+    }
+
+    @Test
+    void testInvalidGameEngineParametersThrowsException() {
+        // Test with invalid parameters
+        List<Player> invalidPlayers = new ArrayList<>();
+        Board invalidBoard = null;
+        int invalidCurrentPlayerIndex = -1;
+
+        // Check if the constructor throws an exception for invalid parameters
+        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> {
+            new TestGameEngine(invalidPlayers, invalidBoard, invalidCurrentPlayerIndex);
+        });
+
+        assertEquals("Invalid game engine parameters", e.getMessage(), "Should throw exception for invalid parameters");
     }
 }

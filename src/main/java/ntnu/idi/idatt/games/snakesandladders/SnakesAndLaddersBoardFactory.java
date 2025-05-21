@@ -6,9 +6,13 @@ import ntnu.idi.idatt.models.Board;
 /**
  * Factory class to create a Snakes and Ladders board.
  */
-
 public class SnakesAndLaddersBoardFactory {
 
+  /**
+   * Creates a small Snakes and Ladders board with predefined ladders.
+   *
+   * @return A Snakes and Ladders board with 7 rows and 8 columns.
+   */
   public static Board createSmallBoard() {
     List<SnakesAndLaddersLadder> ladders = List.of(
         new SnakesAndLaddersLadder(1, 13),
@@ -29,6 +33,11 @@ public class SnakesAndLaddersBoardFactory {
     return board;
   }
 
+  /**
+   * Creates a standard Snakes and Ladders board with predefined ladders.
+   *
+   * @return A Snakes and Ladders board with 9 rows and 10 columns.
+   */
   public static Board createStandardBoard() {
     List<SnakesAndLaddersLadder> ladders = List.of(
         new SnakesAndLaddersLadder(5, 15),
@@ -54,6 +63,11 @@ public class SnakesAndLaddersBoardFactory {
     return board;
   }
 
+  /**
+   * Creates a big Snakes and Ladders board with predefined ladders.
+   *
+   * @return A Snakes and Ladders board with 10 rows and 10 columns.
+   */
   public static Board createBigBoard() {
     List<SnakesAndLaddersLadder> ladders = List.of(
         new SnakesAndLaddersLadder(4, 22),
@@ -78,6 +92,11 @@ public class SnakesAndLaddersBoardFactory {
     return board;
   }
 
+  /**
+   * Returns a list of predefined Snakes and Ladders boards.
+   *
+   * @return A list containing small, standard, and big Snakes and Ladders boards.
+   */
   public static List<Board> getBoards() {
     return List.of(createSmallBoard(), createStandardBoard(), createBigBoard());
   }

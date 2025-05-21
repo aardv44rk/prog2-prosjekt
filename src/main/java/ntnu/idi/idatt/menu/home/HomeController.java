@@ -7,8 +7,8 @@ public class HomeController {
 
   private final HomeView view;
 
-  public HomeController() {
-    this.view = new HomeView();
+  public HomeController(HomeView view) {
+    this.view = view;
     setupEventHandlers();
   }
 

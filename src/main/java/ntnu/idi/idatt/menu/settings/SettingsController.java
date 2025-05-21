@@ -6,8 +6,8 @@ public class SettingsController {
 
   private final SettingsView view;
 
-  public SettingsController() {
-    this.view = new SettingsView();
+  public SettingsController(SettingsView view) {
+    this.view = view;
   }
 
   public Parent getView() {

@@ -10,8 +10,8 @@ public class GameMenuController {
 
   private final GameMenuView view;
 
-  public GameMenuController() {
-    this.view = new GameMenuView();
+  public GameMenuController(GameMenuView view) {
+    this.view = view;
   }
 
   public Parent getView() {
