@@ -1,10 +1,10 @@
-.snl-piece {
+.piece {
   -fx-border-width: 2;
   -fx-border-color: black;
   -fx-effect: -fx-drop-shadow-color-1;
 }
 
-.snl-piece-filler {
+.piece-filler {
   -fx-min-width: 30;
   -fx-max-width: 30;
   -fx-min-height: 30;

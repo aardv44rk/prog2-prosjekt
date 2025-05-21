@@ -40,8 +40,8 @@ public class GameConfig {
    * @throws IllegalArgumentException if the game configuration is invalid
    */
   public GameConfig(
-          List<Player> players, 
-          Board board, 
+          List<Player> players,
+          Board board,
           int currentPlayerIndex
   ) {
     if (!isValidGameConfig(players, board, currentPlayerIndex)) {
@@ -184,10 +184,10 @@ public class GameConfig {
       if (config.has("boardRows") && config.has("boardColumns")) {
         int rows = config.get("boardRows").getAsInt();
         int columns = config.get("boardColumns").getAsInt();
-        
+
         // Find the matching board based on dimensions
         if (rows == 7 && columns == 8) {
-          board = SnakesAndLaddersBoardFactory.createSmallBoard();            
+          board = SnakesAndLaddersBoardFactory.createSmallBoard();
           System.out.println("Loaded small Snakes and Ladders board");
         } else if (rows == 10 && columns == 10) {
           board = SnakesAndLaddersBoardFactory.createBigBoard();
@@ -275,7 +275,7 @@ public class GameConfig {
     if (!ArgumentValidator.isValidFilePath(filePath)) {
       throw new IllegalArgumentException("Bad file path");
     }
-    
+
     Type listType = JsonUtil.getListType(String.class);
     List<String> playerNames = JsonUtil.readFromFile(filePath, listType);
 

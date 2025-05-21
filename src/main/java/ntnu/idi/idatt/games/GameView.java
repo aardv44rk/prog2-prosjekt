@@ -1,4 +1,4 @@
-package ntnu.idi.idatt.games.snakesandladders;
+package ntnu.idi.idatt.games;
 
 import java.util.LinkedHashMap;
 import javafx.scene.Node;
@@ -10,9 +10,9 @@ import ntnu.idi.idatt.components.UIDie;
 import ntnu.idi.idatt.utility.ArgumentValidator;
 
 /**
- * View for the Snakes and Ladders game.
+ * View for a simple game with 2 dice.
  */
-public class SnakesAndLaddersView extends BorderPane {
+public class GameView extends BorderPane {
 
   private final GamePlayerList playerList;
   private final UIDie leftDie;
@@ -20,14 +20,13 @@ public class SnakesAndLaddersView extends BorderPane {
   private final TextButton rollButton;
 
   /**
-   * Constructor for SnakesAndLaddersView.
-   * Initializes the view components and layout.
+   * Constructor for GameView. Initializes the view components and layout
    */
-  public SnakesAndLaddersView() {
-    getStyleClass().add("snakes-and-ladders-view");
+  public GameView() {
+    getStyleClass().add("game-view");
 
     BorderPane left = new BorderPane();
-    left.getStyleClass().add("snakes-and-ladders-left");
+    left.getStyleClass().add("game-left");
 
     playerList = new GamePlayerList();
 
@@ -41,7 +40,7 @@ public class SnakesAndLaddersView extends BorderPane {
     rollButton = new TextButton("Roll");
 
     VBox diceBox = new VBox();
-    diceBox.getStyleClass().add("snakes-and-ladders-dice");
+    diceBox.getStyleClass().add("game-dice");
     diceBox.getChildren().addAll(dice, rollButton);
 
     left.setTop(playerList);
@@ -52,7 +51,7 @@ public class SnakesAndLaddersView extends BorderPane {
 
   /**
    * Sets the player list in the view.
-   * 
+   *
    * @param players the players to set in the player list.
    * @throws IllegalArgumentException if the players are invalid.
    */
@@ -72,7 +71,7 @@ public class SnakesAndLaddersView extends BorderPane {
 
   /**
    * Sets the board in the view.
-   * 
+   *
    * @param board the board to set in the view.
    * @throws IllegalArgumentException if the board is invalid.
    */
@@ -81,25 +80,40 @@ public class SnakesAndLaddersView extends BorderPane {
       throw new IllegalArgumentException("Invalid board");
     }
     BorderPane borderPane = new BorderPane(board);
-    borderPane.getStyleClass().add("snakes-and-ladders-board-container");
+    borderPane.getStyleClass().add("game-board-container");
     setCenter(borderPane);
   }
 
   /**
+   * Displays game stats on the right side of the game view.
+   *
+   * @param node the stats to set in the view.
+   */
+  public void setStats(Node node) {
+    setRight(node);
+  }
+
+  /**
    * Sets the dice eyes for the left and right dice.
-   * 
+   *
    * @param leftEyes  the number of eyes of left die
    * @param rightEyes the number of eyes of right die
    * @throws IllegalArgumentException if the number of eyes are invalid
    */
   public void setDiceEyes(int leftEyes, int rightEyes) {
-    if (!ArgumentValidator.isPositiveInteger(leftEyes) || !ArgumentValidator.isPositiveInteger(rightEyes)) {
+    if (!ArgumentValidator.isPositiveInteger(leftEyes) || !ArgumentValidator.isPositiveInteger(
+        rightEyes)) {
       throw new IllegalArgumentException("Invalid dice eyes");
     }
     leftDie.setEyes(leftEyes);
     rightDie.setEyes(rightEyes);
   }
 
+  /**
+   * Sets action for roll button when pressed.
+   *
+   * @param runnable action to run when roll is pressed
+   */
   public void rollSetOnClick(Runnable runnable) {
     rollButton.setOnAction(e -> runnable.run());
   }

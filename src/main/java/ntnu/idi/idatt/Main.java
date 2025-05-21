@@ -6,6 +6,7 @@ import ntnu.idi.idatt.components.NavBar;
 import ntnu.idi.idatt.core.PrimaryScene;
 import ntnu.idi.idatt.games.ludo.LudoController;
 import ntnu.idi.idatt.games.snakesandladders.SnakesAndLaddersController;
+import ntnu.idi.idatt.games.thievesAndRobbers.ThievesAndRobbersController;
 import ntnu.idi.idatt.menu.gameSetup.GameSetupController;
 import ntnu.idi.idatt.menu.gameSetup.GameSetupView;
 import ntnu.idi.idatt.menu.gameLoad.GameLoadController;
@@ -64,6 +65,16 @@ public class Main extends Application {
                 true),
             () -> new SnakesAndLaddersController().getView()
         ));
+    Router.registerRoute(
+        new Route(
+            "Thieves and Robbers",
+            () -> new NavBar(
+                AppState.getSelectedGame().getName(),
+                Router::showPauseMenu,
+                true),
+            () -> new ThievesAndRobbersController().getView()
+        )
+    );
     Router.registerRoute(
         new Route(
             "Ludo",

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import ntnu.idi.idatt.games.ludo.LudoBoardFactory;
 import ntnu.idi.idatt.games.snakesandladders.SnakesAndLaddersBoardFactory;
+import ntnu.idi.idatt.games.thievesAndRobbers.ThievesAndRobbersBoardFactory;
 import ntnu.idi.idatt.models.GameInfo;
 
 public class GameRegistry {
@@ -16,6 +17,13 @@ public class GameRegistry {
             "Roll the dice to move forward. Green ladders move you up, and red ladders move you down. First to the end wins.",
             2, 5,
             SnakesAndLaddersBoardFactory::getBoards
+        )
+    );
+    games.add(
+        new GameInfo("Thieves and Robbers",
+            "Roll the dice to move forward. Steal money from each house (tile), and finish a lap to get $100. First to $1000 wins.",
+            2, 4,
+            ThievesAndRobbersBoardFactory::getBoards
         )
     );
     games.add(

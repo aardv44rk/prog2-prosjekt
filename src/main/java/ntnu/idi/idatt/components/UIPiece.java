@@ -5,16 +5,16 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import ntnu.idi.idatt.utility.StyleUtil;
 
-public class UISnakesAndLaddersPiece extends VBox {
+public class UIPiece extends VBox {
 
   private final Color color;
 
-  public UISnakesAndLaddersPiece(Color color) {
+  public UIPiece(Color color) {
     this.color = color;
-    getStyleClass().add("snl-piece");
+    getStyleClass().add("piece");
     setStyle("-fx-background-color: " + StyleUtil.toRgbString(color) + ";");
     Region filler = new Region();
-    filler.getStyleClass().add("snl-piece-filler");
+    filler.getStyleClass().add("piece-filler");
     getChildren().add(filler);
   }
 

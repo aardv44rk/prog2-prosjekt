@@ -24,6 +24,8 @@ public class AssetRepository {
   public static Color LADDER_START_DOWN = Color.web("FFAB91");
   public static Color LADDER_END_DOWN = Color.web("FFE0B2");
 
+  public static Color TAR_PATH = Color.web("CCCCAA");
+  public static Color TAR_START = Color.web("AAAA99");
 
   public static Color LUDO_GOAL = Color.web("FCFCFA");
 
