@@ -90,6 +90,9 @@ public class NewPlayer extends HBox {
    * @param runnable The action to be performed.
    */
   public void setOnClick(Runnable runnable) {
+    if (removeButton == null) {
+      return;
+    }
     removeButton.setOnAction(e -> runnable.run());
   }
 }

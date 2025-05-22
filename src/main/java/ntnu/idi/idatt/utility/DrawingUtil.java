@@ -5,8 +5,18 @@ import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 
+/**
+ * Utility class for drawing-related operations in JavaFX.
+ */
 public class DrawingUtil {
 
+  /**
+   * Calculates the center coordinates of a node relative to its parent.
+   *
+   * @param parent The parent node.
+   * @param node   The child node.
+   * @return The center coordinates of the child node relative to the parent.
+   */
   public static Point2D getCenterCoords(Parent parent, Node node) {
     Bounds bounds = node.localToScene(node.getBoundsInLocal());
 
@@ -16,6 +26,14 @@ public class DrawingUtil {
     return parent.sceneToLocal(new Point2D(centerX, centerY));
   }
 
+  /**
+   * Calculates the center coordinates of a node relative to its parent, with an offset node.
+   *
+   * @param parent      The parent node.
+   * @param node        The child node.
+   * @param offsetNode  The offset node.
+   * @return The center coordinates of the child node relative to the parent, adjusted for the offset node.
+   */
   public static Point2D getCenterCoordsOffsetForNode(Parent parent, Node node, Node offsetNode) {
     Bounds tileBoundsInLocal = node.getBoundsInLocal();
     Bounds tileBoundsInScene = node.localToScene(tileBoundsInLocal);

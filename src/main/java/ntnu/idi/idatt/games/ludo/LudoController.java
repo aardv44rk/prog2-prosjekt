@@ -23,7 +23,6 @@ public class LudoController {
   private final LudoEngine engine;
   private final LudoView view;
   private final LinkedHashMap<Piece, UILudoPiece> pieces;
-  private final LudoBoard board;
   private final UILudoBoard uIBoard;
 
   public LudoController() {
@@ -37,7 +36,6 @@ public class LudoController {
 
     this.view = new LudoView();
     this.pieces = new LinkedHashMap<>();
-    this.board = new LudoBoard(engine.getPlayers());
     this.uIBoard = new UILudoBoard();
 
     setPieces();

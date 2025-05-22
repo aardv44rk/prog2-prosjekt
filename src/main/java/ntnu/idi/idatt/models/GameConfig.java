@@ -1,31 +1,35 @@
 package ntnu.idi.idatt.models;
 
-import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import ntnu.idi.idatt.exceptions.ConfigurationException;
 import ntnu.idi.idatt.exceptions.FileHandlingException;
 import ntnu.idi.idatt.exceptions.InvalidInputException;
 import ntnu.idi.idatt.exceptions.ReadException;
 import ntnu.idi.idatt.exceptions.WriteException;
 import ntnu.idi.idatt.games.ludo.LudoBoard;
-import ntnu.idi.idatt.games.ludo.LudoBoardFactory;
 import ntnu.idi.idatt.games.snakesandladders.LadderAction;
 import ntnu.idi.idatt.games.snakesandladders.LinearMovementStrategy;
 import ntnu.idi.idatt.games.snakesandladders.SnakesAndLaddersBoard;
 import ntnu.idi.idatt.games.snakesandladders.SnakesAndLaddersBoardFactory;
+import ntnu.idi.idatt.games.thievesandrobbers.CircularMovementStrategy;
+import ntnu.idi.idatt.games.thievesandrobbers.MoneyAction;
+import ntnu.idi.idatt.games.thievesandrobbers.ThievesAndRobbersBoard;
+import ntnu.idi.idatt.games.thievesandrobbers.ThievesAndRobbersBoardFactory;
+import ntnu.idi.idatt.games.thievesandrobbers.ThievesAndRobbersPiece;
 import ntnu.idi.idatt.utility.ArgumentValidator;
+import ntnu.idi.idatt.utility.CsvUtil;
 import ntnu.idi.idatt.utility.FileUtil;
-import ntnu.idi.idatt.utility.JsonUtil;
 
 /**
- * Represents the configuration of a game, including players, board, and current player index.
+ * Represents the configuration of a game, including players, board, and current
+ * player index.
  * Provides methods to save and load game configurations and player lists.
  */
 public class GameConfig {
@@ -37,16 +41,15 @@ public class GameConfig {
   /**
    * Constructor for the GameConfig class.
    *
-   * @param players a list of players
-   * @param board the game board
+   * @param players            a list of players
+   * @param board              the game board
    * @param currentPlayerIndex the index of the current player
    * @throws ConfigurationException if the game configuration is invalid
    */
   public GameConfig(
-          List<Player> players,
-          Board board,
-          int currentPlayerIndex
-  ) {
+      List<Player> players,
+      Board board,
+      int currentPlayerIndex) {
     if (!isValidGameConfig(players, board, currentPlayerIndex)) {
       throw new ConfigurationException("Invalid game configuration");
     }
@@ -89,6 +92,22 @@ public class GameConfig {
       SnakesAndLaddersBoard snlBoard = (SnakesAndLaddersBoard) board;
       config.addProperty("boardRows", snlBoard.getRows());
       config.addProperty("boardColumns", snlBoard.getColumns());
+    } else if (board instanceof LudoBoard) {
+      ThievesAndRobbersBoard tarBoard = (ThievesAndRobbersBoard) board;
+      config.addProperty("boardWith", tarBoard.getWidth());
+      config.addProperty("boardHeight", tarBoard.getHeight());
+
+      JsonArray tileMoneyArray = new JsonArray();
+
+      for (int i = 0; i < tarBoard.getTiles().size(); i++) {
+        Tile tile = tarBoard.getTile(i);
+        if (tile != null && tile.getTileAction() instanceof MoneyAction) {
+          tileMoneyArray.add(((MoneyAction) tile.getTileAction()).getMoney());
+        } else {
+          tileMoneyArray.add(0); // Default value for tiles without MoneyAction
+        }
+      }
+      config.add("tileMoney", tileMoneyArray);
     }
 
     // Save detailed board information
@@ -109,6 +128,8 @@ public class GameConfig {
           int destinationTileId = getActionDestinationTileId(action);
           actionObj.addProperty("type", "ladder");
           actionObj.addProperty("destinationTileId", destinationTileId);
+        } else if (action instanceof MoneyAction) {
+          actionObj.addProperty("type", "money");
         } else {
           actionObj.addProperty("type", "default"); // Default value
         }
@@ -131,6 +152,12 @@ public class GameConfig {
       for (Piece piece : player.getPieces()) {
         JsonObject pieceObj = new JsonObject();
         pieceObj.addProperty("tileId", piece.getCurrentTile().getTileId());
+        if (piece instanceof ThievesAndRobbersPiece) {
+          pieceObj.addProperty("pieceMoney", ((ThievesAndRobbersPiece) piece).getMoney());
+          pieceObj.addProperty("movementStrategy", CircularMovementStrategy.class.getName());
+        } else {
+          pieceObj.addProperty("movementStrategy", LinearMovementStrategy.class.getName());
+        }
         piecesArray.add(pieceObj);
       }
       playerObj.add("pieces", piecesArray);
@@ -153,20 +180,20 @@ public class GameConfig {
    * Saves the player list to a file.
    *
    * @param filePath the path to the file
-   * @throws WriteException if a write / input error occurs
+   * @throws WriteException        if a write / input error occurs
    * @throws InvalidInputException if the file path is invalid
    */
-  public void savePlayerList(String filePath) throws WriteException {
+  public void savePlayerList(String filePath) throws InvalidInputException, WriteException {
     try {
       if (!ArgumentValidator.isValidFilePath(filePath)) {
         throw new InvalidInputException("Invalid file path");
       }
-      List<String> playerNames = new ArrayList<>();
+      List<String[]> playerNames = new ArrayList<>();
       for (Player player : players) {
-        playerNames.add(player.getName());
+        playerNames.add(new String[] { player.getName() });
       }
 
-      JsonUtil.writeToFile(filePath, playerNames);
+      CsvUtil.writeCsv(filePath, playerNames);
       System.out.println("Player list saved to: " + filePath);
     } catch (IOException e) {
       throw new WriteException("Error writing player list to file: " + filePath, e);
@@ -178,8 +205,8 @@ public class GameConfig {
    *
    * @param filePath the path to the file
    * @return the loaded game configuration
-   * @throws ReadException if an I/O error occurs
-   * @throws InvalidInputException if the file path is invalid
+   * @throws ReadException         if an I/O error occurs
+   * @throws InvalidInputException if the path is invalid
    */
   public GameConfig loadConfig(String filePath) throws ReadException {
     if (!ArgumentValidator.isValidFilePath(filePath)) {
@@ -199,7 +226,7 @@ public class GameConfig {
     String boardType = config.get("boardType").getAsString();
     Board board;
     if (boardType.equals(SnakesAndLaddersBoard.class.getName())) {
-    // Check if dimensions are saved in the config
+      // Check if dimensions are saved in the config
       if (config.has("boardRows") && config.has("boardColumns")) {
         int rows = config.get("boardRows").getAsInt();
         int columns = config.get("boardColumns").getAsInt();
@@ -218,12 +245,43 @@ public class GameConfig {
       } else {
         board = SnakesAndLaddersBoardFactory.createStandardBoard();
         System.out.println("Loaded default Snakes and Ladders board");
+      } // TODO generalize all of this, this is a mess
+    } else if (boardType.equals(ThievesAndRobbersBoard.class.getName())) {
+      if (config.has("boardWidth") && config.has("boardHeight")) {
+        int width = config.get("boardWidth").getAsInt();
+        int height = config.get("boardHeight").getAsInt();
+        if (width == 8 && height == 6) {
+          board = ThievesAndRobbersBoardFactory.createSmallBoard();
+          System.out.println("Loaded small Thieves and Robbers board");
+        } else if (width == 8 && height == 8) {
+          board = ThievesAndRobbersBoardFactory.createStandardBoard();
+          System.out.println("Loaded standard Thieves and Robbers board");
+        } else if (width == 10 && height == 10) {
+          board = ThievesAndRobbersBoardFactory.createBigBoard();
+          System.out.println("Loaded big Thieves and Robbers board");
+        } else {
+          board = ThievesAndRobbersBoardFactory.createStandardBoard();
+          System.out.println("Loaded default Thieves and Robbers board");
+        }
+      } else {
+        board = ThievesAndRobbersBoardFactory.createStandardBoard();
+        System.out.println("Loaded default Thieves and Robbers board");
+      } // TODO generalize all of this, this is a mess
+
+      if (config.has("tileMoney")) {
+        JsonArray tileMoneyArray = config.getAsJsonArray("tileMoney");
+
+        if (tileMoneyArray.size() == board.getTiles().size()) {
+          for (int i = 0; i < tileMoneyArray.size(); i++) {
+            Tile tile = board.getTile(i);
+            if (tile != null) {
+              tile.setTileAction(new MoneyAction(tileMoneyArray.get(i).getAsInt()));
+            }
+          }
+        } else {
+          System.err.println("No tile money information found in the config");
+        }
       }
-    } else if (boardType.equals(LudoBoard.class.getName())) {
-      board = LudoBoardFactory.createLudoBoard();
-      // TODO add ludo specific code here
-      // homes etc need to be saved in the config
-      System.out.println("Loaded Ludo board");
     } else {
       throw new ConfigurationException("Unknown board type: " + boardType);
     }
@@ -288,7 +346,7 @@ public class GameConfig {
    *
    * @param filePath the path to the file
    * @return the loaded player list
-   * @throws ReadException if an I/O error occurs
+   * @throws ReadException         if an I/O error occurs
    * @throws InvalidInputException if the file path is invalid
    */
   public List<Player> loadPlayerList(String filePath) throws ReadException {
@@ -296,21 +354,20 @@ public class GameConfig {
       throw new InvalidInputException("Bad file path");
     }
 
-    Type listType = JsonUtil.getListType(String.class);
-    List<Player> newPlayerList = new ArrayList<>();
     try {
-      List<String> playerNames = JsonUtil.readFromFile(filePath, listType);
+      List<String[]> playerData = CsvUtil.readCsv(filePath);
+      List<Player> loadedPlayers = new ArrayList<>();
 
-      // Convert names to Player objects with empty piece lists
-      for (String name : playerNames) {
-        newPlayerList.add(new Player(name, new ArrayList<>()));
+      for (String[] data : playerData) {
+        if (data.length > 0) {
+          String playerName = data[0];
+          loadedPlayers.add(new Player(playerName, new ArrayList<>()));
+        }
       }
-    } catch (FileHandlingException e) {
-      throw new ReadException("Error reading player list from file: " + filePath, e);
+      return loadedPlayers;
     } catch (IOException e) {
       throw new ReadException("File not found: " + filePath, e);
     }
-    return newPlayerList;
   }
 
   /**
@@ -333,16 +390,15 @@ public class GameConfig {
   /**
    * Validates the game configuration.
    *
-   * @param players a list of players
-   * @param board the game board
+   * @param players            a list of players
+   * @param board              the game board
    * @param currentPlayerIndex the index of the current player
    * @return true if the game configuration is valid, false otherwise
    */
   public boolean isValidGameConfig(
-    List<Player> players,
-    Board board,
-    int currentPlayerIndex
-  ) {
+      List<Player> players,
+      Board board,
+      int currentPlayerIndex) {
     if (!ArgumentValidator.isValidList(players)) {
       return false;
     }

@@ -28,6 +28,10 @@ public class SimpleGameEngine extends GameEngine {
     this.dice = dice;
   }
 
+  /**
+   * Handles the turn for the current player. It rolls the dice, moves the piece, and checks for
+   * win conditions.
+   */
   public void handleTurn() {
     Player player = getCurrentPlayer();
     Piece piece = player.getPieces().getFirst();
@@ -42,10 +46,19 @@ public class SimpleGameEngine extends GameEngine {
     }
   }
 
+  /**
+   * Initializes the pieces for each player on the board. This is a dummy implementation and should
+   * be overridden in subclasses to provide specific piece initialization.
+   */
   public void initPieces() {
-
+    // Dummy implementation. This method should be overridden in subclasses to
+    // initialize pieces for specific games.
   }
 
+  /**
+   * Dummy implementation of checkWinCondition. This method should be overridden in subclasses to
+   * provide specific win conditions for different games.
+   */
   @Override
   public Player checkWinCondition() {
     return null;
