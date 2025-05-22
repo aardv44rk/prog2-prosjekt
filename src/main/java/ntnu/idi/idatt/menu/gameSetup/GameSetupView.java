@@ -12,6 +12,7 @@ import ntnu.idi.idatt.components.AddPlayer;
 import ntnu.idi.idatt.components.NewPlayer;
 import ntnu.idi.idatt.components.TextButton;
 import ntnu.idi.idatt.core.Router;
+import ntnu.idi.idatt.exceptions.InvalidInputException;
 import ntnu.idi.idatt.models.Board;
 import ntnu.idi.idatt.models.Player;
 import ntnu.idi.idatt.utility.ArgumentValidator;
@@ -114,13 +115,14 @@ public class GameSetupView extends BorderPane {
    * @param playerName The name of the player.
    * @param min        The minimum number of players.
    * @param max        The maximum number of players.
+   * @throws InvalidInputException if the player name is invalid or the interval is invalid.
    */
   public void addPlayer(String playerName, int min, int max) {
     if (!ArgumentValidator.isValidString(playerName)) {
-      throw new IllegalArgumentException("Invalid player name");
+      throw new InvalidInputException("Invalid player name");
     }
     if (!ArgumentValidator.isValidInterval(min, max)) {
-      throw new IllegalArgumentException("Invalid player interval"); // this should never happen, but just in case
+      throw new InvalidInputException("Invalid player interval"); // this should never happen, but just in case
     }
 
     NewPlayer newPlayer = new NewPlayer(
@@ -177,22 +179,28 @@ public class GameSetupView extends BorderPane {
    *
    * @param min The minimum number of players.
    * @param max The maximum number of players.
+   * @throws InvalidInputException if the interval is invalid.
    */
   public void updatePlayerBox(int min, int max) {
     if (!ArgumentValidator.isValidInterval(min, max)) {
-      throw new IllegalArgumentException("Invalid player interval");
+      throw new InvalidInputException("Invalid player interval");
     }
     playerBox.getChildren().clear();
     playerBox.getChildren().addAll(playerList);
 
     if (playerList.size() < max) {
-      AddPlayer addPlayer = new AddPlayer();
-      addPlayer.setOnClick(() -> {
-        addPlayer(addPlayer.getName(), min, max);
-        updatePlayerBox(min, max);
+      AddPlayer addPlayerComponent = new AddPlayer(); // new name for clarity
+      addPlayerComponent.setOnClick(() -> {
+        String newPlayerName = addPlayerComponent.getName();
+        if (ArgumentValidator.isValidString(newPlayerName)) {
+          this.addPlayer(newPlayerName, min, max);
+          updatePlayerBox(min, max);
+        } else {
+          Router.showAlert("Invalid Player Name", "Please enter a valid player name.", "OK", null);
+        }
       });
 
-      playerBox.getChildren().add(addPlayer);
+      playerBox.getChildren().add(addPlayerComponent);
     }
   }
 
