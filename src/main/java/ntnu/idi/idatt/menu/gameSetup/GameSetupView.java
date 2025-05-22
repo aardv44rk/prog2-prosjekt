@@ -6,10 +6,12 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import ntnu.idi.idatt.AssetRepository;
 import ntnu.idi.idatt.components.AddPlayer;
 import ntnu.idi.idatt.components.NewPlayer;
 import ntnu.idi.idatt.components.TextButton;
+import ntnu.idi.idatt.core.Router;
 import ntnu.idi.idatt.models.Board;
 import ntnu.idi.idatt.models.Player;
 
@@ -21,6 +23,7 @@ public class GameSetupView extends BorderPane {
   private Board selectedBoard;
   private TextButton selectedBoardButton;
   private final TextButton startButton;
+  private TextButton loadPlayersButton;
 
   public GameSetupView() {
     getStyleClass().add("game-setup");
@@ -33,7 +36,10 @@ public class GameSetupView extends BorderPane {
 
     playerBox.getStyleClass().add("game-setup-player-box");
 
-    left.getChildren().addAll(playersTitle, playerBox);
+    loadPlayersButton = new TextButton("Load Players");
+    loadPlayersButton.getStyleClass().add("game-setup-load-players");
+
+    left.getChildren().addAll(playersTitle, playerBox, loadPlayersButton);
 
     VBox right = new VBox();
     right.getStyleClass().add("game-setup-right");
@@ -139,5 +145,57 @@ public class GameSetupView extends BorderPane {
 
   public void startButtonSetOnClick(Runnable runnable) {
     startButton.setOnAction(e -> runnable.run());
+  }
+
+  public void loadPlayersButtonSetOnClick(Runnable runnable) {
+    loadPlayersButton.setOnAction(e -> runnable.run());
+  }
+
+  public void setLoadedPlayers(List<Player> players, int minPlayers, int maxPlayers) {
+    playerList.clear();
+    int playerCount = 0;
+    for (Player p : players) {
+      if (playerCount >= maxPlayers) {
+        break;
+      }
+
+      Color playerColor = AssetRepository.SNL_COLORS.get(playerCount % AssetRepository.SNL_COLORS.size());
+      NewPlayer newPlayer = new NewPlayer(
+          playerColor,
+          playerCount + 1,
+          p.getName(),
+          playerList.size() >= minPlayers
+      );
+
+      final int currentMin = minPlayers;
+      final int currentMax = maxPlayers;
+
+      newPlayer.setOnClick(() -> {
+        if (playerList.size() > currentMin) {
+          playerList.remove(newPlayer);
+          for (int i = 0; i < playerList.size(); i++) {
+            NewPlayer player = playerList.get(i);
+            player.setPlayerNumber(i + 1);
+            player.setColor(AssetRepository.SNL_COLORS.get(i % AssetRepository.SNL_COLORS.size()));
+          }
+          updatePlayerBox(currentMin, currentMax);
+        } else {
+          Router.showAlert("Error", "You must have at least " + currentMin + " players.", "OK", null);
+        }
+      });
+      playerList.add(newPlayer);
+      playerCount++;
+    }
+    while (playerList.size() < minPlayers) {
+      Color playerColor = AssetRepository.SNL_COLORS.get(playerCount % AssetRepository.SNL_COLORS.size());
+      NewPlayer newPlayer = new NewPlayer(
+          playerColor,
+          playerCount + 1,
+          "Player " + (playerCount + 1),
+          false
+      );
+      playerList.add(newPlayer);
+    }
+    updatePlayerBox(minPlayers, maxPlayers);
   }
 }

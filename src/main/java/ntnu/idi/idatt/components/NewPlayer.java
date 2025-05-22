@@ -54,6 +54,9 @@ public class NewPlayer extends HBox {
   }
 
   public void setOnClick(Runnable runnable) {
+    if (removeButton == null) {
+      return;
+    }
     removeButton.setOnAction(e -> runnable.run());
   }
 }
