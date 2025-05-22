@@ -10,6 +10,9 @@
   -fx-border-width: 2;
   -fx-background-color: -fx-background-color-2;
   -fx-effect: -fx-drop-shadow-color-1;
+  -fx-background-size: cover;
+  -fx-background-position: center center;
+  -fx-background-repeat: no-repeat;
 }
 
 .game-card Label {

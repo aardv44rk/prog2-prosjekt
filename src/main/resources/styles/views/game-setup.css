@@ -15,6 +15,10 @@
   -fx-spacing: 20;
 }
 
+.game-setup-scroll-pane {
+  -fx-background-color: transparent;
+}
+
 .game-setup-right {
   -fx-spacing: 40;
   -fx-padding: 50 355 0 0;
@@ -30,5 +34,6 @@
 
 .game-setup-start {
   -fx-alignment: center;
-  -fx-padding: 0 0 85 0;
+  -fx-padding: 0 0 55 0;
+  -fx-spacing: 15;
 }

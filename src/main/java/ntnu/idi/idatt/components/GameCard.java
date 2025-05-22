@@ -2,6 +2,7 @@ package ntnu.idi.idatt.components;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 
 /**
@@ -16,10 +17,16 @@ public class GameCard extends VBox {
    *
    * @param gameName The name of the game to be displayed on the card.
    */
-  public GameCard(String gameName) {
+  public GameCard(String gameName, String imageUrl) {
     this.getStyleClass().add("game-card");
 
-    gameButton = new Button("Game");
+    gameButton = new Button();
+    gameButton.getStyleClass().add("game-card-button");
+    if (imageUrl != null) {
+      gameButton.setStyle("-fx-background-image: url('" + imageUrl + "');");
+    } else {
+      gameButton.setText("Game");
+    }
     Label gameLabel = new Label(gameName);
 
     this.getChildren().addAll(gameButton, gameLabel);
