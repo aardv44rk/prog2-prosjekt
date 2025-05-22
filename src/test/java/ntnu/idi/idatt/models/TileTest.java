@@ -2,6 +2,9 @@ package ntnu.idi.idatt.models;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import ntnu.idi.idatt.exceptions.InvalidInputException;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -78,7 +81,7 @@ class TileTest {
 
     @Test
     void testInvalidTileIdThrowsException() {
-        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> {
+        InvalidInputException e = assertThrows(InvalidInputException.class, () -> {
             new Tile(-1);
         });
         assertEquals("Invalid arguments", e.getMessage(), "Should throw exception for invalid tile ID");

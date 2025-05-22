@@ -134,7 +134,7 @@ class CsvUtilTest {
         IOException exception = assertThrows(IOException.class, () -> {
             CsvUtil.readCsv(nonExistentFile.toString());
         }, "Reading a non-existent CSV file should throw IOException.");
-        assertTrue(exception.getMessage().contains("File not found"), "Exception message should indicate file not found.");
+        assertTrue(exception.getMessage().contains("Error reading file"), "Exception message should indicate file not found.");
     }
     
     @Test

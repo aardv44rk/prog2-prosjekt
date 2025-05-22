@@ -9,6 +9,8 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import ntnu.idi.idatt.exceptions.InvalidInputException;
+
 /**
  * Tests for the Dice class.
  */
@@ -54,13 +56,13 @@ class DiceTest {
 
   @Test
   void testInvalidDiceCreation() {
-    IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> new Dice(null));
+    InvalidInputException e = assertThrows(InvalidInputException.class, () -> new Dice(null));
     assertEquals("Dice list cannot be null or empty", e.getMessage(), "Exception message should match");
   }
   
   @Test
   void testInvalidDiceCreationEmpty() {
-    IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> new Dice(List.of()));
+    InvalidInputException e = assertThrows(InvalidInputException.class, () -> new Dice(List.of()));
     assertEquals("Dice list cannot be null or empty", e.getMessage(), "Exception message should match");
   }
 

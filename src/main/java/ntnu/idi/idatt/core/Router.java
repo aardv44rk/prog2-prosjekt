@@ -6,6 +6,7 @@ import java.util.Stack;
 import javafx.stage.Stage;
 import ntnu.idi.idatt.components.AlertDialog;
 import ntnu.idi.idatt.components.PauseMenu;
+import ntnu.idi.idatt.exceptions.InvalidInputException;
 
 public class Router {
 
@@ -52,7 +53,7 @@ public class Router {
   public static void navigateTo(String routeName) {
     // Does route exist
     if (!routes.containsKey(routeName)) {
-      throw new IllegalArgumentException("Route " + routeName + " not found");
+      throw new IllegalStateException("Route " + routeName + " not found");
     }
 
     // Is route = current route
@@ -60,7 +61,7 @@ public class Router {
     boolean isSameAsCurrent =
         !history.isEmpty() && routeName.equals(history.peek().getName());
     if (isSameAsCurrent) {
-      throw new IllegalArgumentException("Double navigation to: " + routeName);
+      throw new InvalidInputException("Double navigation to: " + routeName);
     }
 
     primaryScene.setContent(route.getContent());

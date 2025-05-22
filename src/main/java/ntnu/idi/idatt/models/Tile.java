@@ -1,5 +1,6 @@
 package ntnu.idi.idatt.models;
 
+import ntnu.idi.idatt.exceptions.InvalidInputException;
 import ntnu.idi.idatt.utility.ArgumentValidator;
 
 /**
@@ -15,11 +16,11 @@ public class Tile {
    * Constructor for the Tile class.
    *
    * @param tileId The ID of the tile.
-   * @throws IllegalArgumentException if the tile ID is invalid.
+   * @throws InvalidInputException if the tile ID is invalid.
    */
   public Tile(int tileId) {
     if (!isValidTile(tileId)) {
-      throw new IllegalArgumentException("Invalid arguments");
+      throw new InvalidInputException("Invalid arguments");
     }
     this.tileId = tileId;
   }

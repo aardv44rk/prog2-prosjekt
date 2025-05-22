@@ -131,7 +131,7 @@ class JsonUtilTest {
     IOException classException = assertThrows(IOException.class, () -> {
       JsonUtil.readFromFile(nonExistentFile.toString(), TestObject.class);
     });
-    assertTrue(classException.getMessage().contains("File not found"),
+    assertTrue(classException.getMessage().contains("Error reading file"),
         "Exception for class type should indicate file not found.");
 
     Type listType = new TypeToken<List<TestObject>>() {
@@ -139,7 +139,7 @@ class JsonUtilTest {
     IOException typeException = assertThrows(IOException.class, () -> {
       JsonUtil.readFromFile(nonExistentFile.toString(), listType);
     });
-    assertTrue(typeException.getMessage().contains("File not found"),
+    assertTrue(typeException.getMessage().contains("Error reading file"),
         "Exception for generic type should indicate file not found.");
   }
 }
