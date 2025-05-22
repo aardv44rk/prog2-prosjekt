@@ -21,9 +21,16 @@ import ntnu.idi.idatt.menu.settings.SettingsController;
 import ntnu.idi.idatt.menu.settings.SettingsView;
 import ntnu.idi.idatt.utility.StyleUtil;
 
-
+/**
+ * Main class for the application. It initializes the primary stage and sets up
+ * the routing for
+ * different views.
+ */
 public class Main extends Application {
 
+  /**
+   * Starts the JavaFX application + sets up the primary stage and routes.
+   */
   @Override
   public void start(Stage stage) {
     Router.setStage(stage);
@@ -63,8 +70,7 @@ public class Main extends Application {
                 AppState.getSelectedGame().getName(),
                 Router::showPauseMenu,
                 true),
-            () -> new SnakesAndLaddersController().getView()
-        ));
+            () -> new SnakesAndLaddersController().getView()));
     Router.registerRoute(
         new Route(
             "Thieves and Robbers",
@@ -72,9 +78,7 @@ public class Main extends Application {
                 AppState.getSelectedGame().getName(),
                 Router::showPauseMenu,
                 true),
-            () -> new ThievesAndRobbersController().getView()
-        )
-    );
+            () -> new ThievesAndRobbersController().getView()));
     Router.registerRoute(
         new Route(
             "Ludo",
@@ -89,6 +93,11 @@ public class Main extends Application {
     stage.show();
   }
 
+  /**
+   * Main method to launch the JavaFX application.
+   *
+   * @param args Command line arguments.
+   */
   public static void main(String[] args) {
     launch(args);
   }

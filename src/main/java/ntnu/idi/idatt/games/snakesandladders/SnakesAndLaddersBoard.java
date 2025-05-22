@@ -19,9 +19,9 @@ public class SnakesAndLaddersBoard extends Board {
   /**
    * Constructor for SnakesAndLaddersBoard.
    *
-   * @param rows     Number of rows on the board.
-   * @param columns  Number of columns on the board.
-   * @param ladders  List of ladders on the board.
+   * @param rows    Number of rows on the board.
+   * @param columns Number of columns on the board.
+   * @param ladders List of ladders on the board.
    */
   public SnakesAndLaddersBoard(int rows, int columns, List<SnakesAndLaddersLadder> ladders) {
     if (!isValidBoard(rows, columns, ladders)) {
@@ -34,6 +34,9 @@ public class SnakesAndLaddersBoard extends Board {
     initializeBoard();
   }
 
+  /**
+   * Initializes the board with tiles.
+   */
   @Override
   protected void initializeBoard() {
     tiles = new HashMap<>();
@@ -54,6 +57,7 @@ public class SnakesAndLaddersBoard extends Board {
     return ladders;
   }
 
+  
   @Override
   public String toString() {
     StringBuilder s = new StringBuilder();
@@ -70,13 +74,13 @@ public class SnakesAndLaddersBoard extends Board {
   /**
    * Validates a Snakes and Ladders board.
    * 
-   * @param rows     Number of rows.
-   * @param columns  Number of columns.
-   * @param ladders  List of ladders.
+   * @param rows    Number of rows.
+   * @param columns Number of columns.
+   * @param ladders List of ladders.
    * @return true if the board is valid, false otherwise.
    */
   public boolean isValidBoard(int rows, int columns, List<SnakesAndLaddersLadder> ladders) {
-    return ArgumentValidator.isPositiveInteger(rows) && ArgumentValidator.isPositiveInteger(columns) 
+    return ArgumentValidator.isPositiveInteger(rows) && ArgumentValidator.isPositiveInteger(columns)
         && ArgumentValidator.isValidList(ladders);
   }
 }

@@ -3,6 +3,9 @@ package ntnu.idi.idatt;
 import java.util.List;
 import javafx.scene.paint.Color;
 
+/**
+ * Asset repository for storing color constants used in the game.
+ */
 public class AssetRepository {
 
   public static Color PLAYER_RED = Color.web("E57373");
@@ -35,6 +38,4 @@ public class AssetRepository {
   );
 
   public static Color LUDO_GOAL = Color.web("FCFCFA");
-
-
 }

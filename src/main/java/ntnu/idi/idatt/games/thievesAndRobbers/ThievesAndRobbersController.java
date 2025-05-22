@@ -26,6 +26,9 @@ import ntnu.idi.idatt.models.Piece;
 import ntnu.idi.idatt.models.Player;
 import ntnu.idi.idatt.utility.DrawingUtil;
 
+/**
+ * Controller for the Thieves and Robbers game.
+ */
 public class ThievesAndRobbersController {
 
   private final ThievesAndRobbersEngine engine;
@@ -35,6 +38,10 @@ public class ThievesAndRobbersController {
   private final Map<Integer, UIThievesAndRobbersTile> tiles;
   private final MoneyGraph moneyGraph;
 
+  /**
+   * Constructor for the Thieves and Robbers controller. Initializes the game engine, view, and
+   * board. Sets up the pieces and event handlers.
+   */
   public ThievesAndRobbersController() {
     GameConfig config = AppState.getCurrentGameConfig();
 
@@ -84,6 +91,9 @@ public class ThievesAndRobbersController {
     return view;
   }
 
+  /**
+   * Sets up event handlers for the game.
+   */
   private void setupEventHandlers() {
     view.rollSetOnClick(() -> {
       if (!engine.isGameOver()) {
@@ -106,6 +116,10 @@ public class ThievesAndRobbersController {
     });
   }
 
+  /**
+   * Sets the pieces for the players in the game.
+   * If the pieces are empty, initializes them.
+   */
   private void setPieces() {
     if (engine.getPlayers().stream().map(Player::getPieces).anyMatch(List::isEmpty)) {
       engine.initPieces();
@@ -121,6 +135,9 @@ public class ThievesAndRobbersController {
     }
   }
 
+  /**
+   * Renders the player list in the UI.
+   */
   private void renderPlayerList() {
     LinkedHashMap<String, Node> namePieceList = new LinkedHashMap<>();
     for (Map.Entry<Piece, UIPiece> entry : pieces.entrySet()) {
@@ -131,11 +148,20 @@ public class ThievesAndRobbersController {
   }
 
 
+  /**
+   * Updates the dice values in the UI.
+   */
   private void updateDice() {
     int[] diceValues = engine.getDice().getValues();
     view.setDiceEyes(diceValues[0], diceValues[1]);
   }
 
+  /**
+   * Updates the position of a piece on the board.
+   *
+   * @param tileId The ID of the tile where the piece is located.
+   * @param piece  The piece to be updated.
+   */
   private void updatePiece(int tileId, UIPiece piece) {
     UIThievesAndRobbersTile tile = tiles.get(tileId);
 
@@ -149,6 +175,12 @@ public class ThievesAndRobbersController {
     piece.setLayoutY(coords.getY() - sameCoords * 5);
   }
 
+  /**
+   * Updates the money graph in the UI.
+   *
+   * @param playerName The name of the player.
+   * @param amount     The amount of money to be updated.
+   */
   private void updateMoneyGraph(String playerName, int amount) {
     moneyGraph.setMoney(playerName, amount);
   }

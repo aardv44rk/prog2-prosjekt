@@ -11,11 +11,19 @@ import javafx.scene.paint.Color;
 import javafx.util.Pair;
 import ntnu.idi.idatt.utility.StyleUtil;
 
-
+/**
+ * Component for displaying a money graph.
+ * This graph shows the money of each player in TaR.
+ */
 public class MoneyGraph extends BarChart<String, Number> {
 
   private final Map<String, XYChart.Data<String, Number>> dataMap = new HashMap<>();
 
+  /**
+   * Constructor for the MoneyGraph component.
+   *
+   * @param player A list of pairs containing player names and their corresponding colors.
+   */
   public MoneyGraph(List<Pair<String, Color>> player) {
     super(new CategoryAxis(), new NumberAxis());
 
@@ -49,6 +57,12 @@ public class MoneyGraph extends BarChart<String, Number> {
 
   }
 
+  /**
+   * Sets the money value for a specific player.
+   *
+   * @param name  The name of the player.
+   * @param money The amount of money to set.
+   */
   public void setMoney(String name, int money) {
     dataMap.get(name).setYValue(money);
   }

@@ -4,6 +4,10 @@ import ntnu.idi.idatt.models.GameConfig;
 import ntnu.idi.idatt.models.GameInfo;
 import ntnu.idi.idatt.core.GameRegistry;
 
+/**
+ * Class representing the application state. It holds the current game configuration, selected game,
+ * and volume settings.
+ */
 public class AppState {
 
   private static GameInfo selectedGame = GameRegistry.games.getFirst();

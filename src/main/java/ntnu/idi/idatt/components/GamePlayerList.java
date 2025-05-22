@@ -65,6 +65,10 @@ public class GamePlayerList extends VBox {
     this.currentPiece.getStyleClass().add("game-player-list-current-piece");
   }
 
+  /**
+   * Rotates the list of pieces, moving the first piece to the end of the list,
+   * and updates the highlighted current piece to the new first piece.
+   */
   public void shuffle() {
     Node firstPiece = pieces.removeFirst();
     pieces.add(firstPiece);

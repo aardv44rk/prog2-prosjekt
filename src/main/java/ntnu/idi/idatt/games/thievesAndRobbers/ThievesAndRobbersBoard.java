@@ -5,6 +5,11 @@ import java.util.Random;
 import ntnu.idi.idatt.models.Board;
 import ntnu.idi.idatt.models.Tile;
 
+/**
+ * Thieves and Robbers board implementation.
+ * This class represents the game board for the Thieves and Robbers game.
+ * It initializes the board with tiles and their corresponding actions.
+ */
 public class ThievesAndRobbersBoard extends Board {
 
   private static final int MIN_MONEY = -20;
@@ -13,6 +18,12 @@ public class ThievesAndRobbersBoard extends Board {
   private final int width;
   private final int height;
 
+  /**
+   * Constructor for ThievesAndRobbersBoard.
+   *
+   * @param width  The width of the board.
+   * @param height The height of the board.
+   */
   public ThievesAndRobbersBoard(int width, int height) {
     this.width = width;
     this.height = height;
@@ -20,6 +31,9 @@ public class ThievesAndRobbersBoard extends Board {
     initializeBoard();
   }
 
+  /**
+   * Initializes the board with tiles and their corresponding actions.
+   */
   @Override
   protected void initializeBoard() {
     tiles = new HashMap<>();

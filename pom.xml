@@ -42,18 +42,13 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>3.3.1</version> <!-- Or the latest version -->
+        <version>3.3.1</version>
         <configuration>
           <configLocation>google_checks.xml</configLocation>
           <encoding>UTF-8</encoding>
           <consoleOutput>true</consoleOutput>
-          <failsOnError>false</failsOnError> <!-- Set to true to fail build on violations -->
+          <failsOnError>false</failsOnError> 
           <linkXRef>false</linkXRef>
-          <!-- You can include/exclude specific files or packages -->
-          <!--
-          <includes>**/*.java</includes>
-          <excludes>**/generated-sources/**</excludes>
-          -->
         </configuration>
         <executions>
           <execution>
@@ -68,7 +63,7 @@
           <dependency>
             <groupId>com.puppycrawl.tools</groupId>
             <artifactId>checkstyle</artifactId>
-            <version>10.14.2</version> <!-- Use a version compatible with google_checks.xml and your plugin version -->
+            <version>10.24.0</version> 
           </dependency>
         </dependencies>
       </plugin>

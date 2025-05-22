@@ -8,6 +8,9 @@ import javafx.scene.layout.StackPane;
 import ntnu.idi.idatt.AssetRepository;
 import ntnu.idi.idatt.utility.StyleUtil;
 
+/**
+ * Component for displaying the board in the Thieves and Robbers game.
+ */
 public class UIThievesAndRobbersBoard extends StackPane {
 
   private static final int MIN_MONEY = -20;
@@ -19,6 +22,13 @@ public class UIThievesAndRobbersBoard extends StackPane {
   private final int[] money;
   private final Pane pieceLayer;
 
+  /**
+   * Constructor for the UIThievesAndRobbersBoard component.
+   *
+   * @param width  The width of the board.
+   * @param height The height of the board.
+   * @param money  An array representing the money on each tile.
+   */
   public UIThievesAndRobbersBoard(int width, int height, int[] money) {
     getStyleClass().add("tar-board");
     this.width = width;
@@ -61,6 +71,11 @@ public class UIThievesAndRobbersBoard extends StackPane {
     return tiles;
   }
 
+  /**
+   * Generates the tiles for the board.
+   *
+   * @return A map of tile indices to UIThievesAndRobbersTile objects.
+   */
   private Map<Integer, UIThievesAndRobbersTile> generateTiles() {
     Map<Integer, UIThievesAndRobbersTile> tileList = new HashMap<>();
     for (int i = 0; i < width * 2 + (height - 2) * 2; i++) {
@@ -72,6 +87,11 @@ public class UIThievesAndRobbersBoard extends StackPane {
     return tileList;
   }
 
+  /**
+   * Renders a piece on the board.
+   *
+   * @param piece The piece to be rendered.
+   */
   public void renderPiece(UIPiece piece) {
     if (!pieceLayer.getChildren().contains(piece)) {
       pieceLayer.getChildren().add(piece);
