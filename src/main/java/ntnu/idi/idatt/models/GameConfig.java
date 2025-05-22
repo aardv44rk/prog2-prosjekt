@@ -1,13 +1,13 @@
 package ntnu.idi.idatt.models;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import ntnu.idi.idatt.exceptions.ConfigurationException;
 import ntnu.idi.idatt.exceptions.FileHandlingException;
 import ntnu.idi.idatt.exceptions.InvalidInputException;
@@ -28,7 +28,8 @@ import ntnu.idi.idatt.utility.CsvUtil;
 import ntnu.idi.idatt.utility.FileUtil;
 
 /**
- * Represents the configuration of a game, including players, board, and current player index.
+ * Represents the configuration of a game, including players, board, and current
+ * player index.
  * Provides methods to save and load game configurations and player lists.
  */
 public class GameConfig {
@@ -40,16 +41,15 @@ public class GameConfig {
   /**
    * Constructor for the GameConfig class.
    *
-   * @param players a list of players
-   * @param board the game board
+   * @param players            a list of players
+   * @param board              the game board
    * @param currentPlayerIndex the index of the current player
    * @throws ConfigurationException if the game configuration is invalid
    */
   public GameConfig(
-          List<Player> players,
-          Board board,
-          int currentPlayerIndex
-  ) {
+      List<Player> players,
+      Board board,
+      int currentPlayerIndex) {
     if (!isValidGameConfig(players, board, currentPlayerIndex)) {
       throw new ConfigurationException("Invalid game configuration");
     }
@@ -147,7 +147,7 @@ public class GameConfig {
     for (Player player : players) {
       JsonObject playerObj = new JsonObject();
       playerObj.addProperty("name", player.getName());
-      
+
       JsonArray piecesArray = new JsonArray();
       for (Piece piece : player.getPieces()) {
         JsonObject pieceObj = new JsonObject();
@@ -180,7 +180,7 @@ public class GameConfig {
    * Saves the player list to a file.
    *
    * @param filePath the path to the file
-   * @throws WriteException if a write / input error occurs
+   * @throws WriteException        if a write / input error occurs
    * @throws InvalidInputException if the file path is invalid
    */
   public void savePlayerList(String filePath) throws InvalidInputException, WriteException {
@@ -190,7 +190,7 @@ public class GameConfig {
       }
       List<String[]> playerNames = new ArrayList<>();
       for (Player player : players) {
-        playerNames.add(new String[]{player.getName()});
+        playerNames.add(new String[] { player.getName() });
       }
 
       CsvUtil.writeCsv(filePath, playerNames);
@@ -205,8 +205,8 @@ public class GameConfig {
    *
    * @param filePath the path to the file
    * @return the loaded game configuration
-   * @throws ReadException if an I/O error occurs
-   * @throws InvalidInputException if the file path is invalid
+   * @throws ReadException         if an I/O error occurs
+   * @throws InvalidInputException if the path is invalid
    */
   public GameConfig loadConfig(String filePath) throws ReadException {
     if (!ArgumentValidator.isValidFilePath(filePath)) {
@@ -226,7 +226,7 @@ public class GameConfig {
     String boardType = config.get("boardType").getAsString();
     Board board;
     if (boardType.equals(SnakesAndLaddersBoard.class.getName())) {
-    // Check if dimensions are saved in the config
+      // Check if dimensions are saved in the config
       if (config.has("boardRows") && config.has("boardColumns")) {
         int rows = config.get("boardRows").getAsInt();
         int columns = config.get("boardColumns").getAsInt();
@@ -245,7 +245,7 @@ public class GameConfig {
       } else {
         board = SnakesAndLaddersBoardFactory.createStandardBoard();
         System.out.println("Loaded default Snakes and Ladders board");
-      }
+      } // TODO generalize all of this, this is a mess
     } else if (boardType.equals(ThievesAndRobbersBoard.class.getName())) {
       if (config.has("boardWidth") && config.has("boardHeight")) {
         int width = config.get("boardWidth").getAsInt();
@@ -266,7 +266,7 @@ public class GameConfig {
       } else {
         board = ThievesAndRobbersBoardFactory.createStandardBoard();
         System.out.println("Loaded default Thieves and Robbers board");
-      }
+      } // TODO generalize all of this, this is a mess
 
       if (config.has("tileMoney")) {
         JsonArray tileMoneyArray = config.getAsJsonArray("tileMoney");
@@ -274,12 +274,14 @@ public class GameConfig {
         if (tileMoneyArray.size() == board.getTiles().size()) {
           for (int i = 0; i < tileMoneyArray.size(); i++) {
             Tile tile = board.getTile(i);
-            if (tile != null) tile.setTileAction(new MoneyAction(tileMoneyArray.get(i).getAsInt()));
+            if (tile != null) {
+              tile.setTileAction(new MoneyAction(tileMoneyArray.get(i).getAsInt()));
+            }
           }
         } else {
-        System.err.println("No tile money information found in the config");
+          System.err.println("No tile money information found in the config");
         }
-      } 
+      }
     } else {
       throw new ConfigurationException("Unknown board type: " + boardType);
     }
@@ -344,7 +346,7 @@ public class GameConfig {
    *
    * @param filePath the path to the file
    * @return the loaded player list
-   * @throws ReadException if an I/O error occurs
+   * @throws ReadException         if an I/O error occurs
    * @throws InvalidInputException if the file path is invalid
    */
   public List<Player> loadPlayerList(String filePath) throws ReadException {
@@ -353,13 +355,13 @@ public class GameConfig {
     }
 
     try {
-     List<String[]> playerData = CsvUtil.readCsv(filePath);
-     List<Player> loadedPlayers = new ArrayList<>();
-     
-     for (String[] data : playerData) {
-       if (data.length > 0) {
-         String playerName = data[0];
-         loadedPlayers.add(new Player(playerName, new ArrayList<>()));
+      List<String[]> playerData = CsvUtil.readCsv(filePath);
+      List<Player> loadedPlayers = new ArrayList<>();
+
+      for (String[] data : playerData) {
+        if (data.length > 0) {
+          String playerName = data[0];
+          loadedPlayers.add(new Player(playerName, new ArrayList<>()));
         }
       }
       return loadedPlayers;
@@ -388,16 +390,15 @@ public class GameConfig {
   /**
    * Validates the game configuration.
    *
-   * @param players a list of players
-   * @param board the game board
+   * @param players            a list of players
+   * @param board              the game board
    * @param currentPlayerIndex the index of the current player
    * @return true if the game configuration is valid, false otherwise
    */
   public boolean isValidGameConfig(
-    List<Player> players,
-    Board board,
-    int currentPlayerIndex
-  ) {
+      List<Player> players,
+      Board board,
+      int currentPlayerIndex) {
     if (!ArgumentValidator.isValidList(players)) {
       return false;
     }

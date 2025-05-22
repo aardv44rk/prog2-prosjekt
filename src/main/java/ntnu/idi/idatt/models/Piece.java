@@ -97,8 +97,8 @@ public class Piece {
    * @return True if valid, false otherwise.
    */
   public boolean isValidPiece(Tile currentTile, Player owner, MovementStrategy movementStrategy) {
-    return ArgumentValidator.isValidObject(currentTile) &&
-        ArgumentValidator.isValidObject(owner) &&
-        ArgumentValidator.isValidObject(movementStrategy);
+    return ArgumentValidator.isValidObject(currentTile)
+        && ArgumentValidator.isValidObject(owner)
+        && ArgumentValidator.isValidObject(movementStrategy);
   }
 }

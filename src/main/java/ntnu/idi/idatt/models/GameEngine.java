@@ -5,7 +5,8 @@ import ntnu.idi.idatt.exceptions.InvalidInputException;
 import ntnu.idi.idatt.utility.ArgumentValidator;
 
 /**
- * Represents the base game engine for board games. Handles players, board, and game flow. Concrete
+ * Represents the base game engine for board games. Handles players, board, and
+ * game flow. Concrete
  * games must implement specific behavior.
  */
 public abstract class GameEngine {
@@ -95,14 +96,14 @@ public abstract class GameEngine {
   /**
    * Validates the game engine parameters.
    *
-   * @param players The list of players.
-   * @param board   The board used in the game.
+   * @param players            The list of players.
+   * @param board              The board used in the game.
    * @param currentPlayerIndex The index of the current player.
    * @return true if all parameters are valid, false otherwise.
    */
   public boolean isValidGameEngine(List<Player> players, Board board, int currentPlayerIndex) {
-    return ArgumentValidator.isValidList(players) &&
-      ArgumentValidator.isValidObject(board) &&
-      ArgumentValidator.isValidIndex(currentPlayerIndex);
+    return ArgumentValidator.isValidList(players)
+        && ArgumentValidator.isValidObject(board)
+        && ArgumentValidator.isValidIndex(currentPlayerIndex);
   }
 }

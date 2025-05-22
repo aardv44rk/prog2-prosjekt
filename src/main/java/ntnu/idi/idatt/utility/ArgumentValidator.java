@@ -3,9 +3,11 @@ package ntnu.idi.idatt.utility;
 import java.util.List;
 
 /**
- * Utility class for validating arguments. Contains only static methods, so should not be instantiated.
+ * Utility class for validating arguments. Contains only static methods,
+ * so should not be instantiated.
  */
-public class ArgumentValidator { // TODO Potentially add more validation methods in the future, remove unused ones
+public class ArgumentValidator {
+  // TODO Potentially add more validation methods in the future, remove unused ones
 
   private ArgumentValidator() {
     // Prevent instantiation
@@ -62,7 +64,7 @@ public class ArgumentValidator { // TODO Potentially add more validation methods
   /**
    * Validates if the input is a valid string.
    *
-   * @param input the input string to validate
+   * @param string the input string to validate
    * @return true if the input is not null && not blank, false otherwise
    */
   public static boolean isValidString(String string) {

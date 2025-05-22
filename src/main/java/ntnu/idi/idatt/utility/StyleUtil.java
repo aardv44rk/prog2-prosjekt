@@ -47,6 +47,14 @@ public class StyleUtil {
     }
   }
 
+  /**
+   * Generates a color gradient from green to red based on a value within a specified range.
+   *
+   * @param value The value to be converted to a color.
+   * @param min   The minimum value of the range.
+   * @param max   The maximum value of the range.
+   * @return A Color object representing the gradient color.
+   */
   public static Color greenRedGradientColor(int value, int min, int max) {
     value = Math.max(min, Math.min(max, value));
 
