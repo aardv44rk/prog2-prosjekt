@@ -2,13 +2,17 @@ package ntnu.idi.idatt.models;
 
 import java.util.List;
 
+import ntnu.idi.idatt.utility.ArgumentValidator;
+
 public class SimpleGameEngine extends GameEngine {
 
   protected final Dice dice;
 
   public SimpleGameEngine(List<Player> players, Board board, int currentPlayerIndex, Dice dice) {
     super(players, board, currentPlayerIndex);
-
+    if (!ArgumentValidator.isValidObject(dice)) {
+      throw new IllegalArgumentException("Dice cannot be null");
+    }
     this.dice = dice;
   }
 

@@ -6,6 +6,7 @@ import ntnu.idi.idatt.models.Dice;
 import ntnu.idi.idatt.models.Piece;
 import ntnu.idi.idatt.models.Player;
 import ntnu.idi.idatt.models.SimpleGameEngine;
+import ntnu.idi.idatt.utility.ArgumentValidator;
 
 /**
  * Game engine for Snakes and Ladders. Handles game flow and win condition.

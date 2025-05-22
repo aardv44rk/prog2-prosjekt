@@ -82,7 +82,7 @@ class SnakesAndLaddersEngineTest {
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             new SnakesAndLaddersEngine(players, mockBoard, 0, null); // Null dice
         });
-        assertEquals("Invalid dice", exception.getMessage());
+        assertEquals("Dice cannot be null", exception.getMessage());
 
         IllegalArgumentException exception2 = assertThrows(IllegalArgumentException.class, () -> {
             new SnakesAndLaddersEngine(null, mockBoard, 0, mockDice); // Null players
