@@ -9,7 +9,6 @@ import javafx.scene.Parent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import ntnu.idi.idatt.AppState;
-import ntnu.idi.idatt.components.AlertDialog;
 import ntnu.idi.idatt.core.Router;
 import ntnu.idi.idatt.games.snakesandladders.SnakesAndLaddersBoardFactory;
 import ntnu.idi.idatt.models.Board;
