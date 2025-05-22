@@ -8,13 +8,16 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import ntnu.idi.idatt.exceptions.ConfigurationException;
+import ntnu.idi.idatt.exceptions.InvalidInputException;
+import ntnu.idi.idatt.exceptions.ReadException;
+import ntnu.idi.idatt.games.snakesandladders.LinearMovementStrategy;
 import ntnu.idi.idatt.games.snakesandladders.SnakesAndLaddersBoardFactory;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ntnu.idi.idatt.games.snakesandladders.LinearMovementStrategy;
 import ntnu.idi.idatt.games.snakesandladders.SnakesAndLaddersBoard;
 
 class GameConfigTest {
@@ -113,7 +116,7 @@ class GameConfigTest {
     }
   }
 
-  
+
   @Test
   public void testSaveAndLoadConfig2() {
     try {
@@ -139,15 +142,13 @@ class GameConfigTest {
       assertEquals("Bob", loadedConfig.getPlayers().get(1).getName(),
           "Second player name should be Bob");
 
-       // Check board is loaded correctly
+      // Check board is loaded correctly
       assertTrue(loadedConfig.getBoard() instanceof SnakesAndLaddersBoard,
           "Loaded board should be of type SnakesAndLaddersBoard");
       SnakesAndLaddersBoard loadedBoard = (SnakesAndLaddersBoard) loadedConfig.getBoard();
       // Check board properties are correct
       assertEquals(9, loadedBoard.getRows(), "Loaded board should have 10 rows");
       assertEquals(10, loadedBoard.getColumns(), "Loaded board should have 10 columns");
-
-
 
       // Check pieces are loaded correctly
       assertEquals(1, loadedConfig.getPlayers().get(0).getPieces().size(),
@@ -160,7 +161,7 @@ class GameConfigTest {
     }
   }
 
-  
+
   @Test
   public void testSaveAndLoadConfig3() {
     try {
@@ -194,7 +195,6 @@ class GameConfigTest {
       assertEquals(10, loadedBoard.getRows(), "Loaded board should have 10 rows");
       assertEquals(10, loadedBoard.getColumns(), "Loaded board should have 10 columns");
 
-
       // Check pieces are loaded correctly
       assertEquals(1, loadedConfig.getPlayers().get(0).getPieces().size(),
           "First player should have 1 piece");
@@ -206,7 +206,6 @@ class GameConfigTest {
     }
   }
 
-  
 
   @Test
   public void testSaveAndLoadPlayerList() {
@@ -238,11 +237,11 @@ class GameConfigTest {
   @Test
   public void testNonExistentFile() {
     // Try to load from a non-existent file
-    IOException e = assertThrows(IOException.class, 
+    ReadException e = assertThrows(ReadException.class, 
       () -> gameConfig.loadPlayerList("non_existent_file.json"),
-      "Should throw an IllegalArgumentException when file doesn't exist");
+      "Should throw an InvalidInputException when file doesn't exist");
 
-    assertEquals("File not found: non_existent_file.json", e.getMessage(),
+    assertEquals("Error reading player list from file: non_existent_file.json", e.getMessage(),
         "Exception message should indicate file not found");
   }
 
@@ -250,53 +249,53 @@ class GameConfigTest {
   void testCreateInvalidGameConfig() {
     // Test with invalid player list
     List<Player> invalidPlayers = new ArrayList<>();
-    assertThrows(IllegalArgumentException.class, () -> new GameConfig(invalidPlayers, smallBoard, 0),
-        "Should throw IllegalArgumentException for empty player list");
+    assertThrows(ConfigurationException.class, () -> new GameConfig(invalidPlayers, smallBoard, 0),
+        "Should throw ConfigurationException for empty player list");
 
     // Test with null board
-    assertThrows(IllegalArgumentException.class,
-        () -> new GameConfig(players, null, 0), "Should throw IllegalArgumentException for null board");
+    assertThrows(ConfigurationException.class,
+        () -> new GameConfig(players, null, 0), "Should throw InvalidInputException for null board");
 
     // Test with negative current player index
-    assertThrows(IllegalArgumentException.class,
+    assertThrows(ConfigurationException.class,
         () -> new GameConfig(players, smallBoard, -1),
-        "Should throw IllegalArgumentException for negative current player index");
+        "Should throw InvalidInputException for negative current player index");
   }
 
   @Test
   void testSaveConfigInvalidFilePath() {
     // Test with invalid file path
-    assertThrows(IllegalArgumentException.class, () -> gameConfig.saveConfig(""),
-        "Should throw IllegalArgumentException for empty file path");
+    assertThrows(InvalidInputException.class, () -> gameConfig.saveConfig(""),
+        "Should throw InvalidInputException for empty file path");
   }
 
   @Test
   void testLoadConfigInvalidFilePath() {
     // Test with invalid file path
-    assertThrows(IllegalArgumentException.class, () -> gameConfig.loadConfig(""),
-        "Should throw IllegalArgumentException for empty file path");
+    assertThrows(InvalidInputException.class, () -> gameConfig.loadConfig(""),
+        "Should throw InvalidInputException for empty file path");
   }
 
   @Test
   void testLoadPlayerListInvalidFilePath() {
     // Test with invalid file path
-    assertThrows(IllegalArgumentException.class, () -> gameConfig.loadPlayerList(""),
-        "Should throw IllegalArgumentException for empty file path");
+    assertThrows(InvalidInputException.class, () -> gameConfig.loadPlayerList(""),
+        "Should throw InvalidInputException for empty file path");
   }
 
   @Test
   void testSavePlayerListInvalidFilePath() {
     // Test with invalid file path
-    assertThrows(IllegalArgumentException.class, () -> gameConfig.savePlayerList(""),
-        "Should throw IllegalArgumentException for empty file path");
+    assertThrows(InvalidInputException.class, () -> gameConfig.savePlayerList(""),
+        "Should throw InvalidInputException for empty file path");
   }
 
   @Test
   void testGetActionDestinationTileIdInvalid() {
     // Test with invalid tile ID
     TileAction invalidTileId = null;
-    assertThrows(IllegalArgumentException.class,
+    assertThrows(InvalidInputException.class,
         () -> gameConfig.getActionDestinationTileId(invalidTileId),
-        "Should throw IllegalArgumentException for invalid tile ID");
+        "Should throw InvalidInputException for invalid tile ID");
   }
 }

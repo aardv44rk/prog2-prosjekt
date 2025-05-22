@@ -69,11 +69,12 @@ public class UISnakesAndLaddersBoard extends StackPane {
   }
 
   /**
-   * Renders a piece on the board.
+   * Updates the position of a piece on the board.
    *
-   * @param piece the UISnakesAndLaddersPiece to render
+   * @param tileId the ID of the tile where the piece should be moved
+   * @param piece   the UIPiece to be moved
    */
-  public void renderPiece(UISnakesAndLaddersPiece piece) {
+  public void renderPiece(UIPiece piece) {
     if (!pieceLayer.getChildren().contains(piece)) {
       pieceLayer.getChildren().add(piece);
     }

@@ -2,6 +2,9 @@ package ntnu.idi.idatt.models;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import ntnu.idi.idatt.exceptions.InvalidInputException;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
@@ -88,15 +91,15 @@ class PieceTest {
 
     @Test
     void testValidatePieceParameters() {
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(InvalidInputException.class, () -> {
             new Piece(null, mockPlayer, mockMovementStrategy);
         }, "Should throw exception for null tile");
 
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(InvalidInputException.class, () -> {
             new Piece(mockTile, null, mockMovementStrategy);
         }, "Should throw exception for null player");
 
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(InvalidInputException.class, () -> {
             new Piece(mockTile, mockPlayer, null);
         }, "Should throw exception for null movement strategy");
     }

@@ -40,7 +40,7 @@ class FileUtilTest {
         IOException exception = assertThrows(IOException.class, () -> {
             FileUtil.readString(nonExistentFile.toString());
         }, "Reading a non-existent file should throw IOException.");
-        assertTrue(exception.getMessage().contains("File not found"), "Exception message should indicate file not found.");
+        assertTrue(exception.getMessage().contains("Error reading file"), "Exception message should indicate file not found.");
     }
 
     @Test
@@ -61,7 +61,7 @@ class FileUtilTest {
         IOException exception = assertThrows(IOException.class, () -> {
             FileUtil.readLines(nonExistentFile.toString());
         }, "Reading lines from a non-existent file should throw IOException.");
-        assertTrue(exception.getMessage().contains("File not found"), "Exception message should indicate file not found.");
+        assertTrue(exception.getMessage().contains("Error reading file"), "Exception message should indicate file not found.");
     }
 
     @Test

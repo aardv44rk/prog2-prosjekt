@@ -3,6 +3,7 @@ package ntnu.idi.idatt.models;
 import java.util.List;
 import java.util.function.Supplier;
 
+import ntnu.idi.idatt.exceptions.InvalidInputException;
 import ntnu.idi.idatt.utility.ArgumentValidator;
 
 /**
@@ -23,7 +24,7 @@ public class GameInfo {
       Supplier<List<Board>> boardOptionsSupplier
     ) {
     if (!isValidGameInfo(name, rules, playerMin, playerMax, boardOptionsSupplier)) {
-      throw new IllegalArgumentException("Invalid game info parameters");
+      throw new InvalidInputException("Invalid game info parameters");
     }
     this.name = name;
     this.rules = rules;

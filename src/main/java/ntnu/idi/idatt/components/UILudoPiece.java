@@ -1,6 +1,7 @@
 package ntnu.idi.idatt.components;
 
 import javafx.scene.control.Button;
+
 import javafx.scene.paint.Color;
 import ntnu.idi.idatt.utility.StyleUtil;
 

@@ -47,4 +47,21 @@ public class StyleUtil {
     }
   }
 
+  public static Color greenRedGradientColor(int value, int min, int max) {
+    value = Math.max(min, Math.min(max, value));
+
+    double normalized = (double) (value - min) / (max - min);
+
+    double red = 1.0 - normalized;
+    double green = normalized;
+    double blue = 0.0;
+
+    double mixFactor = 0.5; // 0 = full base color, 1 = full white
+    red = red * (1 - mixFactor) + mixFactor;
+    green = green * (1 - mixFactor) + mixFactor;
+    blue = blue * (1 - mixFactor) + mixFactor;
+
+    return new Color(red, green, blue, 1.0); // Full opacity
+  }
+
 }

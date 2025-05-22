@@ -1,0 +1,12 @@
+.tar-tile {
+  -fx-min-width: 60;
+  -fx-min-height: 60;
+  -fx-border-width: 1;
+  -fx-border-color: black;
+  -fx-background-color: -fx-background-color-2;
+}
+
+.tar-tile-number {
+  -fx-font-size: 10;
+  -fx-padding: 3;
+}

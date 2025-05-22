@@ -1,5 +1,6 @@
 package ntnu.idi.idatt.games.snakesandladders;
 
+import ntnu.idi.idatt.exceptions.InvalidInputException;
 import ntnu.idi.idatt.models.Tile;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -68,10 +69,10 @@ class SnakesAndLaddersBoardTest {
     @Test
     void testInvalidArgumentsThrowException() {
         // Test invalid board size
-        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, 
+        InvalidInputException e = assertThrows(InvalidInputException.class, 
                         () -> new SnakesAndLaddersBoard(0, 0, testLadders), 
                         "Should throw exception for invalid board size.");
-        IllegalArgumentException e2 = assertThrows(IllegalArgumentException.class, 
+        InvalidInputException e2 = assertThrows(InvalidInputException.class, 
                         () -> new SnakesAndLaddersBoard(-1, -1, testLadders), 
                         "Should throw exception for negative board size.");
 

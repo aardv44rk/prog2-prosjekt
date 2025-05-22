@@ -2,6 +2,7 @@ package ntnu.idi.idatt.models;
 
 import java.util.List;
 
+import ntnu.idi.idatt.exceptions.InvalidInputException;
 import ntnu.idi.idatt.utility.ArgumentValidator;
 
 /**
@@ -16,11 +17,11 @@ public class Dice {
    * Constructor for the Dice class.
    *
    * @param dice List of Die objects to be used in the Dice.
-   * @throws IllegalArgumentException if the dice list is null or empty.
+   * @throws InvalidInputException if the dice list is null or empty.
    */
-  public Dice(List<Die> dice) throws IllegalArgumentException {
+  public Dice(List<Die> dice) throws InvalidInputException {
     if (!isValidDice(dice)) {
-      throw new IllegalArgumentException("Dice list cannot be null or empty");
+      throw new InvalidInputException("Dice list cannot be null or empty");
     }
     this.dice = dice;
   }

@@ -8,7 +8,6 @@ import javafx.scene.layout.VBox;
 import ntnu.idi.idatt.components.GamePlayerList;
 import ntnu.idi.idatt.components.TextButton;
 import ntnu.idi.idatt.components.UIDie;
-import ntnu.idi.idatt.components.UILudoBoard;
 import ntnu.idi.idatt.components.UILudoPiece;
 
 public class LudoView extends BorderPane {
