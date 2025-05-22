@@ -1,5 +1,6 @@
 package ntnu.idi.idatt.games.snakesandladders;
 
+import ntnu.idi.idatt.exceptions.InvalidInputException;
 import ntnu.idi.idatt.models.Board;
 import ntnu.idi.idatt.models.Piece;
 import ntnu.idi.idatt.models.Tile;
@@ -10,6 +11,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.never;
@@ -62,9 +64,14 @@ class LadderActionTest {
     void testPerformWhenDestinationTileIsNull() {
         when(mockBoard.getTile(destinationTileId - 1)).thenReturn(null);
 
-        ladderAction.perform(mockPiece, mockBoard);
+        InvalidInputException e = assertThrows(InvalidInputException.class, () -> {
+            ladderAction.perform(mockPiece, mockBoard);
+        });
+
+        assertEquals("Invalid destination tile", e.getMessage(), "Exception message should match.");
 
         verify(mockBoard).getTile(destinationTileId - 1);
+        
         verify(mockPiece, never()).move(anyInt(), any(Board.class));
     }
 }

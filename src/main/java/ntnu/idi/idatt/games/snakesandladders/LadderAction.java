@@ -37,12 +37,12 @@ public class LadderAction implements TileAction {
     }
     Tile destination = board.getTile(destinationTileId - 1); // -1 to 0 index
     
-    if (destination != null) {                              
-      piece.setCurrentTile(destination);
-    } else {
+    if (destination == null) {                              
       throw new InvalidInputException("Invalid destination tile");
     }
-  }
+    piece.move(destinationTileId - piece.getCurrentTile().getTileId(), board);
+    }
+  
 
   public int getDestinationTileId() {
     return destinationTileId;
