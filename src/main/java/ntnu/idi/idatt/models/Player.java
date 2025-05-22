@@ -2,6 +2,7 @@ package ntnu.idi.idatt.models;
 
 import java.util.List;
 
+import ntnu.idi.idatt.exceptions.InvalidInputException;
 import ntnu.idi.idatt.utility.ArgumentValidator;
 
 /**
@@ -17,11 +18,11 @@ public class Player {
    *
    * @param name   The name of the player.
    * @param pieces The pieces of the player.
-   * @throws IllegalArgumentException if the name is null or blank, or if pieces is null or empty.
+   * @throws InvalidInputException if the name is null or blank, or if pieces is null or empty.
    */
   public Player(String name, List<Piece> pieces) {
     if (!isValidPlayer(name, pieces)) {
-      throw new IllegalArgumentException("Invalid player parameters");
+      throw new InvalidInputException("Invalid player parameters");
     }
     this.name = name;
     this.pieces = pieces;

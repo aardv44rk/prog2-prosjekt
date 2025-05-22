@@ -1,6 +1,8 @@
 package ntnu.idi.idatt.games.snakesandladders;
 
 import java.util.List;
+
+import ntnu.idi.idatt.exceptions.InvalidInputException;
 import ntnu.idi.idatt.models.Board;
 import ntnu.idi.idatt.models.Tile;
 import ntnu.idi.idatt.utility.ArgumentValidator;
@@ -25,7 +27,7 @@ public class SnakesAndLaddersBoard extends Board {
    */
   public SnakesAndLaddersBoard(int rows, int columns, List<SnakesAndLaddersLadder> ladders) {
     if (!isValidBoard(rows, columns, ladders)) {
-      throw new IllegalArgumentException("Invalid board parameters");
+      throw new InvalidInputException("Invalid board parameters");
     }
     this.rows = rows;
     this.columns = columns;

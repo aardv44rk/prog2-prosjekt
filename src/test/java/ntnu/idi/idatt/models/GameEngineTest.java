@@ -3,6 +3,8 @@ package ntnu.idi.idatt.models;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import ntnu.idi.idatt.exceptions.InvalidInputException;
+
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -136,7 +138,7 @@ class GameEngineTest {
         int invalidCurrentPlayerIndex = -1;
 
         // Check if the constructor throws an exception for invalid parameters
-        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> {
+        InvalidInputException e = assertThrows(InvalidInputException.class, () -> {
             new TestGameEngine(invalidPlayers, invalidBoard, invalidCurrentPlayerIndex);
         });
 

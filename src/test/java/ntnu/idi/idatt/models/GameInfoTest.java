@@ -2,6 +2,9 @@ package ntnu.idi.idatt.models;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import ntnu.idi.idatt.exceptions.InvalidInputException;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -94,7 +97,7 @@ class GameInfoTest {
         int invalidPlayerMax = -1;
         Supplier<List<Board>> invalidBoardOptionsSupplier = null;
 
-        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> {
+        InvalidInputException e = assertThrows(InvalidInputException.class, () -> {
             new GameInfo(invalidName, invalidRules, invalidPlayerMin, invalidPlayerMax,
                          invalidBoardOptionsSupplier);
         });

@@ -2,6 +2,7 @@ package ntnu.idi.idatt.models;
 
 import java.util.List;
 
+import ntnu.idi.idatt.exceptions.InvalidInputException;
 import ntnu.idi.idatt.utility.ArgumentValidator;
 
 /**
@@ -23,7 +24,7 @@ public abstract class GameEngine {
    */
   public GameEngine(List<Player> players, Board board, int currentPlayerIndex) {
     if (!isValidGameEngine(players, board, currentPlayerIndex)) {
-      throw new IllegalArgumentException("Invalid game engine parameters");
+      throw new InvalidInputException("Invalid game engine parameters");
     }
     this.players = players;
     this.board = board;

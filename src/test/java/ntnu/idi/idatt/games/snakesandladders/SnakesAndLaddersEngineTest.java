@@ -1,5 +1,6 @@
 package ntnu.idi.idatt.games.snakesandladders;
 
+import ntnu.idi.idatt.exceptions.InvalidInputException;
 import ntnu.idi.idatt.models.Board;
 import ntnu.idi.idatt.models.Dice;
 import ntnu.idi.idatt.models.Piece;
@@ -79,12 +80,12 @@ class SnakesAndLaddersEngineTest {
 
     @Test
     void testConstructorWithInvalidParametersThrowsException() {
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+        InvalidInputException exception = assertThrows(InvalidInputException.class, () -> {
             new SnakesAndLaddersEngine(players, mockBoard, 0, null); // Null dice
         });
         assertEquals("Invalid dice", exception.getMessage());
 
-        IllegalArgumentException exception2 = assertThrows(IllegalArgumentException.class, () -> {
+        InvalidInputException exception2 = assertThrows(InvalidInputException.class, () -> {
             new SnakesAndLaddersEngine(null, mockBoard, 0, mockDice); // Null players
         });
         assertEquals("Invalid game engine parameters", exception2.getMessage());
@@ -117,6 +118,8 @@ class SnakesAndLaddersEngineTest {
         assertEquals(mockBoard.getTile(3), p1Piece.getCurrentTile(), "Piece should have moved to tile 3.");
         verify(mockBoard.getTile(3), times(1)).land(p1Piece, mockBoard); // Verify landing logic
 
+        engine.nextPlayer(); // Move to the next player
+        
         assertFalse(engine.isGameOver(), "Game should not be over.");
         assertEquals(player2, engine.getCurrentPlayer(), "Should be next player's turn.");
     }
