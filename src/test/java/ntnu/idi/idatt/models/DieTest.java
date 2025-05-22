@@ -1,10 +1,10 @@
 package ntnu.idi.idatt.models;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import ntnu.idi.idatt.exceptions.InvalidInputException;
 
 /**
@@ -13,6 +13,7 @@ import ntnu.idi.idatt.exceptions.InvalidInputException;
  */
 class DieTest {
   Die die;
+
   @BeforeEach
   void setUp() {
     die = new Die(6);

@@ -1,4 +1,4 @@
-package ntnu.idi.idatt.menu.gameMenu;
+package ntnu.idi.idatt.menu.gamemenu;
 
 import java.util.ArrayList;
 import java.util.List;

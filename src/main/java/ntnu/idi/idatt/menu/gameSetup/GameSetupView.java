@@ -1,4 +1,4 @@
-package ntnu.idi.idatt.menu.gameSetup;
+package ntnu.idi.idatt.menu.gamesetup;
 
 import java.util.ArrayList;
 import java.util.List;

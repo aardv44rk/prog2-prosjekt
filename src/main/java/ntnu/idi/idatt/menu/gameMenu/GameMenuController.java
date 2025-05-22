@@ -1,4 +1,4 @@
-package ntnu.idi.idatt.menu.gameMenu;
+package ntnu.idi.idatt.menu.gamemenu;
 
 import javafx.scene.Parent;
 import ntnu.idi.idatt.AppState;

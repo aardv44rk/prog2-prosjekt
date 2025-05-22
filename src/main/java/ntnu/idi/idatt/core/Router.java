@@ -55,9 +55,7 @@ public class Router {
   }
 
   /**
-   * Gets the primary scene.
-   *
-   * @return The primary scene.
+   * Returns to home screen.
    */
   public static void goBack() {
     if (history.size() > 1) {

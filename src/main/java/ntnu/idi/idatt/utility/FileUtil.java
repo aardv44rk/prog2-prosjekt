@@ -7,7 +7,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.List;
-
 import ntnu.idi.idatt.exceptions.FileHandlingException;
 import ntnu.idi.idatt.exceptions.ReadException;
 import ntnu.idi.idatt.exceptions.WriteException;

@@ -71,7 +71,6 @@ public class UISnakesAndLaddersBoard extends StackPane {
   /**
    * Updates the position of a piece on the board.
    *
-   * @param tileId the ID of the tile where the piece should be moved
    * @param piece   the UIPiece to be moved
    */
   public void renderPiece(UIPiece piece) {

@@ -57,7 +57,8 @@ public class UILudoBoard extends StackPane {
   /**
    * Generates the final stretch tiles for each player.
    *
-   * @return A list of maps, each containing tile IDs and corresponding UILudoTile objects for the final stretch.
+   * @return A list of maps, each containing tile IDs and corresponding UILudoTile objects
+   * for the final stretch.
    */
   private List<Map<Integer, UILudoTile>> generateFinalStretchTiles() {
     List<Map<Integer, UILudoTile>> finalStretchTiles = new ArrayList<>();
@@ -75,7 +76,8 @@ public class UILudoBoard extends StackPane {
   /**
    * Generates the home tiles for each player.
    *
-   * @return A list of maps, each containing tile IDs and corresponding UILudoTile objects for the home area.
+   * @return A list of maps, each containing tile IDs and corresponding UILudoTile objects for the
+   * home area.
    */
   private List<Map<Integer, UILudoTile>> generatePlayerHomeTiles() {
     List<Map<Integer, UILudoTile>> playerHomeTiles = new ArrayList<>();

@@ -25,7 +25,7 @@ public class LadderAction implements TileAction {
 
   /**
    * Performs the action of moving a piece to the destination tile.
-   * 
+   *
    * @param piece The piece to move.
    * @param board The board context.
    * @throws InvalidInputException if the destination tile is invalid.

@@ -67,7 +67,7 @@ public class NewPlayer extends HBox {
   }
 
   /**
-   * Sets the number of the player, formatted as P#: where # is the number
+   * Sets the number of the player, formatted as P#: where # is the number.
    *
    * @param playerNumber The name of the player.
    */

@@ -1,7 +1,6 @@
 package ntnu.idi.idatt.models;
 
 import java.util.List;
-
 import ntnu.idi.idatt.exceptions.InvalidInputException;
 import ntnu.idi.idatt.utility.ArgumentValidator;
 

@@ -14,7 +14,7 @@ public class Die {
 
   /**
    * Constructor for the Die class.
-   * 
+   *
    * @param sides the number of sides on the die
    * @throws InvalidInputException if sides is not a positive integer
    */

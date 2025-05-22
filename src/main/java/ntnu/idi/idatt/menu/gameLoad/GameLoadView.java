@@ -1,4 +1,4 @@
-package ntnu.idi.idatt.menu.gameLoad;
+package ntnu.idi.idatt.menu.gameload;
 
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
