@@ -1,7 +1,9 @@
 package ntnu.idi.idatt.utility;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -9,11 +11,9 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class CsvUtilTest {
 
@@ -134,7 +134,7 @@ class CsvUtilTest {
         IOException exception = assertThrows(IOException.class, () -> {
             CsvUtil.readCsv(nonExistentFile.toString());
         }, "Reading a non-existent CSV file should throw IOException.");
-        assertTrue(exception.getMessage().contains("File not found"), "Exception message should indicate file not found.");
+        assertTrue(exception.getMessage().contains("Error reading file"), "Exception message should indicate file not found.");
     }
     
     @Test

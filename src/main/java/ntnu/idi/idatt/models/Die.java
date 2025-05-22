@@ -1,5 +1,6 @@
 package ntnu.idi.idatt.models;
 
+import ntnu.idi.idatt.exceptions.InvalidInputException;
 import ntnu.idi.idatt.utility.ArgumentValidator;
 
 /**
@@ -13,13 +14,13 @@ public class Die {
 
   /**
    * Constructor for the Die class.
-   * 
+   *
    * @param sides the number of sides on the die
-   * @throws IllegalArgumentException if sides is not a positive integer
+   * @throws InvalidInputException if sides is not a positive integer
    */
   public Die(int sides) {
     if (!isValidDie(sides)) { 
-      throw new IllegalArgumentException("Number of sides must be a positive integer");
+      throw new InvalidInputException("Number of sides must be a positive integer");
     }
     this.sides = sides;
     this.value = 0;

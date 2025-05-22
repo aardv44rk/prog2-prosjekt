@@ -15,11 +15,23 @@ public class ArgumentValidator { // TODO Potentially add more validation methods
    * Validates if the input is a valid index. In other words, if the input is a non-negative
    * integer.
    *
-   * @param input the input string to validate
+   * @param input the input integer to validate
    * @return true if the input is a valid integer, false otherwise
    */
   public static boolean isValidIndex(int input) {
     return input >= 0;
+  }
+
+  /**
+   * Validates if the input is a valid interval. In other words, if the input is a positive integer
+   * and the max is greater than the min.
+   *
+   * @param min the minimum value of the interval
+   * @param max the maximum value of the interval
+   * @return true if the input is a valid interval, false otherwise
+   */
+  public static boolean isValidInterval(int min, int max) {
+    return min > 0 && max > min;
   }
 
   /**

@@ -5,10 +5,18 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import ntnu.idi.idatt.utility.StyleUtil;
 
+/**
+ * Component for a game piece.
+ */
 public class UIPiece extends VBox {
 
   private final Color color;
 
+  /**
+   * Constructor for the UIPiece class.
+   *
+   * @param color The color of the piece.
+   */
   public UIPiece(Color color) {
     this.color = color;
     getStyleClass().add("piece");

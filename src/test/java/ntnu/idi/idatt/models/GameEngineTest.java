@@ -6,10 +6,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 
 import java.util.ArrayList;
 import java.util.List;
+import ntnu.idi.idatt.exceptions.InvalidInputException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for the GameEngine class.
@@ -114,5 +118,18 @@ class GameEngineTest {
         assertFalse(gameEngine.isValidGameEngine(null, mockBoard, 0), "Should not validate with null players");
         assertFalse(gameEngine.isValidGameEngine(new ArrayList<>(), mockBoard, 0), "Should not validate with empty players list");
         assertFalse(gameEngine.isValidGameEngine(players, null, 0), "Should not validate with null board");
+    @Test
+    void testInvalidGameEngineParametersThrowsException() {
+        // Test with invalid parameters
+        List<Player> invalidPlayers = new ArrayList<>();
+        Board invalidBoard = null;
+        int invalidCurrentPlayerIndex = -1;
+
+        // Check if the constructor throws an exception for invalid parameters
+        InvalidInputException e = assertThrows(InvalidInputException.class, () -> {
+            new TestGameEngine(invalidPlayers, invalidBoard, invalidCurrentPlayerIndex);
+        });
+
+        assertEquals("Invalid game engine parameters", e.getMessage(), "Should throw exception for invalid parameters");
     }
 }

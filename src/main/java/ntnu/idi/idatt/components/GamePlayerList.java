@@ -9,12 +9,18 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+/**
+ * Component for displaying a list of players in a game.
+ */
 public class GamePlayerList extends VBox {
 
   List<HBox> playerList;
   List<Node> pieces;
   Node currentPiece;
 
+  /**
+   * Constructor for the GamePlayerList component.
+   */
   public GamePlayerList() {
     this.playerList = new ArrayList<>();
     this.pieces = new ArrayList<>();
@@ -22,6 +28,11 @@ public class GamePlayerList extends VBox {
     getStyleClass().add("game-player-list");
   }
 
+  /**
+   * Sets the pieces for the players in the game.
+   *
+   * @param players A map of player names to their corresponding pieces.
+   */
   public void setPieces(LinkedHashMap<String, Node> players) {
     for (Entry<String, Node> entry : players.entrySet()) {
       HBox player = new HBox();
@@ -41,6 +52,11 @@ public class GamePlayerList extends VBox {
     setCurrentPiece(pieces.getFirst());
   }
 
+  /**
+   * Sets the current piece to be highlighted.
+   *
+   * @param piece The piece to be highlighted.
+   */
   private void setCurrentPiece(Node piece) {
     if (currentPiece != null) {
       this.currentPiece.getStyleClass().remove("game-player-list-current-piece");
@@ -49,6 +65,10 @@ public class GamePlayerList extends VBox {
     this.currentPiece.getStyleClass().add("game-player-list-current-piece");
   }
 
+  /**
+   * Rotates the list of pieces, moving the first piece to the end of the list,
+   * and updates the highlighted current piece to the new first piece.
+   */
   public void shuffle() {
     Node firstPiece = pieces.removeFirst();
     pieces.add(firstPiece);

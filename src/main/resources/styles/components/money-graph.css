@@ -1,0 +1,29 @@
+.money-graph {
+  -fx-legend-visible: false;
+  -fx-horizontal-grid-lines-visible: false;
+  -fx-vertical-grid-lines-visible: false;
+  -fx-vertical-zero-line-visible: false;
+  -fx-horizontal-zero-line-visible: false;
+  -fx-pref-width: 200;
+}
+
+.money-graph-yaxis {
+  -fx-minor-tick-visible: false;
+  -fx-tick-labels-visible: false;
+  -fx-tick-mark-visible: false;
+}
+
+.money-graph-xaxis {
+  -fx-tick-labels-visible: false;
+  -fx-tick-mark-visible: false;
+}
+
+.chart-bar {
+  -fx-border-width: 2px;
+  -fx-border-color: black;
+  -fx-effect: -fx-drop-shadow-color-1;
+}
+
+.axis {
+  -fx-border-width: 0;
+}

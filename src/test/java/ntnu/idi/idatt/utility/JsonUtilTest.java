@@ -1,8 +1,9 @@
 package ntnu.idi.idatt.utility;
 
-import com.google.gson.reflect.TypeToken;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -11,11 +12,9 @@ import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import com.google.gson.reflect.TypeToken;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 /**
  * Custom object for testing JSON serialization and deserialization.
@@ -131,7 +130,7 @@ class JsonUtilTest {
     IOException classException = assertThrows(IOException.class, () -> {
       JsonUtil.readFromFile(nonExistentFile.toString(), TestObject.class);
     });
-    assertTrue(classException.getMessage().contains("File not found"),
+    assertTrue(classException.getMessage().contains("Error reading file"),
         "Exception for class type should indicate file not found.");
 
     Type listType = new TypeToken<List<TestObject>>() {
@@ -139,7 +138,7 @@ class JsonUtilTest {
     IOException typeException = assertThrows(IOException.class, () -> {
       JsonUtil.readFromFile(nonExistentFile.toString(), listType);
     });
-    assertTrue(typeException.getMessage().contains("File not found"),
+    assertTrue(typeException.getMessage().contains("Error reading file"),
         "Exception for generic type should indicate file not found.");
   }
 }

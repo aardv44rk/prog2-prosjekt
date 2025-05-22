@@ -1,4 +1,4 @@
-package ntnu.idi.idatt.menu.gameLoad;
+package ntnu.idi.idatt.menu.gameload;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,10 +16,18 @@ import ntnu.idi.idatt.models.Board;
 import ntnu.idi.idatt.models.GameConfig;
 import ntnu.idi.idatt.models.Player;
 
+/**
+ * Controller for the GameLoadView. It handles the logic for loading a game or starting a new one.
+ */
 public class GameLoadController {
 
   private final GameLoadView view;
 
+  /**
+   * Constructor for the GameLoadController.
+   *
+   * @param view The GameLoadView instance.
+   */
   public GameLoadController(GameLoadView view) {
     this.view = view;
     setupEventHandlers();
@@ -29,6 +37,9 @@ public class GameLoadController {
     return view;
   }
 
+  /**
+   * Sets up the event handlers for the buttons in the GameLoadView.
+   */
   private void setupEventHandlers() {
     view.newGameButtonSetOnClick(() -> Router.navigateTo("setup"));
     view.loadGameButtonSetOnClick(() -> {

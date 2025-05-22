@@ -1,9 +1,11 @@
 package ntnu.idi.idatt.games.snakesandladders;
 
+import ntnu.idi.idatt.exceptions.InvalidInputException;
 import ntnu.idi.idatt.models.Board;
 import ntnu.idi.idatt.models.Piece;
 import ntnu.idi.idatt.models.Tile;
 import ntnu.idi.idatt.models.TileAction;
+import ntnu.idi.idatt.utility.ArgumentValidator;
 
 /**
  * TileAction that moves a piece to a specific tile (ladder).
@@ -23,18 +25,24 @@ public class LadderAction implements TileAction {
 
   /**
    * Performs the action of moving a piece to the destination tile.
-   * 
+   *
    * @param piece The piece to move.
    * @param board The board context.
-   * @throws IllegalArgumentException if the destination tile is invalid.
+   * @throws InvalidInputException if the destination tile is invalid.
    */
   @Override
   public void perform(Piece piece, Board board) {
-    Tile destination = board.getTile(destinationTileId - 1); // i have no idea why this works, but it does
-    if (destination != null) {                               // if we don't do this, all tests fail so don't touch it
-      piece.move(destinationTileId - piece.getCurrentTile().getTileId(), board);
+    if (!ArgumentValidator.isValidObject(piece) || !ArgumentValidator.isValidObject(board)) {
+      throw new InvalidInputException("Invalid piece or board");
     }
-  }
+    Tile destination = board.getTile(destinationTileId - 1); // -1 to 0 index
+    
+    if (destination == null) {                              
+      throw new InvalidInputException("Invalid destination tile");
+    }
+    piece.move(destinationTileId - piece.getCurrentTile().getTileId(), board);
+    }
+  
 
   public int getDestinationTileId() {
     return destinationTileId;

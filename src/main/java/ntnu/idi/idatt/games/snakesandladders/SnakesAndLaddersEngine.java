@@ -26,6 +26,9 @@ public class SnakesAndLaddersEngine extends SimpleGameEngine {
     super(players, board, currentPlayerIndex, dice);
   }
 
+  /**
+   * Initializes the pieces for each player on the board.
+   */
   @Override
   public void initPieces() {
     for (Player p : players) {
@@ -34,7 +37,9 @@ public class SnakesAndLaddersEngine extends SimpleGameEngine {
     }
   }
 
-
+  /**
+   * Checks the win condition for the game. If a player reaches the last tile, they win.
+   */
   @Override
   public Player checkWinCondition() {
     for (Player player : players) {

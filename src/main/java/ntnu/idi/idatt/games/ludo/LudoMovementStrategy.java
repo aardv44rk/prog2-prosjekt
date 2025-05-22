@@ -1,10 +1,14 @@
 package ntnu.idi.idatt.games.ludo;
 
+import ntnu.idi.idatt.exceptions.InvalidInputException;
 import ntnu.idi.idatt.models.Board;
 import ntnu.idi.idatt.models.MovementStrategy;
 import ntnu.idi.idatt.models.Piece;
 
 
+/**
+ * LudoMovementStrategy implements the MovementStrategy interface for Ludo game.
+ */
 public class LudoMovementStrategy implements MovementStrategy {
 
   @Override
@@ -12,7 +16,7 @@ public class LudoMovementStrategy implements MovementStrategy {
     LudoBoard ludoBoard = (LudoBoard) board;
     LudoTile nextTile = ludoBoard.getNextTile(piece, steps);
     if (nextTile == null) {
-      throw new IllegalArgumentException("No tile found.");
+      throw new InvalidInputException("No tile found.");
     }
 
     piece.setCurrentTile(nextTile);

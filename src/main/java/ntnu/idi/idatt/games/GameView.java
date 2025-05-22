@@ -7,6 +7,7 @@ import javafx.scene.layout.VBox;
 import ntnu.idi.idatt.components.GamePlayerList;
 import ntnu.idi.idatt.components.TextButton;
 import ntnu.idi.idatt.components.UIDie;
+import ntnu.idi.idatt.exceptions.InvalidInputException;
 import ntnu.idi.idatt.utility.ArgumentValidator;
 
 /**
@@ -53,11 +54,11 @@ public class GameView extends BorderPane {
    * Sets the player list in the view.
    *
    * @param players the players to set in the player list.
-   * @throws IllegalArgumentException if the players are invalid.
+   * @throws InvalidInputException if the players are invalid.
    */
   public void setPlayerList(LinkedHashMap<String, Node> players) {
     if (!ArgumentValidator.isValidObject(players)) {
-      throw new IllegalArgumentException("Invalid players");
+      throw new InvalidInputException("Invalid players");
     }
     playerList.setPieces(players);
   }
@@ -73,11 +74,11 @@ public class GameView extends BorderPane {
    * Sets the board in the view.
    *
    * @param board the board to set in the view.
-   * @throws IllegalArgumentException if the board is invalid.
+   * @throws InvalidInputException if the board is invalid.
    */
   public void setBoard(Node board) {
     if (!ArgumentValidator.isValidObject(board)) {
-      throw new IllegalArgumentException("Invalid board");
+      throw new InvalidInputException("Invalid board");
     }
     BorderPane borderPane = new BorderPane(board);
     borderPane.getStyleClass().add("game-board-container");
@@ -98,7 +99,7 @@ public class GameView extends BorderPane {
    *
    * @param leftEyes  the number of eyes of left die
    * @param rightEyes the number of eyes of right die
-   * @throws IllegalArgumentException if the number of eyes are invalid
+   * @throws InvalidInputException if the number of eyes are invalid
    */
   public void setDiceEyes(int leftEyes, int rightEyes) {
     leftDie.setEyes(leftEyes);

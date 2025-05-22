@@ -1,31 +1,31 @@
 package ntnu.idi.idatt.models;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
+import ntnu.idi.idatt.exceptions.ConfigurationException;
+import ntnu.idi.idatt.exceptions.FileHandlingException;
+import ntnu.idi.idatt.exceptions.InvalidInputException;
+import ntnu.idi.idatt.exceptions.ReadException;
+import ntnu.idi.idatt.exceptions.WriteException;
 import ntnu.idi.idatt.games.ludo.LudoBoard;
-import ntnu.idi.idatt.games.ludo.LudoBoardFactory;
 import ntnu.idi.idatt.games.snakesandladders.LadderAction;
 import ntnu.idi.idatt.games.snakesandladders.LinearMovementStrategy;
 import ntnu.idi.idatt.games.snakesandladders.SnakesAndLaddersBoard;
 import ntnu.idi.idatt.games.snakesandladders.SnakesAndLaddersBoardFactory;
-import ntnu.idi.idatt.games.thievesAndRobbers.CircularMovementStrategy;
-import ntnu.idi.idatt.games.thievesAndRobbers.MoneyAction;
-import ntnu.idi.idatt.games.thievesAndRobbers.ThievesAndRobbersBoard;
-import ntnu.idi.idatt.games.thievesAndRobbers.ThievesAndRobbersBoardFactory;
-import ntnu.idi.idatt.games.thievesAndRobbers.ThievesAndRobbersPiece;
+import ntnu.idi.idatt.games.thievesandrobbers.CircularMovementStrategy;
+import ntnu.idi.idatt.games.thievesandrobbers.MoneyAction;
+import ntnu.idi.idatt.games.thievesandrobbers.ThievesAndRobbersBoard;
+import ntnu.idi.idatt.games.thievesandrobbers.ThievesAndRobbersBoardFactory;
+import ntnu.idi.idatt.games.thievesandrobbers.ThievesAndRobbersPiece;
 import ntnu.idi.idatt.utility.ArgumentValidator;
 import ntnu.idi.idatt.utility.CsvUtil;
 import ntnu.idi.idatt.utility.FileUtil;
-import ntnu.idi.idatt.utility.JsonUtil;
 
 /**
  * Represents the configuration of a game, including players, board, and current player index.
@@ -43,7 +43,7 @@ public class GameConfig {
    * @param players a list of players
    * @param board the game board
    * @param currentPlayerIndex the index of the current player
-   * @throws IllegalArgumentException if the game configuration is invalid
+   * @throws ConfigurationException if the game configuration is invalid
    */
   public GameConfig(
           List<Player> players,
@@ -51,7 +51,7 @@ public class GameConfig {
           int currentPlayerIndex
   ) {
     if (!isValidGameConfig(players, board, currentPlayerIndex)) {
-      throw new IllegalArgumentException("Invalid game configuration");
+      throw new ConfigurationException("Invalid game configuration");
     }
     this.players = players;
     this.board = board;
@@ -74,11 +74,12 @@ public class GameConfig {
    * Saves the game configuration to a file.
    *
    * @param filePath the path to the file
-   * @throws IOException if an I/O error occurs
+   * @throws FileHandlingException if an I/O error occurs
+   * @throws InvalidInputException if the file path is invalid
    */
-  public void saveConfig(String filePath) throws IOException {
+  public void saveConfig(String filePath) throws FileHandlingException {
     if (!ArgumentValidator.isValidFilePath(filePath)) {
-      throw new IllegalArgumentException("Invalid file path");
+      throw new InvalidInputException("Invalid file path");
     }
     JsonObject config = new JsonObject();
 
@@ -167,15 +168,20 @@ public class GameConfig {
     config.add("players", playersArray);
 
     // finally write to file
-    FileUtil.writeString(filePath, config.toString());
-    System.out.println("Game configuration saved to " + filePath);
+    try {
+      FileUtil.writeString(filePath, config.toString());
+      System.out.println("Game configuration saved to " + filePath);
+    } catch (IOException e) {
+      throw new WriteException("Error writing game configuration to file: " + filePath, e);
+    }
   }
 
   /**
    * Saves the player list to a file.
    *
    * @param filePath the path to the file
-   * @throws IOException if an I/O error occurs
+   * @throws WriteException if a write / input error occurs
+   * @throws InvalidInputException if the file path is invalid
    */
   public void savePlayerList(String filePath) throws IOException {
     if (!ArgumentValidator.isValidFilePath(filePath)) {
@@ -195,20 +201,26 @@ public class GameConfig {
    *
    * @param filePath the path to the file
    * @return the loaded game configuration
-   * @throws IOException if an I/O error occurs
+   * @throws ReadException if an I/O error occurs
+   * @throws InvalidInputException if the file path is invalid
    */
-  public GameConfig loadConfig(String filePath) throws IOException {
+  public GameConfig loadConfig(String filePath) throws ReadException {
     if (!ArgumentValidator.isValidFilePath(filePath)) {
-      throw new IllegalArgumentException("Invalid file path");
+      throw new InvalidInputException("Invalid file path");
     }
-    String json = FileUtil.readString(filePath);
+
+    String json = "";
+    try {
+      json = FileUtil.readString(filePath);
+    } catch (IOException e) {
+      throw new ReadException("File not found: " + filePath, e);
+    }
     JsonObject config = JsonParser.parseString(json).getAsJsonObject();
 
     int currentPlayerIndex = config.get("currentPlayerIndex").getAsInt();
 
     String boardType = config.get("boardType").getAsString();
     Board board;
-
     if (boardType.equals(SnakesAndLaddersBoard.class.getName())) {
     // Check if dimensions are saved in the config
       if (config.has("boardRows") && config.has("boardColumns")) {
@@ -265,7 +277,7 @@ public class GameConfig {
         }
       } 
     } else {
-      throw new IllegalArgumentException("Unknown board type: " + boardType);
+      throw new ConfigurationException("Unknown board type: " + boardType);
     }
 
     if (config.has("tiles")) {
@@ -328,11 +340,12 @@ public class GameConfig {
    *
    * @param filePath the path to the file
    * @return the loaded player list
-   * @throws IOException if an I/O error occurs
+   * @throws ReadException if an I/O error occurs
+   * @throws InvalidInputException if the file path is invalid
    */
-  public List<Player> loadPlayerList(String filePath) throws IOException {
+  public List<Player> loadPlayerList(String filePath) throws ReadException {
     if (!ArgumentValidator.isValidFilePath(filePath)) {
-      throw new IllegalArgumentException("Bad file path");
+      throw new InvalidInputException("Bad file path");
     }
 
     List<String[]> playerData = CsvUtil.readCsv(filePath);
@@ -357,7 +370,7 @@ public class GameConfig {
    */
   protected int getActionDestinationTileId(TileAction action) {
     if (!ArgumentValidator.isValidObject(action)) {
-      throw new IllegalArgumentException("Invalid action");
+      throw new InvalidInputException("Invalid action");
     }
 
     if (action instanceof LadderAction) {

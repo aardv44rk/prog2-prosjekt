@@ -11,9 +11,9 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import ntnu.idi.idatt.AppState;
 import ntnu.idi.idatt.AssetRepository;
+import ntnu.idi.idatt.components.UIPiece;
 import ntnu.idi.idatt.components.UISnakesAndLaddersBoard;
 import ntnu.idi.idatt.components.UISnakesAndLaddersLadder;
-import ntnu.idi.idatt.components.UIPiece;
 import ntnu.idi.idatt.components.UISnakesAndLaddersTile;
 import ntnu.idi.idatt.core.Router;
 import ntnu.idi.idatt.games.GameView;
@@ -37,9 +37,8 @@ public class SnakesAndLaddersController {
   private final Map<Integer, UISnakesAndLaddersTile> tiles;
 
   /**
-   * Constructor for the Snakes and Ladders controller.
-   * Initializes the game engine, view, and board.
-   * Sets up the pieces and event handlers.
+   * Constructor for the Snakes and Ladders controller. Initializes the game engine, view, and
+   * board. Sets up the pieces and event handlers.
    */
   public SnakesAndLaddersController() {
     GameConfig config = AppState.getCurrentGameConfig();
@@ -92,8 +91,8 @@ public class SnakesAndLaddersController {
   }
 
   /**
-   * Sets up event handlers for the game.
-   * Handles the roll button click event and updates the game state accordingly.
+   * Sets up event handlers for the game. Handles the roll button click event and updates the game
+   * state accordingly.
    */
   private void setupEventHandlers() {
     view.rollSetOnClick(() -> {
@@ -101,22 +100,21 @@ public class SnakesAndLaddersController {
         engine.handleTurn();
         updateDice();
         view.shufflePlayerList();
+        Player currentPlayer = engine.getCurrentPlayer();
+        Piece currentPiece = currentPlayer.getPieces().getFirst();
+        updatePiece(currentPiece.getCurrentTile().getTileId(), pieces.get(currentPiece));
         if (engine.isGameOver()) {
-          Piece p = engine.getCurrentPlayer().getPieces().getFirst();
-          updatePiece(p.getCurrentTile().getTileId(), pieces.get(p));
-          Router.showAlert("Game over!", engine.getCurrentPlayer().getName() + " has won.", "Close",
+          Router.showAlert("Game over!", currentPlayer.getName() + " has won.", "Close",
               null);
-        } else {
-          Piece p = engine.getLastPlayer().getPieces().getFirst();
-          updatePiece(p.getCurrentTile().getTileId(), pieces.get(p));
         }
+        engine.nextPlayer();
       }
     });
   }
 
   /**
-   * Sets up the pieces for the game.
-   * Initializes the pieces for each player and assigns them to the corresponding UI elements.
+   * Sets up the pieces for the game. Initializes the pieces for each player and assigns them to the
+   * corresponding UI elements.
    */
   private void setPieces() {
     if (engine.getPlayers().stream().map(Player::getPieces).anyMatch(List::isEmpty)) {
@@ -134,8 +132,8 @@ public class SnakesAndLaddersController {
   }
 
   /**
-   * Renders the ladders on the board.
-   * Sets the color of the tiles based on the ladder's direction (ascending or descending).
+   * Renders the ladders on the board. Sets the color of the tiles based on the ladder's direction
+   * (ascending or descending).
    */
   private void renderLadders() {
     board.getLadders().forEach(ladder -> {
@@ -169,8 +167,7 @@ public class SnakesAndLaddersController {
 
 
   /**
-   * Updates the dice display on the UI.
-   * Sets the eyes of the dice based on the current values.
+   * Updates the dice display on the UI. Sets the eyes of the dice based on the current values.
    */
   private void updateDice() {
     int[] diceValues = engine.getDice().getValues();
@@ -178,11 +175,11 @@ public class SnakesAndLaddersController {
   }
 
   /**
-   * Updates the position of a piece on the board and sets the layout coordinates
-   * of the piece based on its current tile.
+   * Updates the position of a piece on the board and sets the layout coordinates of the piece based
+   * on its current tile.
    *
    * @param tileId The ID of the tile where the piece is located.
-   * @param piece   The piece to be updated.
+   * @param piece  The piece to be updated.
    */
   private void updatePiece(int tileId, UIPiece piece) {
     UISnakesAndLaddersTile tile = tiles.get(tileId);

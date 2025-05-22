@@ -1,5 +1,6 @@
 package ntnu.idi.idatt.models;
 
+import ntnu.idi.idatt.exceptions.InvalidInputException;
 import ntnu.idi.idatt.utility.ArgumentValidator;
 
 /**
@@ -21,7 +22,7 @@ public class Piece {
    */
   public Piece(Tile currentTile, Player owner, MovementStrategy movementStrategy) {
     if (!isValidPiece(currentTile, owner, movementStrategy)) {
-      throw new IllegalArgumentException("Invalid piece parameters");
+      throw new InvalidInputException("Invalid piece parameters");
     }
     this.currentTile = currentTile;
     this.owner = owner;
@@ -93,7 +94,7 @@ public class Piece {
    * @param currentTile      The tile the piece is currently on.
    * @param owner            The player who owns this piece. 
    * @param movementStrategy The movement strategy used by this piece.
-   * @return
+   * @return True if valid, false otherwise.
    */
   public boolean isValidPiece(Tile currentTile, Player owner, MovementStrategy movementStrategy) {
     return ArgumentValidator.isValidObject(currentTile) &&

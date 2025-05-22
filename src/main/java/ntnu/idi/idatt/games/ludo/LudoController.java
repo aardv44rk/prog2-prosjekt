@@ -15,6 +15,9 @@ import ntnu.idi.idatt.models.GameConfig;
 import ntnu.idi.idatt.models.Piece;
 import ntnu.idi.idatt.models.Player;
 
+/**
+ * Controller for the Ludo game. It handles the game logic and user interactions.
+ */
 public class LudoController {
 
   private final LudoEngine engine;

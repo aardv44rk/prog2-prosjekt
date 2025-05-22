@@ -1,9 +1,11 @@
 package ntnu.idi.idatt.models;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import ntnu.idi.idatt.exceptions.InvalidInputException;
 
 /**
  * Tests for the Die class. Only tests getSides method and constructor as the rest of the
@@ -11,6 +13,7 @@ import org.junit.jupiter.api.Test;
  */
 class DieTest {
   Die die;
+
   @BeforeEach
   void setUp() {
     die = new Die(6);
@@ -24,7 +27,7 @@ class DieTest {
   @Test
   void testDieInvalidSides() {
     int sides = 0;
-    IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> new Die(sides));
+    InvalidInputException e = assertThrows(InvalidInputException.class, () -> new Die(sides));
 
     assertEquals("Number of sides must be a positive integer", e.getMessage(),
         "Exception message should match");

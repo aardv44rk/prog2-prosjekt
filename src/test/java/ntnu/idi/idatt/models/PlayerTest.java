@@ -1,7 +1,5 @@
 package ntnu.idi.idatt.models;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -9,8 +7,11 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 
+import ntnu.idi.idatt.exceptions.InvalidInputException;
 import java.util.ArrayList;
 import java.util.List;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 class PlayerTest {
 
@@ -40,7 +41,7 @@ class PlayerTest {
 
     @Test
     void testConstructorWithNullName() {
-        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> {
+        InvalidInputException e = assertThrows(InvalidInputException.class, () -> {
             new Player(null, mockPieces);
         });
         assertEquals("Invalid player parameters", e.getMessage(), "Exception message for null name should match.");
@@ -48,7 +49,7 @@ class PlayerTest {
 
     @Test
     void testConstructorWithBlankName() {
-        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> {
+        InvalidInputException e = assertThrows(InvalidInputException.class, () -> {
             new Player("   ", mockPieces);
         });
         assertEquals("Invalid player parameters", e.getMessage(), "Exception message for blank name should match.");
@@ -56,7 +57,7 @@ class PlayerTest {
 
     @Test
     void testConstructorWithEmptyName() {
-        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> {
+        InvalidInputException e = assertThrows(InvalidInputException.class, () -> {
             new Player("", mockPieces);
         });
         assertEquals("Invalid player parameters", e.getMessage(), "Exception message for empty name should match.");
@@ -64,7 +65,7 @@ class PlayerTest {
 
     @Test
     void testConstructorWithNullPiecesList() {
-        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> {
+        InvalidInputException e = assertThrows(InvalidInputException.class, () -> {
             new Player(validPlayerName, null);
         });
        assertEquals("Invalid player parameters", e.getMessage(), "Exception message for null pieces list should match.");

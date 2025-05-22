@@ -10,12 +10,20 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import ntnu.idi.idatt.AssetRepository;
 
+/**
+ * Component for the Ludo board.
+ * This class extends StackPane and contains the board layout and tiles.
+ */
 public class UILudoBoard extends StackPane {
 
   private final Map<Integer, UILudoTile> tiles;
   private final GridPane board;
   private final Pane pieceLayer;
 
+  /**
+   * Constructor for the UILudoBoard class.
+   * Initializes the board and tiles, and adds them to the component.
+   */
   public UILudoBoard() {
     getStyleClass().add("ludo-board");
 
@@ -28,6 +36,11 @@ public class UILudoBoard extends StackPane {
     getChildren().addAll(board, pieceLayer);
   }
 
+  /**
+   * Generates the main path tiles for the Ludo board.
+   *
+   * @return A map of tile IDs to UILudoTile objects representing the main path.
+   */
   private Map<Integer, UILudoTile> generateMainPathTiles() {
     Map<Integer, UILudoTile> mainTiles = new HashMap<>();
     for (int i = 0; i < 52; i++) {
@@ -41,6 +54,12 @@ public class UILudoBoard extends StackPane {
     return mainTiles;
   }
 
+  /**
+   * Generates the final stretch tiles for each player.
+   *
+   * @return A list of maps, each containing tile IDs and corresponding UILudoTile objects
+   * for the final stretch.
+   */
   private List<Map<Integer, UILudoTile>> generateFinalStretchTiles() {
     List<Map<Integer, UILudoTile>> finalStretchTiles = new ArrayList<>();
     for (int i = 0; i < 4; i++) {
@@ -54,6 +73,12 @@ public class UILudoBoard extends StackPane {
     return finalStretchTiles;
   }
 
+  /**
+   * Generates the home tiles for each player.
+   *
+   * @return A list of maps, each containing tile IDs and corresponding UILudoTile objects for the
+   * home area.
+   */
   private List<Map<Integer, UILudoTile>> generatePlayerHomeTiles() {
     List<Map<Integer, UILudoTile>> playerHomeTiles = new ArrayList<>();
     for (int i = 0; i < 4; i++) {
@@ -67,6 +92,12 @@ public class UILudoBoard extends StackPane {
     return playerHomeTiles;
   }
 
+  /**
+   * Generates the Ludo board layout.
+   * This method creates a 15x15 grid and sets the colors for each tile based on its position.
+   *
+   * @return A JavaFX GridPane representing the Ludo board layout.
+   */
   public GridPane generateLudoBoard() {
     GridPane board = new GridPane();
     board.setGridLinesVisible(true); // Optional: for debugging layout
