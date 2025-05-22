@@ -6,7 +6,6 @@ import javafx.scene.Scene;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
-import ntnu.idi.idatt.components.AlertDialog;
 import ntnu.idi.idatt.components.PauseMenu;
 
 public class PrimaryScene extends Scene {
