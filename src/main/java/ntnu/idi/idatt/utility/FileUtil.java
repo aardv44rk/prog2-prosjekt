@@ -15,6 +15,13 @@ import ntnu.idi.idatt.exceptions.WriteException;
  * Utility class for reading and writing files.
  */
 public class FileUtil {
+  /**
+   * Reads the content of a file as a string.
+   * 
+   * @param filePath the path to the file
+   * @return the content of the file as a string
+   * @throws ReadException if an error occurs while reading the file
+   */
   public static String readString(String filePath) throws ReadException {
     try {
       Path path = Paths.get(filePath);
@@ -27,6 +34,13 @@ public class FileUtil {
     }
   }
 
+  /**
+   * Reads the content of a file as a list of strings.
+   * 
+   * @param filePath the path to the file
+   * @return the content of the file as a list of strings
+   * @throws ReadException if an error occurs while reading the file
+   */
   public static List<String> readLines(String filePath) throws ReadException {
     try {
       Path path = Paths.get(filePath);
@@ -39,6 +53,13 @@ public class FileUtil {
     }
   }
 
+  /**
+   * Writes a string to a file.
+   * 
+   * @param filePath the path to the file
+   * @param content the content to write
+   * @throws WriteException if an error occurs while writing to the file
+   */
   public static void writeString(String filePath, String content) throws WriteException {
     try {
       Path path = Paths.get(filePath);
@@ -48,6 +69,13 @@ public class FileUtil {
     }
   }
 
+  /**
+   * Writes a list of strings to a file.
+   * 
+   * @param filePath the path to the file
+   * @param lines the lines to write
+   * @throws WriteException if an error occurs while writing to the file
+   */
   public static void writeLines(String filePath, List<String> lines) throws WriteException {
     try {
       Path path = Paths.get(filePath);
@@ -57,6 +85,13 @@ public class FileUtil {
     }
   }
 
+  /**
+   * Appends a string to a file.
+   * 
+   * @param filePath the path to the file
+   * @param content the content to append
+   * @throws WriteException if an error occurs while appending to the file
+   */
   public static void appendString(String filePath, String content) throws WriteException {
     try {
       Path path = Paths.get(filePath);
@@ -69,6 +104,12 @@ public class FileUtil {
     }
   }
 
+  /**
+   * Creates directories at the specified path.
+   * 
+   * @param dirPath the path to the directory
+   * @throws FileHandlingException if an error occurs while creating the directories
+   */
   public static void createDirectories(String dirPath) throws FileHandlingException {
     try {
       Path path = Paths.get(dirPath);
