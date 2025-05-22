@@ -17,6 +17,11 @@ import ntnu.idi.idatt.games.snakesandladders.LadderAction;
 import ntnu.idi.idatt.games.snakesandladders.LinearMovementStrategy;
 import ntnu.idi.idatt.games.snakesandladders.SnakesAndLaddersBoard;
 import ntnu.idi.idatt.games.snakesandladders.SnakesAndLaddersBoardFactory;
+import ntnu.idi.idatt.games.thievesAndRobbers.CircularMovementStrategy;
+import ntnu.idi.idatt.games.thievesAndRobbers.MoneyAction;
+import ntnu.idi.idatt.games.thievesAndRobbers.ThievesAndRobbersBoard;
+import ntnu.idi.idatt.games.thievesAndRobbers.ThievesAndRobbersBoardFactory;
+import ntnu.idi.idatt.games.thievesAndRobbers.ThievesAndRobbersPiece;
 import ntnu.idi.idatt.utility.ArgumentValidator;
 import ntnu.idi.idatt.utility.CsvUtil;
 import ntnu.idi.idatt.utility.FileUtil;
@@ -86,6 +91,22 @@ public class GameConfig {
       SnakesAndLaddersBoard snlBoard = (SnakesAndLaddersBoard) board;
       config.addProperty("boardRows", snlBoard.getRows());
       config.addProperty("boardColumns", snlBoard.getColumns());
+    } else if (board instanceof LudoBoard) {
+      ThievesAndRobbersBoard tarBoard = (ThievesAndRobbersBoard) board;
+      config.addProperty("boardWith", tarBoard.getWidth());
+      config.addProperty("boardHeight", tarBoard.getHeight());
+
+      JsonArray tileMoneyArray = new JsonArray();
+
+      for (int i = 0; i < tarBoard.getTiles().size(); i++) {
+        Tile tile = tarBoard.getTile(i);
+        if (tile != null && tile.getTileAction() instanceof MoneyAction) {
+          tileMoneyArray.add(((MoneyAction) tile.getTileAction()).getMoney());
+        } else {
+          tileMoneyArray.add(0); // Default value for tiles without MoneyAction
+        }
+      }
+      config.add("tileMoney", tileMoneyArray);
     }
 
     // Save detailed board information
@@ -106,6 +127,8 @@ public class GameConfig {
           int destinationTileId = getActionDestinationTileId(action);
           actionObj.addProperty("type", "ladder");
           actionObj.addProperty("destinationTileId", destinationTileId);
+        } else if (action instanceof MoneyAction) {
+          actionObj.addProperty("type", "money");
         } else {
           actionObj.addProperty("type", "default"); // Default value
         }
@@ -123,11 +146,17 @@ public class GameConfig {
     for (Player player : players) {
       JsonObject playerObj = new JsonObject();
       playerObj.addProperty("name", player.getName());
-
+      
       JsonArray piecesArray = new JsonArray();
       for (Piece piece : player.getPieces()) {
         JsonObject pieceObj = new JsonObject();
         pieceObj.addProperty("tileId", piece.getCurrentTile().getTileId());
+        if (piece instanceof ThievesAndRobbersPiece) {
+          pieceObj.addProperty("pieceMoney", ((ThievesAndRobbersPiece) piece).getMoney());
+          pieceObj.addProperty("movementStrategy", CircularMovementStrategy.class.getName());
+        } else {
+          pieceObj.addProperty("movementStrategy", LinearMovementStrategy.class.getName());
+        }
         piecesArray.add(pieceObj);
       }
       playerObj.add("pieces", piecesArray);
@@ -201,11 +230,40 @@ public class GameConfig {
         board = SnakesAndLaddersBoardFactory.createStandardBoard();
         System.out.println("Loaded default Snakes and Ladders board");
       }
-    } else if (boardType.equals(LudoBoard.class.getName())) {
-      board = LudoBoardFactory.createLudoBoard();
-      // TODO add ludo specific code here
-      // homes etc need to be saved in the config
-      System.out.println("Loaded Ludo board");
+    } else if (boardType.equals(ThievesAndRobbersBoard.class.getName())) {
+      if (config.has("boardWidth") && config.has("boardHeight")) {
+        int width = config.get("boardWidth").getAsInt();
+        int height = config.get("boardHeight").getAsInt();
+        if (width == 8 && height == 6) {
+          board = ThievesAndRobbersBoardFactory.createSmallBoard();
+          System.out.println("Loaded small Thieves and Robbers board");
+        } else if (width == 8 && height == 8) {
+          board = ThievesAndRobbersBoardFactory.createStandardBoard();
+          System.out.println("Loaded standard Thieves and Robbers board");
+        } else if (width == 10 && height == 10) {
+          board = ThievesAndRobbersBoardFactory.createBigBoard();
+          System.out.println("Loaded big Thieves and Robbers board");
+        } else {
+          board = ThievesAndRobbersBoardFactory.createStandardBoard();
+          System.out.println("Loaded default Thieves and Robbers board");
+        }
+      } else {
+        board = ThievesAndRobbersBoardFactory.createStandardBoard();
+        System.out.println("Loaded default Thieves and Robbers board");
+      }
+
+      if (config.has("tileMoney")) {
+        JsonArray tileMoneyArray = config.getAsJsonArray("tileMoney");
+
+        if (tileMoneyArray.size() == board.getTiles().size()) {
+          for (int i = 0; i < tileMoneyArray.size(); i++) {
+            Tile tile = board.getTile(i);
+            if (tile != null) tile.setTileAction(new MoneyAction(tileMoneyArray.get(i).getAsInt()));
+          }
+        } else {
+        System.err.println("No tile money information found in the config");
+        }
+      } 
     } else {
       throw new IllegalArgumentException("Unknown board type: " + boardType);
     }
