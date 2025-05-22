@@ -7,6 +7,9 @@ import ntnu.idi.idatt.models.Tile;
 
 public class ThievesAndRobbersBoard extends Board {
 
+  private static final int MIN_MONEY = -20;
+  private static final int MAX_MONEY = 40;
+
   private final int width;
   private final int height;
 
@@ -26,7 +29,8 @@ public class ThievesAndRobbersBoard extends Board {
     tiles.put(0, firstTile);
     for (int i = 1; i < width * 2 + (height - 2) * 2; i++) {
       Tile tile = new Tile(i);
-      tile.setTileAction(new MoneyAction(random.nextInt(10, 31)));
+      int randInt = random.nextInt(MIN_MONEY, MAX_MONEY);
+      tile.setTileAction(new MoneyAction(randInt));
       tiles.put(i, tile);
     }
   }
