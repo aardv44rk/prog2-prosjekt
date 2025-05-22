@@ -2,11 +2,13 @@ package ntnu.idi.idatt.menu.gamemenu;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Consumer;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import ntnu.idi.idatt.components.GameCard;
 import ntnu.idi.idatt.models.GameInfo;
+import ntnu.idi.idatt.utility.StyleUtil;
 
 /**
  * The GameMenuView class represents the view for the game menu. It displays a list of game cards
@@ -17,7 +19,8 @@ public class GameMenuView extends VBox {
   HBox gameCardContainer;
 
   /**
-   * Constructor for the GameMenuView class. It initializes the view with a container for game cards.
+   * Constructor for the GameMenuView class. It initializes the view with a container for game
+   * cards.
    */
   public GameMenuView() {
     getStyleClass().add("game-menu-view");
@@ -39,10 +42,15 @@ public class GameMenuView extends VBox {
     List<GameCard> gameCards = new ArrayList<>();
 
     for (GameInfo gameInfo : games) {
-      GameCard gameCard = new GameCard(gameInfo.getName());
-      gameCard.setOnClick(() -> {
-        onClick.accept(gameInfo);
-      });
+      GameCard gameCard = new GameCard(
+          gameInfo.getName(),
+          StyleUtil.getImagePath(gameInfo.getName())
+      );
+      if (!gameInfo.getName().equals("Ludo")) {
+        gameCard.setOnClick(() -> {
+          onClick.accept(gameInfo);
+        });
+      }
       gameCards.add(gameCard);
     }
 

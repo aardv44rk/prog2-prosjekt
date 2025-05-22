@@ -29,6 +29,21 @@ public class StyleUtil {
   }
 
   /**
+   * Finds the file path for an image given the image name.
+   *
+   * @param imageName The name of the image.
+   * @return The image path as a string if found; or else {@code} null.
+   */
+  public static String getImagePath(String imageName) {
+    URL resource = StyleUtil.class.getResource("/images/" + imageName + ".png");
+    if (resource != null) {
+      return resource.toExternalForm();
+    }
+    System.err.println("Unable to find image path: " + imageName);
+    return null;
+  }
+
+  /**
    * Converts a JavaFX Color object to a CSS RGB string.
    *
    * @param c The JavaFX Color object to convert.

@@ -3,6 +3,7 @@ package ntnu.idi.idatt.menu.gamesetup;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -44,11 +45,12 @@ public class GameSetupView extends BorderPane {
     playersTitle.getStyleClass().add("game-setup-title");
 
     playerBox.getStyleClass().add("game-setup-player-box");
+    ScrollPane scrollPane = new ScrollPane(playerBox);
+    scrollPane.getStyleClass().add("game-setup-scroll-pane");
+    scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+    scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
-    loadPlayersButton = new TextButton("Load Players");
-    loadPlayersButton.getStyleClass().add("game-setup-load-players");
-
-    left.getChildren().addAll(playersTitle, playerBox, loadPlayersButton);
+    left.getChildren().addAll(playersTitle, scrollPane);
 
     VBox right = new VBox();
     right.getStyleClass().add("game-setup-right");
@@ -60,15 +62,18 @@ public class GameSetupView extends BorderPane {
 
     right.getChildren().addAll(boardTitle, boardBox);
 
-    HBox startContainer = new HBox();
-    startContainer.getStyleClass().add("game-setup-start");
+    HBox buttonContainer = new HBox();
+    buttonContainer.getStyleClass().add("game-setup-start");
+
+    loadPlayersButton = new TextButton("Load Players");
+    loadPlayersButton.getStyleClass().add("game-setup-load-players");
 
     startButton = new TextButton("Start");
-    startContainer.getChildren().add(startButton);
+    buttonContainer.getChildren().addAll(loadPlayersButton, startButton);
 
     setLeft(left);
     setRight(right);
-    setBottom(startContainer);
+    setBottom(buttonContainer);
 
   }
 
@@ -122,7 +127,8 @@ public class GameSetupView extends BorderPane {
       throw new InvalidInputException("Invalid player name");
     }
     if (!ArgumentValidator.isValidInterval(min, max)) {
-      throw new InvalidInputException("Invalid player interval"); // this should never happen, but just in case
+      throw new InvalidInputException(
+          "Invalid player interval"); // this should never happen, but just in case
     }
 
     NewPlayer newPlayer = new NewPlayer(
@@ -220,7 +226,8 @@ public class GameSetupView extends BorderPane {
         break;
       }
 
-      Color playerColor = AssetRepository.SNL_COLORS.get(playerCount % AssetRepository.SNL_COLORS.size());
+      Color playerColor = AssetRepository.SNL_COLORS.get(
+          playerCount % AssetRepository.SNL_COLORS.size());
       NewPlayer newPlayer = new NewPlayer(
           playerColor,
           playerCount + 1,
@@ -241,14 +248,16 @@ public class GameSetupView extends BorderPane {
           }
           updatePlayerBox(currentMin, currentMax);
         } else {
-          Router.showAlert("Error", "You must have at least " + currentMin + " players.", "OK", null);
+          Router.showAlert("Error", "You must have at least " + currentMin + " players.", "OK",
+              null);
         }
       });
       playerList.add(newPlayer);
       playerCount++;
     }
     while (playerList.size() < minPlayers) {
-      Color playerColor = AssetRepository.SNL_COLORS.get(playerCount % AssetRepository.SNL_COLORS.size());
+      Color playerColor = AssetRepository.SNL_COLORS.get(
+          playerCount % AssetRepository.SNL_COLORS.size());
       NewPlayer newPlayer = new NewPlayer(
           playerColor,
           playerCount + 1,
