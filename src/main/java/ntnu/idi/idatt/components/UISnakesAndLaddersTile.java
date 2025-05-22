@@ -5,8 +5,16 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import ntnu.idi.idatt.utility.StyleUtil;
 
+/**
+ * Component for a Snakes and Ladders tile.
+ */
 public class UISnakesAndLaddersTile extends BorderPane {
 
+  /**
+   * Constructor for the UISnakesAndLaddersTile class.
+   *
+   * @param number The number of the tile.
+   */
   public UISnakesAndLaddersTile(int number) {
     getStyleClass().add("snl-tile");
 

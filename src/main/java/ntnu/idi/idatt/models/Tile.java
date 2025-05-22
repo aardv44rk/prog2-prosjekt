@@ -59,6 +59,12 @@ public class Tile {
     return "" + tileId;
   }
 
+  /**
+   * Checks if the given tile ID is valid.
+   *
+   * @param tileId The tile ID to check.
+   * @return true if the tile ID is valid, false otherwise.
+   */
   public boolean isValidTile(int tileId) {
     return ArgumentValidator.isValidIndex(tileId);
   }

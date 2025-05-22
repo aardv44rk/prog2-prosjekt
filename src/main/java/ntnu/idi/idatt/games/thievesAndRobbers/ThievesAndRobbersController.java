@@ -1,4 +1,4 @@
-package ntnu.idi.idatt.games.thievesAndRobbers;
+package ntnu.idi.idatt.games.thievesandrobbers;
 
 import java.util.ArrayList;
 import java.util.Collection;

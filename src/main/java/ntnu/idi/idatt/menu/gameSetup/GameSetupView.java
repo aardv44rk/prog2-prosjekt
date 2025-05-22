@@ -1,4 +1,4 @@
-package ntnu.idi.idatt.menu.gameSetup;
+package ntnu.idi.idatt.menu.gamesetup;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +12,11 @@ import ntnu.idi.idatt.components.NewPlayer;
 import ntnu.idi.idatt.components.TextButton;
 import ntnu.idi.idatt.models.Board;
 import ntnu.idi.idatt.models.Player;
+import ntnu.idi.idatt.utility.ArgumentValidator;
 
+/**
+ * The GameSetupView class represents the view for setting up a game.
+ */
 public class GameSetupView extends BorderPane {
 
   private final List<NewPlayer> playerList = new ArrayList<>();
@@ -22,6 +26,10 @@ public class GameSetupView extends BorderPane {
   private TextButton selectedBoardButton;
   private final TextButton startButton;
 
+  /**
+   * Constructor for the GameSetupView class. It initializes the view with a layout for players and
+   * boards.
+   */
   public GameSetupView() {
     getStyleClass().add("game-setup");
 
@@ -57,6 +65,11 @@ public class GameSetupView extends BorderPane {
 
   }
 
+  /**
+   * Returns the list of players in the game setup.
+   *
+   * @return A list of Player objects.
+   */
   public List<Player> getPlayers() {
     return playerList.stream().map(p -> new Player(p.getName(), new ArrayList<>())).toList();
   }
@@ -65,7 +78,16 @@ public class GameSetupView extends BorderPane {
     return selectedBoard;
   }
 
+  /**
+   * Sets the players in the game setup.
+   *
+   * @param min The minimum number of players.
+   * @param max The maximum number of players.
+   */
   public void setPlayers(int min, int max) {
+    if (!ArgumentValidator.isValidInterval(min, max)) {
+      throw new IllegalArgumentException("Invalid player interval");
+    }
     playerList.clear();
     for (int i = 0; i < min; i++) {
       playerList.add(
@@ -80,7 +102,21 @@ public class GameSetupView extends BorderPane {
     updatePlayerBox(min, max);
   }
 
+  /**
+   * Adds a new player to the game setup.
+   *
+   * @param playerName The name of the player.
+   * @param min        The minimum number of players.
+   * @param max        The maximum number of players.
+   */
   public void addPlayer(String playerName, int min, int max) {
+    if (!ArgumentValidator.isValidString(playerName)) {
+      throw new IllegalArgumentException("Invalid player name");
+    }
+    if (!ArgumentValidator.isValidInterval(min, max)) {
+      throw new IllegalArgumentException("Invalid player interval"); // this should never happen, but just in case
+    }
+
     NewPlayer newPlayer = new NewPlayer(
         AssetRepository.SNL_COLORS.get(playerList.size()),
         playerList.size() + 1,
@@ -101,7 +137,15 @@ public class GameSetupView extends BorderPane {
     playerList.add(newPlayer);
   }
 
+  /**
+   * Sets the boards in the game setup.
+   *
+   * @param boards The list of boards to be displayed.
+   */
   public void setBoards(List<Board> boards) {
+    if (!ArgumentValidator.isValidList(boards)) {
+      throw new IllegalArgumentException("Invalid board list");
+    }
     boardBox.getChildren().clear();
     for (Board board : boards) {
       TextButton boardButton = new TextButton(board.getTiles().size() + " tiles");
@@ -122,7 +166,16 @@ public class GameSetupView extends BorderPane {
     }
   }
 
+  /**
+   * Updates the player box with the current list of players.
+   *
+   * @param min The minimum number of players.
+   * @param max The maximum number of players.
+   */
   public void updatePlayerBox(int min, int max) {
+    if (!ArgumentValidator.isValidInterval(min, max)) {
+      throw new IllegalArgumentException("Invalid player interval");
+    }
     playerBox.getChildren().clear();
     playerBox.getChildren().addAll(playerList);
 

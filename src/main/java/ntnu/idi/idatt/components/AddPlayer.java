@@ -5,11 +5,17 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 
+/**
+ * Component for adding a player to the game.
+ */
 public class AddPlayer extends HBox {
 
   Button addButton;
   TextField playerName;
 
+  /**
+   * Constructor for the AddPlayer component.
+   */
   public AddPlayer() {
     getStyleClass().add("add-player");
 
@@ -29,6 +35,11 @@ public class AddPlayer extends HBox {
     return playerName.getText().trim();
   }
 
+  /**
+   * Sets the action to be performed when the add button is clicked.
+   *
+   * @param runnable The action to be performed.
+   */
   public void setOnClick(Runnable runnable) {
     addButton.setOnAction(e -> runnable.run());
   }

@@ -7,7 +7,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.List;
-
 import ntnu.idi.idatt.exceptions.FileHandlingException;
 import ntnu.idi.idatt.exceptions.ReadException;
 import ntnu.idi.idatt.exceptions.WriteException;
@@ -79,6 +78,12 @@ public class FileUtil {
     }
   }
 
+  /**
+   * Checks if a file exists at the specified path.
+   *
+   * @param filePath the path to the file
+   * @return true if the file exists, false otherwise
+   */
   public static boolean fileExists(String filePath) {
     Path path = Paths.get(filePath);
     return Files.exists(path);

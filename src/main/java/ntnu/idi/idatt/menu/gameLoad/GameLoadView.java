@@ -1,4 +1,4 @@
-package ntnu.idi.idatt.menu.gameLoad;
+package ntnu.idi.idatt.menu.gameload;
 
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
@@ -6,11 +6,18 @@ import javafx.scene.layout.VBox;
 import ntnu.idi.idatt.AppState;
 import ntnu.idi.idatt.components.TextButton;
 
+/**
+ * The GameLoadView class represents the view for loading a game. It displays the game title and
+ * provides buttons for starting a new game or loading an existing one.
+ */
 public class GameLoadView extends VBox {
 
   TextButton newGameButton;
   TextButton loadGameButton;
 
+  /**
+   * Constructor for the GameLoadView class. It initializes the view with a title and buttons.
+   */
   public GameLoadView() {
     getStyleClass().add("game-load-view");
 
@@ -33,10 +40,20 @@ public class GameLoadView extends VBox {
     getChildren().addAll(titleBox, optionBox);
   }
 
+  /**
+   * Sets the action to be performed when the new game button is clicked.
+   *
+   * @param runnable The action to be performed.
+   */
   public void newGameButtonSetOnClick(Runnable runnable) {
     newGameButton.setOnAction(e -> runnable.run());
   }
 
+  /**
+   * Sets the action to be performed when the load game button is clicked.
+   *
+   * @param runnable The action to be performed.
+   */
   public void loadGameButtonSetOnClick(Runnable runnable) {
     loadGameButton.setOnAction(e -> runnable.run());
   }

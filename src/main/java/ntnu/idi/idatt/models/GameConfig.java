@@ -5,12 +5,10 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
 import ntnu.idi.idatt.exceptions.ConfigurationException;
 import ntnu.idi.idatt.exceptions.FileHandlingException;
 import ntnu.idi.idatt.exceptions.InvalidInputException;
@@ -143,8 +141,12 @@ public class GameConfig {
     config.add("players", playersArray);
 
     // finally write to file
-    FileUtil.writeString(filePath, config.toString());
-    System.out.println("Game configuration saved to " + filePath);
+    try {
+      FileUtil.writeString(filePath, config.toString());
+      System.out.println("Game configuration saved to " + filePath);
+    } catch (IOException e) {
+      throw new WriteException("Error writing game configuration to file: " + filePath, e);
+    }
   }
 
   /**
@@ -183,14 +185,19 @@ public class GameConfig {
     if (!ArgumentValidator.isValidFilePath(filePath)) {
       throw new InvalidInputException("Invalid file path");
     }
-    String json = FileUtil.readString(filePath);
+
+    String json = "";
+    try {
+      json = FileUtil.readString(filePath);
+    } catch (IOException e) {
+      throw new ReadException("File not found: " + filePath, e);
+    }
     JsonObject config = JsonParser.parseString(json).getAsJsonObject();
 
     int currentPlayerIndex = config.get("currentPlayerIndex").getAsInt();
 
     String boardType = config.get("boardType").getAsString();
     Board board;
-
     if (boardType.equals(SnakesAndLaddersBoard.class.getName())) {
     // Check if dimensions are saved in the config
       if (config.has("boardRows") && config.has("boardColumns")) {

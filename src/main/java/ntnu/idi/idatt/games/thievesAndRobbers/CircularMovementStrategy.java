@@ -1,4 +1,4 @@
-package ntnu.idi.idatt.games.thievesAndRobbers;
+package ntnu.idi.idatt.games.thievesandrobbers;
 
 import ntnu.idi.idatt.models.Board;
 import ntnu.idi.idatt.models.MovementStrategy;

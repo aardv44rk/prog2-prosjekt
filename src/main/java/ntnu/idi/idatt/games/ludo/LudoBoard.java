@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import ntnu.idi.idatt.models.Board;
 import ntnu.idi.idatt.models.Piece;
 import ntnu.idi.idatt.models.Player;
 
+/**
+ * LudoBoard represents the game board for Ludo. 
+ */
 public class LudoBoard extends Board {
 
   private static final int MAIN_PATH_LENGTH = 52;

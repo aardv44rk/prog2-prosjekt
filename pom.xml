@@ -39,8 +39,54 @@
         <artifactId>maven-javadoc-plugin</artifactId>
         <version>3.11.2</version>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <version>3.3.1</version> <!-- Or the latest version -->
+        <configuration>
+          <configLocation>google_checks.xml</configLocation>
+          <encoding>UTF-8</encoding>
+          <consoleOutput>true</consoleOutput>
+          <failsOnError>false</failsOnError> <!-- Set to true to fail build on violations -->
+          <linkXRef>false</linkXRef>
+          <!-- You can include/exclude specific files or packages -->
+          <!--
+          <includes>**/*.java</includes>
+          <excludes>**/generated-sources/**</excludes>
+          -->
+        </configuration>
+        <executions>
+          <execution>
+            <id>validate</id>
+            <phase>validate</phase>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+        <dependencies>
+          <dependency>
+            <groupId>com.puppycrawl.tools</groupId>
+            <artifactId>checkstyle</artifactId>
+            <version>10.14.2</version> <!-- Use a version compatible with google_checks.xml and your plugin version -->
+          </dependency>
+        </dependencies>
+      </plugin>
     </plugins>
   </build>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <version>3.3.1</version> <!-- Same version as in build -->
+        <configuration>
+          <configLocation>google_checks.xml</configLocation>
+        </configuration>
+      </plugin>
+    </plugins>
+  </reporting>
 
   <dependencies>
     <dependency>

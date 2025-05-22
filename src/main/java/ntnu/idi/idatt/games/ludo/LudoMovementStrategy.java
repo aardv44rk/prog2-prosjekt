@@ -6,6 +6,9 @@ import ntnu.idi.idatt.models.MovementStrategy;
 import ntnu.idi.idatt.models.Piece;
 
 
+/**
+ * LudoMovementStrategy implements the MovementStrategy interface for Ludo game.
+ */
 public class LudoMovementStrategy implements MovementStrategy {
 
   @Override
