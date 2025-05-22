@@ -83,7 +83,7 @@ class SnakesAndLaddersEngineTest {
         InvalidInputException exception = assertThrows(InvalidInputException.class, () -> {
             new SnakesAndLaddersEngine(players, mockBoard, 0, null); // Null dice
         });
-        assertEquals("Dice cannot be null", exception.getMessage());
+        assertEquals("Invalid dice", exception.getMessage());
 
         InvalidInputException exception2 = assertThrows(InvalidInputException.class, () -> {
             new SnakesAndLaddersEngine(null, mockBoard, 0, mockDice); // Null players

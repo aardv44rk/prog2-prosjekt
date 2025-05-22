@@ -183,17 +183,21 @@ public class GameConfig {
    * @throws WriteException if a write / input error occurs
    * @throws InvalidInputException if the file path is invalid
    */
-  public void savePlayerList(String filePath) throws IOException {
-    if (!ArgumentValidator.isValidFilePath(filePath)) {
-      throw new IllegalArgumentException("Invalid file path");
-    }
-    List<String[]> playerNames = new ArrayList<>();
-    for (Player player : players) {
-      playerNames.add(new String[]{player.getName()});
-    }
+  public void savePlayerList(String filePath) throws InvalidInputException, WriteException {
+    try {
+      if (!ArgumentValidator.isValidFilePath(filePath)) {
+        throw new InvalidInputException("Invalid file path");
+      }
+      List<String[]> playerNames = new ArrayList<>();
+      for (Player player : players) {
+        playerNames.add(new String[]{player.getName()});
+      }
 
-    CsvUtil.writeCsv(filePath, playerNames);
-    System.out.println("Player list saved to: " + filePath);
+      CsvUtil.writeCsv(filePath, playerNames);
+      System.out.println("Player list saved to: " + filePath);
+    } catch (IOException e) {
+      throw new WriteException("Error writing player list to file: " + filePath, e);
+    }
   }
 
   /**

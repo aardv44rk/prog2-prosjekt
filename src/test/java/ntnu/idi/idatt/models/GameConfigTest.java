@@ -245,7 +245,8 @@ class GameConfigTest {
       () -> gameConfig.loadPlayerList("non_existent_file.json"),
       "Should throw an InvalidInputException when file doesn't exist");
 
-    assertEquals("Error reading player list from file: non_existent_file.json", e.getMessage(),
+    assertEquals("File not found: non_existent_file.json", e.getMessage(),
+    
         "Exception message should indicate file not found");
   }
 
