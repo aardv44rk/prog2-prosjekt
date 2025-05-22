@@ -22,7 +22,7 @@ public class GameRegistry {
                 Roll the dice to move forward. Green ladders move you up,
                 and red ladders move you down. First to the end wins.
                 """,
-            2, 6,
+            2, 5,
             SnakesAndLaddersBoardFactory::getBoards
         )
     );
