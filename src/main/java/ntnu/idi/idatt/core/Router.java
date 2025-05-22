@@ -1,11 +1,17 @@
 package ntnu.idi.idatt.core;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
+
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import ntnu.idi.idatt.AppState;
 import ntnu.idi.idatt.components.AlertDialog;
 import ntnu.idi.idatt.components.PauseMenu;
+import ntnu.idi.idatt.models.GameConfig;
 
 public class Router {
 
@@ -17,8 +23,67 @@ public class Router {
 
   static {
     pauseMenu.resumeButtonSetOnClick(() -> primaryScene.removeNode(pauseMenu));
-    pauseMenu.saveGameButtonSetOnClick(() -> System.out.println("Saving game..."));
-    pauseMenu.savePlayersButtonSetOnClick(() -> System.out.println("Saving players..."));
+    pauseMenu.saveGameButtonSetOnClick(() -> {
+      GameConfig currentGameConfig = AppState.getCurrentGameConfig();
+      if (currentGameConfig == null) {
+        Router.showAlert("Info", "No game data found to save", "OK", null);
+        System.err.println("No game data found to save");
+        return;
+      }
+      FileChooser fileChooser = new FileChooser();
+      fileChooser.setTitle("Save Game");
+      fileChooser.getExtensionFilters().addAll(
+          new FileChooser.ExtensionFilter("JSON files (*.json)", "*.json")
+      );
+      String gameName = AppState.getSelectedGame() != null ? AppState.getSelectedGame().getName() : "game";
+      String initialFileName = gameName.toLowerCase().replace(" ", "_") + "_save.json";
+      fileChooser.setInitialFileName(initialFileName);
+      
+      File file = fileChooser.showSaveDialog(primaryStage);
+      if (file != null) {
+        try {
+          currentGameConfig.saveConfig(file.getAbsolutePath());
+          showAlert("Success", "Game saved successfully", "OK", null);
+          System.out.println("Game saved to: " + file.getAbsolutePath());
+          primaryScene.removeNode(pauseMenu);
+        } catch (IOException e) {
+          showAlert("Error", "Could not save game state: " + e.getMessage(), "OK", null);
+          System.err.println("Error saving game: " + e.getMessage());
+        }
+      } else {
+        showAlert("Error", "No game data to save!", "OK", null);
+        System.err.println("No game data to save!");
+      }
+    });
+    pauseMenu.savePlayersButtonSetOnClick(() -> {
+      GameConfig currentGameConfig = AppState.getCurrentGameConfig();
+      if (currentGameConfig == null || currentGameConfig.getPlayers() == null || currentGameConfig.getPlayers().isEmpty()) {
+        Router.showAlert("Info", "No player data found to save", "OK", null);
+        System.err.println("No player data found to save");
+        return;
+      }
+      FileChooser fileChooser = new FileChooser();
+      fileChooser.setTitle("Save Players");
+      fileChooser.getExtensionFilters().addAll(
+          new FileChooser.ExtensionFilter("CSV Files", "*.csv")
+      );
+      fileChooser.setInitialFileName("player_list.csv");
+
+      File file = fileChooser.showSaveDialog(primaryStage);
+      if (file != null) {
+        try {
+          currentGameConfig.savePlayerList(file.getAbsolutePath());
+          showAlert("Success", "Players saved successfully", "OK", null);
+          System.out.println("Players saved to: " + file.getAbsolutePath());
+        } catch (IOException e) {
+          showAlert("Error", "Could not save players: " + e.getMessage(), "OK", null);
+          System.err.println("Error saving players: " + e.getMessage());
+        }
+      } else {
+        showAlert("Error", "No player data to save!", "OK", null);
+        System.err.println("No player data to save!");
+      }
+    });
     pauseMenu.exitButtonSetOnClick(() -> {
       primaryScene.removeNode(pauseMenu);
       navigateTo("home");
@@ -31,6 +96,10 @@ public class Router {
 
   public static void setStage(Stage stage) {
     primaryStage = stage;
+  }
+
+  public static Stage getStage() {
+    return primaryStage;
   }
 
   public static void setScene(PrimaryScene scene) {

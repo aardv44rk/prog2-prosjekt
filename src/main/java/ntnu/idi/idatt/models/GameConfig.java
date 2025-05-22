@@ -18,6 +18,7 @@ import ntnu.idi.idatt.games.snakesandladders.LinearMovementStrategy;
 import ntnu.idi.idatt.games.snakesandladders.SnakesAndLaddersBoard;
 import ntnu.idi.idatt.games.snakesandladders.SnakesAndLaddersBoardFactory;
 import ntnu.idi.idatt.utility.ArgumentValidator;
+import ntnu.idi.idatt.utility.CsvUtil;
 import ntnu.idi.idatt.utility.FileUtil;
 import ntnu.idi.idatt.utility.JsonUtil;
 
@@ -151,12 +152,12 @@ public class GameConfig {
     if (!ArgumentValidator.isValidFilePath(filePath)) {
       throw new IllegalArgumentException("Invalid file path");
     }
-    List<String> playerNames = new ArrayList<>();
+    List<String[]> playerNames = new ArrayList<>();
     for (Player player : players) {
-      playerNames.add(player.getName());
+      playerNames.add(new String[]{player.getName()});
     }
 
-    JsonUtil.writeToFile(filePath, playerNames);
+    CsvUtil.writeCsv(filePath, playerNames);
     System.out.println("Player list saved to: " + filePath);
   }
 
@@ -276,16 +277,18 @@ public class GameConfig {
       throw new IllegalArgumentException("Bad file path");
     }
 
-    Type listType = JsonUtil.getListType(String.class);
-    List<String> playerNames = JsonUtil.readFromFile(filePath, listType);
+    List<String[]> playerData = CsvUtil.readCsv(filePath);
 
-    // Convert names to Player objects with empty piece lists
-    List<Player> players = new ArrayList<>();
-    for (String name : playerNames) {
-      players.add(new Player(name, new ArrayList<>()));
+    List<Player> loadedPlayers = new ArrayList<>();
+
+    for (String[] data : playerData) {
+      if (data.length > 0) {
+        String playerName = data[0];
+        loadedPlayers.add(new Player(playerName, new ArrayList<>()));
+      }
     }
 
-    return players;
+    return loadedPlayers;
   }
 
   /**

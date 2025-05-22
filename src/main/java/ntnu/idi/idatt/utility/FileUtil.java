@@ -12,6 +12,7 @@ import java.util.List;
  * Utility class for reading and writing files.
  */
 public class FileUtil {
+  
   public static String readString(String filePath) throws IOException {
     Path path = Paths.get(filePath);
     if (!Files.exists(path)) {
