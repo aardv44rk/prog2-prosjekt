@@ -348,18 +348,20 @@ public class GameConfig {
       throw new InvalidInputException("Bad file path");
     }
 
-    List<String[]> playerData = CsvUtil.readCsv(filePath);
-
-    List<Player> loadedPlayers = new ArrayList<>();
-
-    for (String[] data : playerData) {
-      if (data.length > 0) {
-        String playerName = data[0];
-        loadedPlayers.add(new Player(playerName, new ArrayList<>()));
+    try {
+     List<String[]> playerData = CsvUtil.readCsv(filePath);
+     List<Player> loadedPlayers = new ArrayList<>();
+     
+     for (String[] data : playerData) {
+       if (data.length > 0) {
+         String playerName = data[0];
+         loadedPlayers.add(new Player(playerName, new ArrayList<>()));
+        }
       }
+      return loadedPlayers;
+    } catch (IOException e) {
+      throw new ReadException("File not found: " + filePath, e);
     }
-
-    return loadedPlayers;
   }
 
   /**

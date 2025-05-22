@@ -12,8 +12,6 @@ import static org.mockito.Mockito.mock;
 import java.util.ArrayList;
 import java.util.List;
 import ntnu.idi.idatt.exceptions.InvalidInputException;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 /**
  * Tests for the GameEngine class.
@@ -118,6 +116,7 @@ class GameEngineTest {
         assertFalse(gameEngine.isValidGameEngine(null, mockBoard, 0), "Should not validate with null players");
         assertFalse(gameEngine.isValidGameEngine(new ArrayList<>(), mockBoard, 0), "Should not validate with empty players list");
         assertFalse(gameEngine.isValidGameEngine(players, null, 0), "Should not validate with null board");
+    }
     @Test
     void testInvalidGameEngineParametersThrowsException() {
         // Test with invalid parameters
@@ -133,3 +132,4 @@ class GameEngineTest {
         assertEquals("Invalid game engine parameters", e.getMessage(), "Should throw exception for invalid parameters");
     }
 }
+
