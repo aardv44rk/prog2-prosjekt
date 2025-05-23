@@ -46,22 +46,22 @@ public class Main extends Application {
     Router.registerRoute(
         new Route(
             "settings",
-            () -> new NavBar("Settings", Router::goBack, false),
+            () -> new NavBar("Settings", Router::goBack, false, false),
             () -> new SettingsController(new SettingsView()).getView()));
     Router.registerRoute(
         new Route(
             "menu",
-            () -> new NavBar("Play", Router::goBack, false),
+            () -> new NavBar("Play", Router::goBack, false, false),
             () -> new GameMenuController(new GameMenuView()).getView()));
     Router.registerRoute(
         new Route(
             "load",
-            () -> new NavBar(AppState.getSelectedGame().getName(), Router::goBack, false),
+            () -> new NavBar(AppState.getSelectedGame().getName(), Router::goBack, false, false),
             () -> new GameLoadController(new GameLoadView()).getView()));
     Router.registerRoute(
         new Route(
             "setup",
-            () -> new NavBar(AppState.getSelectedGame().getName(), Router::goBack, false),
+            () -> new NavBar(AppState.getSelectedGame().getName(), Router::goBack, false, false),
             () -> new GameSetupController(new GameSetupView()).getViewForGame(AppState.getSelectedGame())));
     Router.registerRoute(
         new Route(
@@ -69,6 +69,7 @@ public class Main extends Application {
             () -> new NavBar(
                 AppState.getSelectedGame().getName(),
                 Router::showPauseMenu,
+                true,
                 true),
             () -> new SnakesAndLaddersController().getView()));
     Router.registerRoute(
@@ -77,6 +78,7 @@ public class Main extends Application {
             () -> new NavBar(
                 AppState.getSelectedGame().getName(),
                 Router::showPauseMenu,
+                true,
                 true),
             () -> new ThievesAndRobbersController().getView()));
     Router.registerRoute(
@@ -85,6 +87,7 @@ public class Main extends Application {
             () -> new NavBar(
                 AppState.getSelectedGame().getName(),
                 Router::showPauseMenu,
+                true,
                 true),
             () -> new LudoController().getView()));
 

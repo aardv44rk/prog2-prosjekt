@@ -1,5 +1,8 @@
-.menu-nav-bar {
-  -fx-spacing: 40;
+.nav-bar {
   -fx-padding: 20 20;
+}
+
+.nav-bar-left {
+  -fx-spacing: 40;
   -fx-alignment: center-left;
 }

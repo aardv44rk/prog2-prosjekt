@@ -34,6 +34,8 @@ public class AlertDialog extends BorderPane {
     Label messageLabel = new Label(message);
     messageLabel.getStyleClass().add("alert-dialog-message");
     BorderPane.setAlignment(messageLabel, Pos.CENTER);
+    messageLabel.setWrapText(true);
+
 
     button = new TextButton(buttonText);
     BorderPane.setAlignment(button, Pos.CENTER);

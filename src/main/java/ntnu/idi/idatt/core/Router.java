@@ -10,6 +10,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import ntnu.idi.idatt.AppState;
 import ntnu.idi.idatt.components.AlertDialog;
+import ntnu.idi.idatt.components.IconButton;
 import ntnu.idi.idatt.components.PauseMenu;
 import ntnu.idi.idatt.models.GameConfig;
 import ntnu.idi.idatt.exceptions.InvalidInputException;
@@ -24,6 +25,7 @@ public class Router {
   private static final Map<String, Route> routes = new HashMap<>();
   private static final Stack<Route> history = new Stack<>();
   private static final PauseMenu pauseMenu = new PauseMenu();
+  private static final IconButton helpButton = new IconButton("?");
 
   static {
     pauseMenu.resumeButtonSetOnClick(() -> primaryScene.removeNode(pauseMenu));
