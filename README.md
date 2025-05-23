@@ -4,7 +4,7 @@
 | Name                              | Student ID |
 |-----------------------------------|------------|
 | Oscar Kehinde Asplin Martins      | 131886     |
-| Audun Andreas Langeland Aakermann | xxxxxx     |
+| Audun Andreas Langeland Aakermann | 137426     |
 
 
 

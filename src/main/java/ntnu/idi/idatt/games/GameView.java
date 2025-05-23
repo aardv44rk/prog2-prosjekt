@@ -11,7 +11,8 @@ import ntnu.idi.idatt.exceptions.InvalidInputException;
 import ntnu.idi.idatt.utility.ArgumentValidator;
 
 /**
- * View for a simple game with 2 dice.
+ * GameView class represents the main view of the game. It contains the player list, dice,
+ * and game board. 
  */
 public class GameView extends BorderPane {
 

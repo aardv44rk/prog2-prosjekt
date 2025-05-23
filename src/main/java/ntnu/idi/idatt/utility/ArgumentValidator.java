@@ -49,16 +49,11 @@ public class ArgumentValidator {
   /**
    * Validates if the input is a valid double.
    *
-   * @param input the input string to validate
+   * @param input the input double to validate
    * @return true if the input is a valid double, false otherwise
    */
-  public static boolean isValidDouble(String input) {
-    try {
-      Double.parseDouble(input);
-      return true;
-    } catch (NumberFormatException e) {
-      return false;
-    }
+  public static boolean isValidDouble(double input) {
+    return input >= 0.0;
   }
 
   /**
