@@ -41,6 +41,7 @@ public class UILudoBoard extends StackPane {
    *
    * @return A map of tile IDs to UILudoTile objects representing the main path.
    */
+  @SuppressWarnings("unused")
   private Map<Integer, UILudoTile> generateMainPathTiles() {
     Map<Integer, UILudoTile> mainTiles = new HashMap<>();
     for (int i = 0; i < 52; i++) {
@@ -60,6 +61,7 @@ public class UILudoBoard extends StackPane {
    * @return A list of maps, each containing tile IDs and corresponding UILudoTile objects
    * for the final stretch.
    */
+  @SuppressWarnings("unused")
   private List<Map<Integer, UILudoTile>> generateFinalStretchTiles() {
     List<Map<Integer, UILudoTile>> finalStretchTiles = new ArrayList<>();
     for (int i = 0; i < 4; i++) {
@@ -79,6 +81,7 @@ public class UILudoBoard extends StackPane {
    * @return A list of maps, each containing tile IDs and corresponding UILudoTile objects for the
    * home area.
    */
+  @SuppressWarnings("unused")
   private List<Map<Integer, UILudoTile>> generatePlayerHomeTiles() {
     List<Map<Integer, UILudoTile>> playerHomeTiles = new ArrayList<>();
     for (int i = 0; i < 4; i++) {
