@@ -4,8 +4,9 @@
   -fx-vertical-grid-lines-visible: false;
   -fx-vertical-zero-line-visible: false;
   -fx-horizontal-zero-line-visible: false;
-  -fx-pref-width: 200;
-}
+  -fx-pref-width: 300;
+  -fx-max-width: 300;
+  -fx-min-width: 300;}
 
 .money-graph-yaxis {
   -fx-minor-tick-visible: false;
