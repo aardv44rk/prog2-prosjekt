@@ -245,7 +245,7 @@ public class GameConfig {
       } else {
         board = SnakesAndLaddersBoardFactory.createStandardBoard();
         System.out.println("Loaded default Snakes and Ladders board");
-      } // TODO generalize all of this, this is a mess
+      }
     } else if (boardType.equals(ThievesAndRobbersBoard.class.getName())) {
       if (config.has("boardWidth") && config.has("boardHeight")) {
         int width = config.get("boardWidth").getAsInt();
@@ -266,7 +266,7 @@ public class GameConfig {
       } else {
         board = ThievesAndRobbersBoardFactory.createStandardBoard();
         System.out.println("Loaded default Thieves and Robbers board");
-      } // TODO generalize all of this, this is a mess
+      }
 
       if (config.has("tileMoney")) {
         JsonArray tileMoneyArray = config.getAsJsonArray("tileMoney");
